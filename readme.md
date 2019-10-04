@@ -1,19 +1,16 @@
-# TypeScript Boilerplate
+# Tailwind Theming
 
-```console
-$ git clone https://github.com/hawezo/ts-boilerplate
-```
+```js
+import theming from './src';
 
-## Build/Watch
+const themingPlugin = theming();
 
-```console
-$ yarn build
-$ yarn watch
-```
-
-## Test
-
-```console
-$ yarn test
-$ yarn test:watch
+module.exports = {
+    theme: {
+      ...themingPlugin.colors
+    },
+    plugins: [
+        themingPlugin.plugin
+    ]
+};
 ```

@@ -681,6 +681,11 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@ctrl/tinycolor@^2.5.3":
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-2.5.3.tgz#65dbb773f3a7e9a37b88ea0a5b68a392f8a447b0"
+  integrity sha512-tu0Xqhz0AI5LoU2yyz4asVAev4hzWt30dutbY6Nu7pKvLX0JP5p6NJ5uomwC/blhLMk88hVgXRODFlTB+c03Nw==
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"

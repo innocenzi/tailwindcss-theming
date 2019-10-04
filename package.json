@@ -1,7 +1,7 @@
 {
-  "name": "ts-boilerplate",
+  "name": "tailwind-theming",
   "version": "0.1.0",
-  "description": "A boilerplate for Typescript projects",
+  "description": "A TailwindCSS plugin that helps with theming",
   "main": "dist/index.js",
   "author": {
     "email": "enzo@innocenzi.dev",
@@ -17,14 +17,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hawezo/ts-boilerplate.git"
+    "url": "git+https://github.com/hawezo/tailwind-theming.git"
   },
-  "keywords": ["typescript", "boilerplate"],
+  "keywords": [
+    "typescript",
+    "boilerplate"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hawezo/ts-boilerplate/issues"
+    "url": "https://github.com/hawezo/tailwind-theming/issues"
   },
-  "homepage": "https://github.com/hawezo/ts-boilerplate#readme",
+  "homepage": "https://github.com/hawezo/tailwind-theming#readme",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
@@ -34,5 +37,8 @@
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "@ctrl/tinycolor": "^2.5.3"
   }
 }
