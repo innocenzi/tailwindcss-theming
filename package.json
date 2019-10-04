@@ -1,6 +1,6 @@
 {
   "name": "tailwindcss-theming",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A TailwindCSS plugin that helps with theming",
   "main": "dist/index.js",
   "author": {
@@ -14,7 +14,7 @@
     "watch": "yarn run clean && tsc -w",
     "test": "jest test",
     "test:watch": "jest test --watch",
-    "publish": "yarn test && yarn build && yarn publish"
+    "distribute": "yarn test && yarn build && yarn publish"
   },
   "repository": {
     "type": "git",
@@ -36,11 +36,11 @@
     "@types/jest": "^24.0.18",
     "babel-jest": "^24.9.0",
     "jest": "^24.9.0",
+    "jest-matcher-css": "^1.1.0",
     "postcss": "^7.0.18",
     "tailwindcss": "^1.1.2",
     "ts-jest": "^24.1.0",
-    "typescript": "^3.6.3",
-    "jest-matcher-css": "^1.1.0"
+    "typescript": "^3.6.3"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^2.5.3"
