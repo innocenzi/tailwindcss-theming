@@ -224,7 +224,7 @@ const theming = require('./theme');
 
 module.exports = {
   theme: {
-    ...theming.getTheme().colors,
+    ...theming.getTheme(),
   },
   plugins: [
     theming.getTailwind(),
