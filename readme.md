@@ -137,3 +137,23 @@ module.exports = {
   plugins: [plugin.getTailwind()],
 };
 ```
+
+With this, you will be able to use the following in your templates:
+
+```html
+<div class="bg-background">
+    <span class="text-on-background">Normal text</span>
+    <span class="text-on-background-muted">Muted text</span>
+    <span class="text-error">Error text</span>
+</div>
+
+<div class="bg-error">
+    <span class="text-on-error">An error occured.</span>
+</div>
+
+<div class="bg-info">
+    <span class="text-on-info">Hey, good news!</span>
+</div>
+```
+
+And if you change your `<body>`'s class to `.theme-spin`, the theme will change.
