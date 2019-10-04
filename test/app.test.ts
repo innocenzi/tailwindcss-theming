@@ -84,7 +84,7 @@ it('generates variants', async () => {
 
 it('generates default theme', async () => {
   const plugin = new ThemingPlugin(DefaultThemes);
-  const mustContain = Object.keys(plugin.getTheme().colors.colors);
+  const mustContain = Object.keys(plugin.getTheme().colors);
   const css = await generatePluginCss(plugin);
 
   mustContain.forEach(color => {
