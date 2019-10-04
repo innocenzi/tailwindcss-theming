@@ -41,12 +41,14 @@ export const DefaultColors: Color[] = [
 ];
 
 export const DefaultThemes: Themes = {
-  default: { colors: DefaultColors }
+  default: { type: 'light', colors: DefaultColors }
 }
 
 export const DefaultConfiguration: Configuration = {
+  themeTypeKey: 'color-scheme',
   colorVariablePrefix: 'color',
-  useVariants: true
+  useVariants: true,
+  outputThemeNameKey: 'theme'
 };
 
 export default function(themes?: Themes, pluginConfig?: Configuration): ThemingPlugin {

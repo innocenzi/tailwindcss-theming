@@ -47,12 +47,17 @@ export function getThemesConfiguration(themes: Themes, config: Configuration): T
       currentThemeConfig[`--${variant.name}`] = variant.value.toString();
     });
 
+    // handles other stuff
+    currentThemeConfig[`--${config.themeTypeKey}`] = theme.type.toString();
+
+    // sets the theme
+    name = 'default' === name ? ':root' : `.${config.outputThemeNameKey ? `${config.outputThemeNameKey}-` : ''}${name}`;
     themeConfig[name] = currentThemeConfig;
   }
 
   // replace any accepted key by the :root key
-  Object.defineProperty(themeConfig, ':root', <PropertyDescriptor>Object.getOwnPropertyDescriptor(themeConfig, 'default'));
-  delete themeConfig['default'];
+  // Object.defineProperty(themeConfig, ':root', <PropertyDescriptor>Object.getOwnPropertyDescriptor(themeConfig, 'default'));
+  // delete themeConfig['default'];
 
   return themeConfig;
 }

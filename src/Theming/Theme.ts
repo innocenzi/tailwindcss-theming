@@ -1,6 +1,7 @@
 import { Color } from "./Color";
 
 export interface Theme<T = Color[]> {
+  type: 'light' | 'dark';
   colors: T;
 }
 
