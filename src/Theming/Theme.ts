@@ -1,11 +1,11 @@
 import { Color } from "./Color";
 
-export interface Theme<T = Color[]> {
+export interface Theme {
   type: 'light' | 'dark';
-  colors: T;
+  colors: Color[];
 }
 
-export interface Themes<T = Theme> {
-  default: T;
-  [name: string]: T;
+export interface Themes {
+  default: Theme;
+  [name: string]: Theme;
 }
