@@ -1,0 +1,38 @@
+{
+  "name": "ts-boilerplate",
+  "version": "0.1.0",
+  "description": "A boilerplate for Typescript projects",
+  "main": "dist/index.js",
+  "author": {
+    "email": "enzo@innocenzi.dev",
+    "name": "Enzo Innocenzi",
+    "url": "https://innocenzi.dev"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "yarn run clean && tsc",
+    "watch": "yarn run clean && tsc -w",
+    "test": "jest test",
+    "test:watch": "jest test --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hawezo/ts-boilerplate.git"
+  },
+  "keywords": ["typescript", "boilerplate"],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hawezo/ts-boilerplate/issues"
+  },
+  "homepage": "https://github.com/hawezo/ts-boilerplate#readme",
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/jest": "^24.0.18",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.3"
+  }
+}

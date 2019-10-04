@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "declaration": true,
+    "strict": true,
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "lib": ["es2017.object", "es6", "dom"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  },
+  "include": ["src", "test"],
+  "exclude": ["node_modules"]
+}
