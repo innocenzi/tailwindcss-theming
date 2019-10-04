@@ -2,10 +2,6 @@ import { Color } from './Theming/Color';
 import { Configuration } from './Theming/Configuration';
 import { OpacityVariant } from './Theming/OpacityVariant';
 import { Themes } from './Theming/Theme';
-import { PluginHelpers } from './Plugin/PluginHelpers';
-import { getThemesConfiguration } from './Theming/Functions/getThemesConfiguration';
-import { getColorConfiguration } from './Theming/Functions/getColorConfiguration';
-import { ThemingPlugin } from './Theming/ThemingPlugin';
 
 export const DefaultOpacityVariants: OpacityVariant[] = [
   { name: 'default', value: 1 },
@@ -51,19 +47,4 @@ export const DefaultConfiguration: Configuration = {
   outputThemeNameKey: 'theme'
 };
 
-export default function(themes?: Themes, pluginConfig?: Configuration): ThemingPlugin {
-  themes = { ...DefaultThemes, ...themes};
-  pluginConfig = { ...DefaultConfiguration, ...pluginConfig};
-
-  let themeConfig = getThemesConfiguration(themes, pluginConfig);
-  let colorConfig = getColorConfiguration(themes, pluginConfig);
-
-  return {
-    theme: {
-      ...colorConfig
-    },
-    plugin: function({ addComponents, config }: PluginHelpers): void {
-      addComponents(themeConfig, config);
-    }
-  }
-}
+export { default as ThemingPlugin } from './Theming/ThemingPlugin';
