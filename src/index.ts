@@ -44,7 +44,7 @@ export const DefaultConfiguration: Configuration = {
   themeTypeKey: 'color-scheme',
   colorVariablePrefix: 'color',
   useVariants: true,
-  outputThemeNameKey: 'theme'
+  outputThemePrefix: 'theme'
 };
 
 export { ThemingPlugin } from './Theming/ThemingPlugin';

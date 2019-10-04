@@ -51,7 +51,7 @@ export function getThemesConfiguration(themes: Themes, config: Configuration): T
     currentThemeConfig[`--${config.themeTypeKey}`] = theme.type.toString();
 
     // sets the theme
-    name = 'default' === name ? ':root' : `.${config.outputThemeNameKey ? `${config.outputThemeNameKey}-` : ''}${name}`;
+    name = 'default' === name ? ':root' : `.${config.outputThemePrefix ? `${config.outputThemePrefix}-` : ''}${name}`;
     themeConfig[name] = currentThemeConfig;
   }
 
