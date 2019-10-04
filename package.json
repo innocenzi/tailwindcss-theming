@@ -1,6 +1,6 @@
 {
   "name": "tailwindcss-theming",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A TailwindCSS plugin that helps with theming",
   "main": "dist/index.js",
   "author": {
