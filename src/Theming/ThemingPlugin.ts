@@ -14,7 +14,7 @@ export class ThemingPlugin {
   private colorConfiguration: ColorConfiguration;
 
   constructor(themes?: Themes, pluginConfig?: Configuration) {
-    this.themes = { ...DefaultThemes, ...themes};
+    this.themes = themes || DefaultThemes;
     this.pluginConfig = { ...DefaultConfiguration, ...pluginConfig};
     this.themeConfiguration = getThemesConfiguration(this.themes, this.pluginConfig);
     this.colorConfiguration = getColorConfiguration(this.themes, this.pluginConfig);
