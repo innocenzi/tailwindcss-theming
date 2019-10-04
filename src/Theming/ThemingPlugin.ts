@@ -21,9 +21,7 @@ export class ThemingPlugin {
   }
 
   getTheme() {
-    return {
-      colors: this.colorConfiguration
-    };
+    return { ...this.colorConfiguration };
   }
 
   getTailwind() {
