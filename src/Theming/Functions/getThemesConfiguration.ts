@@ -14,7 +14,7 @@ export function getThemesConfiguration(themes: Themes, config: Configuration): T
 
   // adds every theme's color
   for (let [name, theme] of Object.entries(themes)) {
-    let currentThemeConfig: any = (themeConfig[name] = {});
+    let currentThemeConfig: any = {};
 
     // handles colors
     theme.colors.forEach(color => {
