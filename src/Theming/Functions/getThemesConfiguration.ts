@@ -44,7 +44,7 @@ export function getThemesConfiguration(themes: Themes, config: Configuration): T
 
     // handles variants
     variants.forEach(variant => {
-      currentThemeConfig[`--${variant.name}`] = variant.value;
+      currentThemeConfig[`--${variant.name}`] = variant.value.toString();
     });
 
     themeConfig[name] = currentThemeConfig;
