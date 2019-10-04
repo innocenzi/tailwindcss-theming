@@ -1,5 +1,5 @@
 {
-  "name": "tailwind-theming",
+  "name": "tailwindcss-theming",
   "version": "0.1.0",
   "description": "A TailwindCSS plugin that helps with theming",
   "main": "dist/index.js",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hawezo/tailwind-theming.git"
+    "url": "git+https://github.com/hawezo/tailwindcss-theming.git"
   },
   "keywords": [
     "typescript",
@@ -25,9 +25,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hawezo/tailwind-theming/issues"
+    "url": "https://github.com/hawezo/tailwindcss-theming/issues"
   },
-  "homepage": "https://github.com/hawezo/tailwind-theming#readme",
+  "homepage": "https://github.com/hawezo/tailwindcss-theming#readme",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
@@ -38,10 +38,10 @@
     "postcss": "^7.0.18",
     "tailwindcss": "^1.1.2",
     "ts-jest": "^24.1.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "jest-matcher-css": "^1.1.0"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^2.5.3",
-    "jest-matcher-css": "^1.1.0"
+    "@ctrl/tinycolor": "^2.5.3"
   }
 }
