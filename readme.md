@@ -157,3 +157,79 @@ With this, you will be able to use the following in your templates:
 ```
 
 And if you change your `<body>`'s class to `.theme-spin`, the theme will change.
+
+### Keeping configuration clean
+
+Since this plugin will most likely require a big configuration, you should separate its config and Tailwind's config. 
+I recommend you create a `.theme.js` file in the same directory as `tailwind.config.js`.
+
+You can then put the following, and change it as you need:
+
+```javascript
+// theme.js
+const { ThemingPlugin } = require('tailwindcss-theming');
+
+const variants = [
+  { name: 'default', value: 1 },
+  { name: 'high-emphasis', value: 0.87 },
+  { name: 'medium-emphasis', value: 0.6 },
+  { name: 'inactive', value: 0.6 },
+  { name: 'disabled', value: 0.38 },
+  { name: 'muted', value: 0.425 },
+  { name: 'selection', value: 0.25 },
+  { name: 'slightly-visible', value: 0.1 },
+];
+
+const palette = [
+  { name: 'transparent', value: 'transparent', opacityVariants: [], outputFormat: 'text' },
+  { name: 'primary', value: '#2196f3', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'primary-variant', value: '#1565c0', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'secondary', value: '#039be5', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'secondary-variant', value: '#0288d1', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'background', value: '#f4f4f4', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'surface', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'error', value: '#b00020', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'success', value: '#3ab577', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'warning', value: '#e65100', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'info', value: '#2481ea', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'on-primary', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'on-secondary', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'on-background', value: '#585851', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'on-surface', value: '#3c3c3c', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'on-error', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'on-success', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'on-warning', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
+  { name: 'on-info', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
+];
+
+const themes = {
+  default: { type: 'light', colors: palette },
+};
+
+const config = {
+  themeTypeKey: 'color-scheme',
+  colorVariablePrefix: 'color',
+  useVariants: true,
+  outputThemePrefix: 'theme'
+};
+
+module.exports = new ThemingPlugin(themes, config);
+```
+
+Your `tailwind.config.js` should now look like this:
+
+```javascript
+// tailwind.config.js
+const theming = require('./theme');
+
+module.exports = {
+  theme: {
+    ...theming.getTheme().colors,
+  },
+  plugins: [
+    theming.getTailwind(),
+  ],
+};
+```
+
+Cleaner, right?
