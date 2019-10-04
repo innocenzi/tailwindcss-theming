@@ -47,4 +47,4 @@ export const DefaultConfiguration: Configuration = {
   outputThemeNameKey: 'theme'
 };
 
-export { default as ThemingPlugin } from './Theming/ThemingPlugin';
+export { ThemingPlugin } from './Theming/ThemingPlugin';
