@@ -2,6 +2,10 @@
 
 This plugin helps with theming your application. Thanks to a simple configuration, you will be able to have CSS variables exported to your CSS file, as well as Tailwind's utilities to use them.
 
+> **Compatibility with IE11**
+>
+> Please not that [IE11 doesn't support CSS variables (custom properties)](https://caniuse.com/#feat=css-variables). You can still have partial support for IE11 by using the [PostCSS custom properties plugin](https://github.com/postcss/postcss-custom-properties). You won't be able to change theme at runtime, but at least your main theme will work correctly.
+
 ## Installation
 
 ```console
