@@ -15,6 +15,8 @@ $ yarn add tailwindcss-theming
 
 ## Usage
 
+> Please not that TailwindCSS will have better support for plugins that change configuration soon, so I will take advantage of the new Tailwind API to refactor this plugin's API in order to greatly simplify things.
+
 Since this is a theming plugin, you need to override Tailwind's default color palette with your own. There is a default palette if you don't want to spend time creating one, but you will still need to override Tailwind's.
 
 ```js
