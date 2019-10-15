@@ -95,6 +95,35 @@ it('maps variants to colors', () => {
   expect(theme.variantsOf('brand').map(v => v.name)).toStrictEqual(['blueish', 'hidden']);
 });
 
+it('throws without default theme', () => {
+  const plugin = new ThemeBuilder().defaults();
+  const theme = new Theme()
+    .name('night')
+    .dark()
+    .colors({
+      primary: 'white',
+      secondary: 'teal',
+      brand: 'blue',
+    })
+    .colorVariant('hover', 'gray', 'primary')
+    .colorVariant('blueish', 'blue')
+    .opacityVariant('disabled', 0.25, 'secondary')
+    .opacityVariant('hidden', 0);
+
+  plugin.themes([theme]);
+
+  const noDefaultTheme = () => {
+    getColorConfiguration([theme], plugin.theming);
+  };
+
+  const multipleDefaultThemes = () => {
+    getColorConfiguration([theme.default(), theme.default()], plugin.theming);
+  };
+
+  expect(noDefaultTheme).toThrowError('There is no default theme.');
+  expect(multipleDefaultThemes).toThrowError('There are multiple default themes.');
+});
+
 it('generates color configuration', () => {
   const plugin = new ThemeBuilder().defaults();
   const theme = new Theme()

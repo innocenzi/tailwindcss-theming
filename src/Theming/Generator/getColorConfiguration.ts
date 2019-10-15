@@ -20,7 +20,7 @@ function getDefaultTheme(themes: Theme[]): Theme {
   let defaults = themes.filter(theme => theme.isDefault());
 
   if (defaults.length > 1) {
-    console.warn('There are multiple default themes.');
+    throw new Error('There are multiple default themes.');
   }
 
   if (defaults.length === 0) {
