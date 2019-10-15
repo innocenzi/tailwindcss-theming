@@ -49,7 +49,7 @@ export class ThemeBuilder {
    *
    * @returns self
    */
-  colorVariablePrefix(value: string): this {
+  colorVariablePrefix(value?: string): this {
     this._config.colorVariablePrefix = value;
 
     return this;

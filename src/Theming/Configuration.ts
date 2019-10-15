@@ -15,5 +15,5 @@ export interface Configuration {
    * The prefix for the exported variables. 
    * A variable will name will be `--<prefix>-<key>`.
    */
-  colorVariablePrefix: string;
+  colorVariablePrefix: string | undefined;
 }

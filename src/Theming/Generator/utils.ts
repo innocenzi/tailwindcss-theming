@@ -34,7 +34,7 @@ export function getDefaultTheme(themes: Theme[]): Theme {
  * @returns {string}
  */
 export function getColorVariableName(color: Color, config: Configuration): string {
-  return `--${config.colorVariablePrefix}-${color.keyName}`;
+  return `--${[config.colorVariablePrefix, color.keyName].filter(Boolean).join('-')}`;
 }
 
 /**
