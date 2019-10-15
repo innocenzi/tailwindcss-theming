@@ -5,9 +5,9 @@ export class Color {
   private _value!: string;
   private _computed!: TinyColor;
 
-  constructor() {
-    this.name('transparent');
-    this.value('transparent');
+  constructor(name?: string, value?: string) {
+    this.name(name || 'transparent');
+    this.value(name || 'transparent');
   }
 
   /**
