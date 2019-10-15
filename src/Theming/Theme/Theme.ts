@@ -24,10 +24,13 @@ export class Theme {
   private _colors: Color[];
   private _variants: Variant[];
   private _variantMap: VariantMap;
+  private _schemeDefault: boolean;
+  private _keep: boolean;
 
   constructor() {
     this.default();
-    this.light();
+    this._keep = false;
+    this._schemeDefault = false;
     this._colors = [];
     this._variants = [];
     this._variantMap = {};
@@ -41,6 +44,30 @@ export class Theme {
    */
   default(): this {
     this._name = DEFAULT_THEME_NAME;
+
+    return this;
+  }
+
+  /**
+   * Let the theme be set inside and outside the scheme media query.
+   *
+   * @returns {this}
+   * @memberof Theme
+   */
+  keep(): this {
+    this._keep = true;
+
+    return this;
+  }
+
+  /**
+   * Sets this theme as the default theme for the current scheme.
+   *
+   * @returns {this}
+   * @memberof Theme
+   */
+  schemeDefault(): this {
+    this._schemeDefault = true;
 
     return this;
   }
@@ -218,6 +245,17 @@ export class Theme {
   }
 
   /**
+   * Checks if this theme is this scheme's default.
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberof Theme
+   */
+  isSchemeDefault(): boolean {
+    return this._schemeDefault;
+  }
+
+  /**
    * Returns this theme's name.
    *
    * @returns {string}
@@ -245,6 +283,28 @@ export class Theme {
    */
   get scheme(): ThemeScheme {
     return this._scheme;
+  }
+
+  /**
+   * Defines if the theme has to stay outside its scheme media query.
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberof Theme
+   */
+  get kept(): boolean {
+    return this._keep;
+  }
+
+  /**
+   * Checks if this theme has a color scheme.
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberof Theme
+   */
+  get hasScheme(): boolean {
+    return undefined !== this._scheme;
   }
 
   /**

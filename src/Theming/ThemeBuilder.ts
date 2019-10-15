@@ -3,10 +3,14 @@ import { Configuration } from './Configuration';
 import { Strategy } from './Strategy';
 import { TailwindPlugin } from '../TailwindPlugin/TailwindPlugin';
 import { TailwindPluginHandler } from '../TailwindPlugin/TailwindPluginHandler';
+import { getColorConfiguration } from './Generator/getColorConfiguration';
+import { getCssConfiguration } from './Generator/getCssConfiguration';
+import { TailwindPluginHelpers } from '../TailwindPlugin/TailwindPluginHelpers';
 
 export class ThemeBuilder {
   private _themes: Theme[];
   private _config!: Configuration;
+  private _handlerConfig: any = {};
 
   constructor() {
     this._themes = [];
@@ -65,16 +69,13 @@ export class ThemeBuilder {
   }
 
   /**
-   * Sets the themes. Returns the current themes if no argument passed.
-   * @param themes Themes to set.
+   * Sets the themes.
    *
-   * @returns self|Theme[]
+   * @param {Theme[]} themes
+   * @returns {this}
+   * @memberof ThemeBuilder
    */
-  themes(themes?: Theme[]): this | Theme[] {
-    if (!themes) {
-      return this._themes;
-    }
-
+  themes(themes: Theme[]): this {
     this._themes = themes;
 
     return this;
@@ -98,8 +99,11 @@ export class ThemeBuilder {
    * @memberof ThemeBuilder
    */
   get config(): any {
-    // TODO Generate the configuration.
-    return {};
+    return {
+      theme: {
+        colors: getColorConfiguration(this._themes, this._config),
+      }
+    };
   }
 
   /**
@@ -110,8 +114,9 @@ export class ThemeBuilder {
    * @memberof ThemeBuilder
    */
   get handler(): TailwindPluginHandler {
-    // TODO Create the handler.
-    return () => {};
+    return ({ addBase }) => {
+      addBase(getCssConfiguration(this._themes, this._config), this._handlerConfig);
+    };
   }
 
   /**
@@ -120,7 +125,9 @@ export class ThemeBuilder {
    * @returns {TailwindPlugin}
    * @memberof ThemeBuilder
    */
-  plugin(): TailwindPlugin {
+  plugin(config: any = {}): TailwindPlugin {
+    this._handlerConfig = config || {};
+
     return {
       config: this.config,
       handler: this.handler,

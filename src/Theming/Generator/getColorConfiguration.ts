@@ -1,34 +1,8 @@
 import { Theme } from '../Theme/Theme';
 import { Configuration } from '../Configuration';
-import { Color } from '../Color/Color';
 import { ColorVariant } from '../Variant/ColorVariant';
 import { OpacityVariant } from '../Variant/OpacityVariant';
-
-function getColorVariableName(color: Color, config: Configuration) {
-  return `--${config.colorVariablePrefix}-${color.keyName}`;
-}
-
-function getColorVariantVariableName(color: ColorVariant, config: Configuration) {
-  return `--color-variant-${color.name}`;
-}
-
-function getOpacityVariantVariableName(color: OpacityVariant, config: Configuration) {
-  return `--opacity-variant-${color.name}`;
-}
-
-function getDefaultTheme(themes: Theme[]): Theme {
-  let defaults = themes.filter(theme => theme.isDefault());
-
-  if (defaults.length > 1) {
-    throw new Error('There are multiple default themes.');
-  }
-
-  if (defaults.length === 0) {
-    throw new Error('There is no default theme.');
-  }
-
-  return defaults[0];
-}
+import { getDefaultTheme, getColorVariantVariableName, getColorVariableName, getOpacityVariantVariableName } from './utils';
 
 export function getColorConfiguration(themes: Theme[], config: Configuration) {
   const colorConfiguration: any = {};
@@ -39,7 +13,7 @@ export function getColorConfiguration(themes: Theme[], config: Configuration) {
     let variants = theme.variantsOf(color.keyName);
 
     // variants, we add a key and variant subkeys
-    if (variants) {
+    if (variants.length > 0) {
       variants.forEach(variant => {
         if (variant instanceof ColorVariant) {
           if (variant.color.a > 0) {
@@ -49,6 +23,8 @@ export function getColorConfiguration(themes: Theme[], config: Configuration) {
           }
         } else if (variant instanceof OpacityVariant) {
           colorConfiguration[color.keyName][variant.name] = `rgba(var(${getColorVariableName(color, config)}), var(${getOpacityVariantVariableName(variant, config)}))`;
+        } else {
+          throw new Error('Unknown color variant.');
         }
       });
     }
@@ -63,7 +39,6 @@ export function getColorConfiguration(themes: Theme[], config: Configuration) {
     }
   });
 
-  return {
-    colors: colorConfiguration,
-  };
+  
+  return colorConfiguration;
 }

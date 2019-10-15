@@ -51,7 +51,7 @@ export class Color {
    *
    * @return TinyColor
    */
-  color() {
+  get color() {
     return this._computed;
   }
 
