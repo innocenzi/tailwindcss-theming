@@ -1,4 +1,4 @@
-import { TailwindPluginHandler } from "./Plugin";
+import { TailwindPluginHandler } from "./TailwindPluginHandler";
 
 export interface TailwindPlugin {
   config: any;

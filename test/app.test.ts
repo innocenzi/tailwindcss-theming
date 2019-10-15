@@ -5,6 +5,7 @@ import tailwindcss from 'tailwindcss';
 import { Strategy } from '../src/Theming/Strategy';
 import { Theme, DEFAULT_THEME_NAME } from '../src/Theming/Theme/Theme';
 import { Color } from '../src/Theming/Color/Color';
+import { getColorConfiguration } from '../src/Theming/Generator/getColorConfiguration';
 
 expect.extend({
   toMatchCss: cssMatcher,
@@ -58,20 +59,20 @@ it('generates themes without variants', async () => {
       brand: 'blue',
     });
 
-  expect(theme.name()).toBe('night');
+  expect(theme.getName()).toBe('night');
   expect(theme.scheme).toBe('dark');
-  expect(theme.colors()).toBeInstanceOf(Array);
-  expect(theme.colors()[0]).toStrictEqual(new Color().name('primary').value('white'));
-  expect(theme.colors()[1]).toStrictEqual(new Color().name('secondary').value('teal'));
-  expect(theme.colors()[2]).toStrictEqual(new Color().name('brand').value('blue'));
+  expect(theme.getColors()).toBeInstanceOf(Array);
+  expect(theme.getColors()[0]).toStrictEqual(new Color().name('primary').value('white'));
+  expect(theme.getColors()[1]).toStrictEqual(new Color().name('secondary').value('teal'));
+  expect(theme.getColors()[2]).toStrictEqual(new Color().name('brand').value('blue'));
 });
 
 it('generates default theme', () => {
   const theme = new Theme();
 
-  expect(theme.name()).toBe(DEFAULT_THEME_NAME);
+  expect(theme.getName()).toBe(DEFAULT_THEME_NAME);
   expect(theme.scheme).toBe('light');
-  expect(theme.colors()).toBeInstanceOf(Array);
+  expect(theme.getColors()).toBeInstanceOf(Array);
 });
 
 it('maps variants to colors', () => {
@@ -85,11 +86,47 @@ it('maps variants to colors', () => {
     })
     .colorVariant('hover', 'gray', 'primary')
     .colorVariant('blueish', 'blue')
-    .opacityVariant('disabled', .25, 'secondary')
+    .opacityVariant('disabled', 0.25, 'secondary')
     .opacityVariant('hidden', 0);
 
   expect(theme.hasVariant('hover')).toBeTruthy();
-  expect(theme.variantsOf('primary')).toStrictEqual([ 'hover', 'blueish', 'hidden' ]);
-  expect(theme.variantsOf('secondary')).toStrictEqual([ 'blueish', 'disabled', 'hidden' ]);
-  expect(theme.variantsOf('brand')).toStrictEqual([ 'blueish', 'hidden' ]);
+  expect(theme.variantsOf('primary').map(v => v.name)).toStrictEqual(['hover', 'blueish', 'hidden']);
+  expect(theme.variantsOf('secondary').map(v => v.name)).toStrictEqual(['blueish', 'disabled', 'hidden']);
+  expect(theme.variantsOf('brand').map(v => v.name)).toStrictEqual(['blueish', 'hidden']);
+});
+
+it('generates color configuration', () => {
+  const plugin = new ThemeBuilder().defaults();
+  const theme = new Theme()
+    .dark()
+    .colors({
+      primary: 'white',
+      secondary: 'teal',
+      brand: 'blue',
+    })
+    .colorVariant('hover', 'gray', 'primary')
+    .colorVariant('blueish', 'blue')
+    .opacityVariant('disabled', 0.25, 'secondary')
+    .opacityVariant('hidden', 0);
+
+  plugin.themes([theme]);
+
+  expect(getColorConfiguration([theme], plugin.theming)).toMatchObject({
+    colors: {
+      primary: {
+        hover: 'rgb(var(--color-variant-hover))',
+        blueish: 'rgb(var(--color-variant-blueish))',
+        hidden: 'rgba(var(--color-primary), var(--opacity-variant-hidden))',
+      },
+      secondary: {
+        blueish: 'rgb(var(--color-variant-blueish))',
+        disabled: 'rgba(var(--color-secondary), var(--opacity-variant-disabled))',
+        hidden: 'rgba(var(--color-secondary), var(--opacity-variant-hidden))',
+      },
+      brand: {
+        blueish: 'rgb(var(--color-variant-blueish))',
+        hidden: 'rgba(var(--color-brand), var(--opacity-variant-hidden))',
+      },
+    },
+  });
 });

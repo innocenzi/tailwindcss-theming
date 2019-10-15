@@ -52,12 +52,7 @@ export class Theme {
    * @returns {(this | string)}
    * @memberof Theme
    */
-  name(name?: string): this {
-    if (!name) {
-      // @ts-ignore to keep the api fluent, but mute the compiler.
-      return this._name;
-    }
-
+  name(name: string): this {
     this._name = name;
 
     return this;
@@ -108,11 +103,8 @@ export class Theme {
    * @returns {(this | string)}
    * @memberof Theme
    */
-  colors(colors?: Colors | Color[]): this {
-    if (!colors) {
-      // @ts-ignore to keep the api fluent, but mute the compiler.
-      return this._colors;
-    } else if (Array.isArray(colors)) {
+  colors(colors: Colors | Color[]): this {
+    if (Array.isArray(colors)) {
       this._colors = colors;
     } else {
       this._colors = parseColorObject(colors);
@@ -188,7 +180,7 @@ export class Theme {
     }
 
     if (!colors || !Array.isArray(colors)) {
-      colors = this._colors.map<string>(color => color.variableName);
+      colors = this._colors.map<string>(color => color.keyName);
     }
 
     if (!(name in this._variantMap)) {
@@ -203,16 +195,46 @@ export class Theme {
   /**
    * Gets the variants of the given color.
    *
-   * @param {string} name
-   * @returns {string[]}
+   * @param {string} color
+   * @returns {Variant[]}
    * @memberof Theme
    */
-  variantsOf(name: string): string[] {
-    return <string[]>Object.entries(this._variantMap).map<string | undefined>(([variantName, colors]) => {
-      if (colors.find(m => m === name)) {
-        return variantName;
+  variantsOf(color: string): Variant[] {
+    return <Variant[]>Object.entries(this._variantMap).map<Variant | undefined>(([variantName, colors]) => {
+      if (colors.find(m => m === color)) {
+        return this._variants.find(v => v.name === variantName);
       }
     }).filter(Boolean);
+  }
+
+  /**
+   * Checks if this theme is set as the default theme.
+   *
+   * @returns {boolean}
+   * @memberof Theme
+   */
+  isDefault(): boolean {
+    return this._name === DEFAULT_THEME_NAME;
+  }
+
+  /**
+   * Returns this theme's name.
+   *
+   * @returns {string}
+   * @memberof Theme
+   */
+  getName(): string {
+    return this._name;
+  }
+
+  /**
+   * Returns this theme's colors.
+   *
+   * @returns {Color[]}
+   * @memberof Theme
+   */
+  getColors(): Color[] {
+    return this._colors;
   }
 
   /**

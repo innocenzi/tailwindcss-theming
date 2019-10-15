@@ -17,7 +17,7 @@ export class Color {
    * @type {string}
    * @memberof Color
    */
-  get variableName(): string {
+  get keyName(): string {
     return this._name;
   }
 
