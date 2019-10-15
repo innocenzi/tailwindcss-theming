@@ -3,6 +3,7 @@ import { Theme } from '../Theme/Theme';
 import { Configuration } from '../Configuration';
 import { ColorVariant } from '../Variant/ColorVariant';
 import { OpacityVariant } from '../Variant/OpacityVariant';
+import { ThemeScheme } from '../Theme/ThemeScheme';
 
 /**
  * Get the default theme out of an array of themes.
@@ -15,7 +16,12 @@ export function getDefaultTheme(themes: Theme[]): Theme {
   let defaults = themes.filter(theme => theme.isDefault());
 
   if (defaults.length > 1) {
-    throw new Error('There are multiple default themes.');
+    let darkDefaults = defaults.filter(t => t.isSchemeDefault() && t.scheme === ThemeScheme.Dark).length;
+    let lightDefaults = defaults.filter(t => t.isSchemeDefault() && t.scheme === ThemeScheme.Light).length;
+
+    if (darkDefaults !== 1 || lightDefaults !== 1) {
+      throw new Error('There are multiple default themes.');
+    }
   }
 
   if (defaults.length === 0) {

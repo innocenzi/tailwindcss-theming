@@ -44,6 +44,8 @@ export class Theme {
    */
   default(): this {
     this._name = DEFAULT_THEME_NAME;
+    this.keep();
+    this.schemeDefault();
 
     return this;
   }

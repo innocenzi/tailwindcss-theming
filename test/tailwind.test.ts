@@ -446,6 +446,8 @@ it('set scheme media query with attribute strategy and as default for dark schem
     .themes([
       new Theme()
         .default()
+        .light()
+        // .schemeDefault()
         .colors({
           background: '#ECEFF4',
           surface: '#D8DEE9',
@@ -454,9 +456,9 @@ it('set scheme media query with attribute strategy and as default for dark schem
         })
         .opacityVariant('muted', 0.3),
       new Theme()
-        .name('night')
-        .dark()
+        // .name('night')
         .schemeDefault()
+        .dark()
         .colors({
           background: '#2E3440',
           surface: '#3B4252',
@@ -476,6 +478,16 @@ it('set scheme media query with attribute strategy and as default for dark schem
       --color-on-background: 46,52,64;
       --color-on-surface: 46,52,64;
       --opacity-variant-muted: 0.3px
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --color-background: 236,239,244;
+        --color-surface: 216,222,233;
+        --color-on-background: 46,52,64;
+        --color-on-surface: 46,52,64;
+        --opacity-variant-muted: 0.3px
+      }
     }
     
     @media (prefers-color-scheme: dark) {
