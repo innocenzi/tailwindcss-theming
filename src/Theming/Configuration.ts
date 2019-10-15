@@ -1,21 +1,19 @@
+import { Strategy } from "./Strategy";
+
 export interface Configuration {
   /**
-   * The key that will contain the theme's type value.
+   * The prefix used for rule of export strategy.
    */
-  themeTypeKey: string;
+  prefix: string | undefined;
 
   /**
-   * The prefix of every color variable.
+   * Strategy used to export the themes.
+   */
+  strategy: Strategy;
+
+  /**
+   * The prefix for the exported variables. 
+   * A variable will name will be `--<prefix>-<key>`.
    */
   colorVariablePrefix: string;
-
-  /**
-   * If set to false, will disable the variants.
-   */
-  useVariants: boolean;
-
-  /**
-   * The prefix of the generated theme classes.
-   */
-  outputThemePrefix: string | false;
 }

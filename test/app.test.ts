@@ -1,94 +1,47 @@
-import { ThemingPlugin, DefaultThemes } from '../src';
+import { ThemeBuilder } from '../src';
 import cssMatcher from 'jest-matcher-css';
 import postcss from 'postcss';
 import tailwindcss from 'tailwindcss';
-import { OpacityVariant } from '../src/Theming/OpacityVariant';
+import { Strategy } from '../src/Theming/Strategy';
 
 expect.extend({
   toMatchCss: cssMatcher,
 });
 
-const generatePluginCss = async (plugin: ThemingPlugin, config?: any) => {
+const generatePluginCss = async (builder: ThemeBuilder, config?: any, base: boolean = true, components: boolean = true, utilities: boolean = false) => {
+  const process = (base ? '@tailwind base; ' : '') + (components ? '@tailwind components; ' : '') + (utilities ? '@tailwind utilities; ' : '');
   const result = await postcss(
     tailwindcss({
       ...{
-        theme: {
-          ...plugin.getTheme(),
-        },
         corePlugins: false,
-        plugins: [plugin.getTailwind()],
+        plugins: [builder.plugin()],
       },
       ...config,
     })
-  ).process('@tailwind base; @tailwind components;', {
+  ).process(process, {
     from: undefined,
   });
   return result.css;
 };
 
-it('generates root theme', async () => {
-  const plugin = new ThemingPlugin({
-    default: { type: 'light', colors: [{ name: 'primary', outputFormat: 'rgb', value: '#fff', opacityVariants: [] }] },
+it('can be configured with the fluent api', async () => {
+  const plugin = new ThemeBuilder()
+    .colorVariablePrefix('color')
+    .prefix('theme')
+    .strategy(Strategy.PrefixedAttribute);
+
+  expect(plugin.theming).toMatchObject({
+    prefix: 'theme',
+    colorVariablePrefix: 'color',
+    strategy: 'prefixed-attribute',
   });
-
-  const css = await generatePluginCss(plugin);
-
-  // @ts-ignore
-  expect(css).toMatchCss(`
-      :root {
-        --color-primary: 255,255,255;
-        --color-scheme: light
-      }
-  `);
 });
 
-it('generates multiple themes', async () => {
-  const plugin = new ThemingPlugin({
-    default: { type: 'light', colors: [{ name: 'primary', outputFormat: 'rgb', value: '#fff', opacityVariants: [] }] },
-    night: { type: 'dark', colors: [{ name: 'primary', outputFormat: 'rgb', value: '#000', opacityVariants: [] }] },
-  });
+it('has a default configuration', () => {
+  const plugin = new ThemeBuilder().defaults();
 
-  const css = await generatePluginCss(plugin);
-
-  // @ts-ignore
-  expect(css).toMatchCss(`
-    :root {
-      --color-primary: 255,255,255;
-      --color-scheme: light
-    }
-    .theme-night {
-      --color-primary: 0,0,0;
-      --color-scheme: dark
-    }
-  `);
-});
-
-it('generates variants', async () => {
-  const opacityVariants: OpacityVariant[] = [{ name: 'disabled', value: 0.6 }];
-
-  const plugin = new ThemingPlugin({
-    default: { type: 'light', colors: [{ name: 'primary', outputFormat: 'rgb', value: '#fff', opacityVariants }] },
-  });
-
-  const css = await generatePluginCss(plugin);
-
-  // @ts-ignore
-  expect(css).toMatchCss(`
-    :root {
-      --color-primary: 255,255,255;
-      --disabled: 0.6;
-      --color-scheme: light
-    }
-  `);
-});
-
-it('generates default theme', async () => {
-  const plugin = new ThemingPlugin(DefaultThemes);
-  const mustContain = Object.keys(plugin.getTheme().colors);
-  const css = await generatePluginCss(plugin);
-
-  mustContain.forEach(color => {
-    // @ts-ignore
-    expect(css.includes(`--${plugin.pluginConfig.colorVariablePrefix}-${color}`)).toBeTruthy();
+  expect(plugin.theming).toMatchObject({
+    colorVariablePrefix: 'color',
+    strategy: 'attribute',
   });
 });

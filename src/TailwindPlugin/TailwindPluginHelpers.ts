@@ -1,4 +1,4 @@
-export interface PluginHelpers {
+export interface TailwindPluginHelpers {
     addUtilities(...args: any[]): any;
     addComponents(...args: any[]): any;
     addBase(...args: any[]): any;
