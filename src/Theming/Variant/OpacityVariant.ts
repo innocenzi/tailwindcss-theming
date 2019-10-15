@@ -1,9 +1,11 @@
-export class OpacityVariant {
-  name: string;
-  value: number;
+import { Variant } from "./Variant";
+
+export class OpacityVariant extends Variant {
+  opacity: number;
 
   constructor(name: string, value: number) {
-    this.name = name;
-    this.value = value;
+    super(name);
+
+    this.opacity = value;
   }
 }

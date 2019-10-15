@@ -1,13 +1,14 @@
 import { TinyColor } from "@ctrl/tinycolor";
+import { Variant } from "./Variant";
 
-export class ColorVariant {
-  name: string;
-  value: string;
+export class ColorVariant extends Variant {
+  originalInput: string;
   color: TinyColor;
 
   constructor(name: string, value: string) {
-    this.name = name;
-    this.value = value;
+    super(name);
+
+    this.originalInput = value;
     this.color = new TinyColor(value);
   }
 }

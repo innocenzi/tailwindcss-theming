@@ -11,6 +11,17 @@ export class Color {
   }
 
   /**
+   * Gets the color name.
+   *
+   * @readonly
+   * @type {string}
+   * @memberof Color
+   */
+  get variableName(): string {
+    return this._name;
+  }
+
+  /**
    * Sets the name of this color.
    * @param name Color name.
    *

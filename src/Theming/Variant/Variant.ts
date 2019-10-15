@@ -1,4 +1,11 @@
-import { OpacityVariant } from "./OpacityVariant";
-import { ColorVariant } from "./ColorVariant";
+import { DEFAULT_THEME_NAME } from "../Theme/Theme";
 
-export type Variant = OpacityVariant | ColorVariant;
+const DEFAULT_VARIANT_NAME = 'default';
+
+export abstract class Variant {
+  name: string;
+
+  constructor(name?: string) {
+    this.name = name || DEFAULT_THEME_NAME;
+  }
+}
