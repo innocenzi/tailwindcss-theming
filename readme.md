@@ -1,241 +1,493 @@
 # Theming Plugin for Tailwind CSS
 
-This plugin helps with theming your application. Thanks to a simple configuration, you will be able to have CSS variables exported to your CSS file, as well as Tailwind's utilities to use them.
+This plugin helps with theming your application. Thanks to a simple and fluent configuration, you will be able to have CSS variables exported to your CSS file, as well as Tailwind's utilities to use them. Your themes will be able to respect the [`prefers-color-scheme`](https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-color-scheme) media query, so you can set a dark theme that will be automatically selected depending on the users' browser preferences.
 
 > **Compatibility with IE11**
 >
 > Please not that [IE11 doesn't support CSS variables (custom properties)](https://caniuse.com/#feat=css-variables). You can still have partial support for IE11 by using the [PostCSS custom properties plugin](https://github.com/postcss/postcss-custom-properties). You won't be able to change theme at runtime, but at least your main theme will work correctly.
 
-## Installation
+# Installation
+
+You can install this plugin thanks to NPM, or you can [build it from source](#build-from-source) and include it in your project yourself.
 
 ```console
 $ npm install tailwindcss-theming
 $ yarn add tailwindcss-theming
 ```
 
-## Usage
+# Usage
 
-> Please not that TailwindCSS will have better support for plugins that change configuration soon, so I will take advantage of the new Tailwind API to refactor this plugin's API in order to greatly simplify things.
+You will be required to use the `ThemeBuilder` API to setup your themes. Fortunately, this is a fairly easy process. In the first time, you can include `tailwindcss-theming`, instanciate it and add it to your plugin list. 
 
-Since this is a theming plugin, you need to override Tailwind's default color palette with your own. There is a default palette if you don't want to spend time creating one, but you will still need to override Tailwind's.
+> **Please note** that any color palette that you set in Tailwind's `theme` will be entirely replaced. You need to setup your colors with the `ThemeBuilder`.
 
 ```js
-import { ThemingPlugin } from 'tailwindcss-theming';
-const plugin = new ThemingPlugin();
+import { ThemeBuilder } from 'tailwindcss-theming';
 
 module.exports = {
-  theme: {
-    ...plugin.getTheme(),
-  },
-  plugins: [plugin.getTailwind()],
-};
-```
-
-This two-time usage is necessary, as a plugin cannot internally override the theme configuration.
-
-## Customizing
-
-The `ThemingPlugin` class can take two arguments. The first is an object containing a list of `Theme`s, the second is the plugin's configuration.
-The default configuration is the following:
-
-```typescript
-const DefaultConfiguration: Configuration = {
-  themeTypeKey: 'color-scheme',
-  colorVariablePrefix: 'color',
-  useVariants: true,
-  outputThemePrefix: 'theme',
-};
-```
-
-A theme object has a `type` key, which can be set to either `light` or `dark`, and a `colors` key, which must be an array of `Color` object.
-
-Here is an example of a `Color` object:
-
-```typescript
-const color = {
-  name: 'primary',
-  value: '#fff', // any color that TinyColor can handle
-  opacityVariants: [], // OpacityVariant[]
-  outputFormat: 'rgb', // 'rgb' or 'text'
-};
-```
-
-The `name` property is the name of the CSS variable and the Tailwind color. In this example, you will have a `--color-primary: 255,255,255;` CSS variable and a `text-primary` utility which will be generated into a `color: rgb(var(--color-primary))` CSS rule.
-
-The `Color` object also has an `opacityVariants` key, which is an array of `OpacityVariant` objects.
-
-An `OpacityVariant` object has is described as the following:
-
-```typescript
-interface OpacityVariant {
-  name: string;
-  value: number;
-}
-```
-
-The `name` property will be the name of the exported CSS variable, as well as the suffix to any `Color` it is applied to. The `value` must be a `number` between `0` and `1`, since it will be used as the fourth argument of the CSS's `rgba` function.
-
-If you want to keep the default variants, you can export them from the plugin module:
-
-```typescript
-import { DefaultOpacityVariants } from 'tailwindcss-theming';
-```
-
-The `DefaultColors`, `DefaultThemes` and `DefaultConfiguration` objects are also available to facilitate customization using default values.
-
-> **NOTE** - Only the default theme's color are exported and taken into account. It means every theme's color and their variants have to match the default theme's ones.
-
-## Examples
-
-### Your own palette
-
-```javascript
-import { ThemingPlugin, DefaultOpacityVariants } from 'tailwindcss-theming';
-
-const palette = [
-  { name: 'transparent', value: 'transparent', opacityVariants: [], outputFormat: 'text' },
-  { name: 'primary', value: '#2196f3', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'primary-variant', value: '#1565c0', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'secondary', value: '#039be5', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'secondary-variant', value: '#0288d1', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'background', value: '#f4f4f4', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'surface', value: '#ffffff', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'error', value: '#b00020', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'success', value: '#3ab577', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'warning', value: '#e65100', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'info', value: '#2481ea', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'on-primary', value: '#ffffff', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'on-secondary', value: '#ffffff', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'on-background', value: '#585851', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'on-surface', value: '#3c3c3c', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'on-error', value: '#ffffff', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'on-success', value: '#ffffff', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'on-warning', value: '#ffffff', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-  { name: 'on-info', value: '#ffffff', opacityVariants: DefaultOpacityVariants, outputFormat: 'rgb' },
-];
-
-const spined = palette.filter(color => {
-  // don't do anything for the transparent color
-  if (color.name === 'transparent') {
-    return color;
-  }
-
-  // convert color to the oposite color
-  return {
-    name: color.name,
-    value: new TinyColor(color.value).spin(180),
-    opacityVariants: color.opacityVariants,
-    outputFormat: color.outputFormat
-  }
-})
-
-const themes = {
-  default: { type: 'light', colors: palette },
-  spin: { type: 'dark', colors: spined }
-};
-
-const plugin = new ThemingPlugin(themes);
-
-module.exports = {
-  theme: {
-    ...plugin.getTheme(),
-  },
-  plugins: [plugin.getTailwind()],
-};
-```
-
-With this, you will be able to use the following in your templates:
-
-```html
-<div class="bg-background">
-    <span class="text-on-background">Normal text</span>
-    <span class="text-on-background-muted">Muted text</span>
-    <span class="text-error">Error text</span>
-</div>
-
-<div class="bg-error">
-    <span class="text-on-error">An error occured.</span>
-</div>
-
-<div class="bg-info">
-    <span class="text-on-info">Hey, good news!</span>
-</div>
-```
-
-And if you change your `<body>`'s class to `.theme-spin`, the theme will change.
-
-### Keeping configuration clean
-
-Since this plugin will most likely require a big configuration, you should separate its config and Tailwind's config. 
-I recommend you create a `.theme.js` file in the same directory as `tailwind.config.js`.
-
-You can then put the following, and change it as you need:
-
-```javascript
-// theme.js
-const { ThemingPlugin } = require('tailwindcss-theming');
-
-const variants = [
-  { name: 'default', value: 1 },
-  { name: 'high-emphasis', value: 0.87 },
-  { name: 'medium-emphasis', value: 0.6 },
-  { name: 'inactive', value: 0.6 },
-  { name: 'disabled', value: 0.38 },
-  { name: 'muted', value: 0.425 },
-  { name: 'selection', value: 0.25 },
-  { name: 'slightly-visible', value: 0.1 },
-];
-
-const palette = [
-  { name: 'transparent', value: 'transparent', opacityVariants: [], outputFormat: 'text' },
-  { name: 'primary', value: '#2196f3', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'primary-variant', value: '#1565c0', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'secondary', value: '#039be5', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'secondary-variant', value: '#0288d1', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'background', value: '#f4f4f4', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'surface', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'error', value: '#b00020', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'success', value: '#3ab577', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'warning', value: '#e65100', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'info', value: '#2481ea', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'on-primary', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'on-secondary', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'on-background', value: '#585851', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'on-surface', value: '#3c3c3c', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'on-error', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'on-success', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'on-warning', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
-  { name: 'on-info', value: '#ffffff', opacityVariants: variants, outputFormat: 'rgb' },
-];
-
-const themes = {
-  default: { type: 'light', colors: palette },
-};
-
-const config = {
-  themeTypeKey: 'color-scheme',
-  colorVariablePrefix: 'color',
-  useVariants: true,
-  outputThemePrefix: 'theme'
-};
-
-module.exports = new ThemingPlugin(themes, config);
-```
-
-Your `tailwind.config.js` should now look like this:
-
-```javascript
-// tailwind.config.js
-const theming = require('./theme');
-
-module.exports = {
-  theme: {
-    ...theming.getTheme(),
-  },
   plugins: [
-    theming.getTailwind(),
+    new ThemeBuilder().plugin()
   ],
 };
 ```
 
-Cleaner, right?
+# Configuration
+
+Obviously, you need to build the themes in order to have one. You can start by setting up the plugin's options. 
+
+## Strategy 
+
+This plugin has multiple strategies to export your themes. You can either define your strategy by using the `strategy` method of `ThemeBuilder` and passind the strategy name as an argument, or by using one of the strategy method to set it up.
+
+### Strategy Reference
+
+| Method | Name | Enum Access | Description |
+| ------ | ---- | ---- | ----------- |
+| `asPrefixedClass()` | `prefixed-class` | `Strategy.PrefixedClass` | Each theme will be exported in a class with a prefix. You will be able to use a theme by applying the class `.<choosenPrefix>-<themeName>` on a node. The CSS rule will be `.<choosenPrefix>-<themeName>`. | 
+| `asClass()` | `class` | `Strategy.Class` | Each theme will be exported in a class. You will be able to use a theme by applying the class `.<themeName>` on a node. The CSS rule will be `<themeName>`. | 
+| `asDataAttribute()` | `data-attribute` | `Strategy.DataAttribute` | Each theme will be exported as a data-attribute. You will be able to use a theme by setting the attribute `data-<themeName>` on a node. The CSS rule will be `[data-<themeName>]`. | 
+| `asPrefixedAttribute()` | `prefixed-attribute` | `Strategy.PrefixedAttribute` | Each theme will be exported as an attribute with a prefix. You will be able to use a theme by setting the attribute `<choosenPrefix>-<themeName>` on a node. The CSS rule will be `[<choosenPrefix>-<themeName>]`. | 
+| `asAttribute()` | `attribute` |  `Strategy.Attribute` | Each theme will be exported as an attribute. You will be able to use a theme by setting the attribute `<themeName>` on a node. The CSS rule will be `[<themeName>]`. |
+
+### Using `strategy()`
+
+#### Javascript Example
+
+```javascript
+import { ThemeBuilder } from 'tailwindcss-theming';
+
+const theme = new ThemeBuilder()
+    .strategy('prefixed-class')
+    .prefix('theme');
+
+// Will output `.theme-primary` for a theme named `primary`.
+
+const theme = new ThemeBuilder()
+    .strategy('attribute')
+    .prefix('theme');
+
+// Will output `[primary]` for a theme named `primary`.
+```
+
+#### TypeScript Example
+
+```typescript
+import { ThemeBuilder, Strategy } from 'tailwindcss-theming';
+
+const theme = new ThemeBuilder()
+    .strategy(Strategy.PrefixedClass)
+    .prefix('theme');
+
+// Will output `.theme-primary` for a theme named `primary`.
+
+const theme = new ThemeBuilder()
+    .strategy(Strategy.Attribute)
+    .prefix('theme');
+
+// Will output `[primary]` for a theme named `primary`.
+```
+
+### Using fluent methods
+
+```javascript
+import { ThemeBuilder } from 'tailwindcss-theming';
+
+const theme = new ThemeBuilder()
+    .asPrefixedClass('theme');
+
+// Will output `.theme-primary` for a theme named `primary`.
+
+const theme = new ThemeBuilder()
+    .asAttribute();
+
+// Will output `[primary]` for a theme named `primary`.
+```
+
+## Color variables' prefixes
+
+If for some reason you need or want to change the color variables' prefixes, you can use `colorVariablePrefix('prefix')` to change it. You can remove it completely by not passing any parameter, but it could potentially break up things if you have another variable of the same name. 
+
+```javascript
+import { ThemeBuilder } from 'tailwindcss-theming';
+
+const theme = new ThemeBuilder()
+    .colorVariablePrefix('color');
+
+// Will output `--color-primary` for a variable named `primary`.
+
+const theme = new ThemeBuilder()
+    .colorVariablePrefix();
+
+// Will output `--primary` for a variable named `primary`.
+```
+
+## Defaults
+
+Although the defaults settings are already set when you call `new ThemeBuilder`, you can explicitly call `.defaults()` to apply them.
+
+```javascript
+import { ThemeBuilder } from 'tailwindcss-theming';
+
+const theme = new ThemeBuilder()
+    .colorVariablePrefix('color')
+    .defaults();
+
+// `colorVariablePrefix` is undefined
+```
+
+## Creating themes
+
+You will be able to define one or multiple themes. You will need to have at least one default theme, but you can have many other named themes as you want. However, if you set colors on named themes that are not on the default theme, you won't be able to use theme with Tailwind utilities because this plugin won't generate said utilities for these colors. 
+
+For instance, if you have a `primary` color in your default theme and you have a `primary` and a `secondary` color in a named theme, the `secondary` color utilities won't be generated, and you will only be able to use utilities such as `text-primary`.
+
+### Default Theme
+
+There are multiple ways to add a default theme. You can call the `default` method of `ThemeBuilder` with a `Theme` object, or call the `theme` or `themes` method with a `Theme` object as well. 
+
+The `default` method will call a `Theme`'s `default()` method, so it will be explicitly defined as the default theme. The `theme` or `themes` methods will simply add the given `Theme`(s) to the `ThemeBuilder`.
+
+```javascript
+import { ThemeBuilder, Theme } from 'tailwindcss-theming';
+
+const theme = new ThemeBuilder()
+  .defaults() // defaults settings
+  .default([ // default theme
+    new Theme()
+      .name('my-theme') // will be erased
+      .colors({
+        transparent: 'transparent',
+        primary: 'white',
+      }),
+  ]);
+```
+
+### Adding one or multiple themes
+
+Use the `theme` method to add a single theme or the `themes` method to add multiple themes. 
+
+```javascript
+import { ThemeBuilder, Theme } from 'tailwindcss-theming';
+
+// Careful, this setup has NO DEFAULT THEME.
+const theme = new ThemeBuilder()
+  .defaults() // defaults settings
+  .theme(new Theme()
+    .name('main-theme')
+    .colors({
+      transparent: 'transparent',
+      primary: 'white',
+    }))
+  .themes([
+    new Theme()
+      .name('another-theme')
+      .colors({
+        transparent: 'transparent',
+        primary: 'black',
+      }),
+  ]);
+```
+
+### Building a theme
+
+A `Theme` has a fluent API that allow an elegant setup. A `Theme` is a collection of `Color` and `Variant` objects. A `Variant` **is not** a Tailwind variant, but a color utility variant. 
+
+Here is a vanille Tailwind configuration to illustrate what a variant is in this plugin:
+
+```javascript
+module.exports = [
+  theme: {
+    colors: {
+      black: '#000000', // this is a color
+      primary: {
+        default: 'blue', // this is a color, defined by the special 'default' name
+        something: 'cyan' // this is a variant
+      }
+    }
+  }
+]
+```
+
+#### Defining colors
+
+You can add your colors by calling `colors` on a `Theme` object. The `colors` method argument accept either an object of `name`/`value` or an array of `Color` objects.  A `value` can be any color that [TinyColor](https://github.com/TypeCtrl/tinycolor) can understand.
+
+For instance, each of these instanciations will do the exact same:
+
+```javascript
+import { Theme } from 'tailwindcss-theming';
+
+new Theme()
+  .colors({
+    transparent: 'transparent',
+    primary: 'white',
+  });
+
+new Theme()
+  .colors([
+    new Color(), // the name and values are `transparent` if you don't set them
+    new Color('primary', 'white') // you can use the `Color` constructor to pass the name and value respectively
+  ]);
+
+new Theme()
+  .colors([
+    new Color('transparent').value('transparent'), // you can call `.value()` to set the value
+    new Color('primary').value('white')
+  ]);
+
+new Theme()
+  .colors([
+    new Color().name('transparent').value('transparent'), // you can call `.name()` to set the name, and chain the methods
+    new Color().name('primary').value('white')
+  ]);
+```
+
+For a theme definition, it would look like this:
+
+```javascript
+import { ThemeBuilder, Theme } from 'tailwindcss-theming';
+
+const theme = new ThemeBuilder()
+  .defaults() // defaults settings
+  .default(new Theme()
+    .colors({
+      transparent: 'transparent',
+      primary: 'white',
+      secondary: '#e1e1e1'
+    })
+  );
+```
+
+### Defining variants
+
+#### Opacity variants
+
+An `OpacityVariant` will change the `alpha` value of a color. For instance, an opacity variant named `muted` with the value `0.35` will create a `.text-primary-muted` utility which properties will be `color: rgba(var(--color-primary), var(--opacity-variant-muted))` for a variable named `primary`. 
+
+This utility would set the color to whatever the `primary` color is and the alpha of this color would be `0.35`.
+
+To define an opacity variant, call `opacityVariant` on a `Theme` object.
+
+```javascript
+new Theme()
+  .colors({
+    transparent: 'transparent',
+    primary: 'white',
+  })
+  .opacityVariant('muted', .35);
+```
+
+#### Color variants
+
+Sometimes, you can't get the result you want with just an opacity tweak, so you would maybe want to change the whole color. With a `ColorVariant`, you can do this.
+
+> **Please note** that I plan on adding opacity (alpha) support for color variants, but this is not available yet.
+
+A color variant named `lighter` which value is `#3B4252` will generate a `.text-primary-lighter` utility which properties will be `color: rgb(var(--color-variant-lighter))`  for a variable named `property`. 
+
+This utility would replace `primary`'s color. 
+
+To define a color variant, call `colorVariant` on a `Theme` object.
+
+```javascript
+new Theme()
+  .colors({
+    transparent: 'transparent',
+    primary: '#2E3440',
+  })
+  .colorVariant('lighter', '#3B4252');
+```
+
+#### Variant scopes
+
+By default, a variant will be added for every color. But this is not what you would always want, especially using the color variants. You can defined for which color a variant is by adding a third argument to `opacityVariant` or `colorVariant`.
+
+```javascript
+new Theme()
+  .colors({
+    transparent: 'transparent',
+    primary: '#2E3440',
+    secondary: '#434C5E',
+  })
+  .colorVariant('lighter', '#3B4252', 'primary'); // only for primary
+  .colorVariant('even-lighter', '#4C566A', ['primary', 'secondary']); // only for primary and secondary
+```
+
+### Color schemes
+
+This plugin can take advantage of the [`prefers-color-scheme`](https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-color-scheme) media query to change a theme automatically based on an user's browser preferences. 
+
+Basically, you can setup a theme to be defined in a `dark` or `light` media query. 
+
+#### Defining a default dark (or light) theme
+
+To make a theme its scheme's default, you have to define its `scheme` by calling `dark()` or `light()` on it. If the `Theme` is set as the default, it will be the default theme for its scheme as well. To set a default theme for the other `scheme`, you need to call `schemeDefault` on it. 
+
+The example below defines two themes. The first one will be the default theme as well as the light scheme's default theme, and the second one will be the dark scheme's default theme.
+
+```javascript
+const plugin = new ThemeBuilder()
+  .themes([
+    new Theme()
+      .default()
+      .light()
+      .colors({
+        background: '#ECEFF4',
+        surface: '#D8DEE9',
+        'on-background': '#2E3440',
+        'on-surface': '#2E3440',
+      })
+      .opacityVariant('muted', 0.3),
+    new Theme()
+      .schemeDefault()
+      .dark()
+      .colors({
+        background: '#2E3440',
+        surface: '#3B4252',
+        'on-background': '#D8DEE9',
+        'on-surface': '#D8DEE9',
+      })
+      .opacityVariant('muted', 0.3),
+  ]);
+```
+
+### Defining multiple themes with defaults for each scheme
+
+In this example, you will have a default theme that is also the theme if a user has an explicit `light` scheme, a theme if a user has an explicit `dark` scheme, and two other named themes that need attributes to be applied.
+
+```javascript
+const plugin = new ThemeBuilder()
+  .themes([
+
+    // default theme, default light scheme's theme
+    new Theme()
+      .default()
+      .light()
+      .colors({
+        background: '#ECEFF4',
+        surface: '#D8DEE9',
+        'on-background': '#2E3440',
+        'on-surface': '#2E3440',
+      })
+      .opacityVariant('muted', 0.3),
+
+    // default dark scheme's theme, no name
+    new Theme()
+      .schemeDefault()
+      .dark()
+      .colors({
+        background: '#2E3440',
+        surface: '#3B4252',
+        'on-background': '#D8DEE9',
+        'on-surface': '#D8DEE9',
+      })
+      .opacityVariant('muted', 0.3),
+
+    // Another dark theme, but it's useless to call dark() on if keep() is used
+    new Theme()
+      .name('black-and-white')
+      .keep()
+      .colors({
+        background: 'dark',
+        surface: 'gray',
+        'on-background': 'white',
+        'on-surface': 'white',
+      })
+      .opacityVariant('muted', 0.3),
+
+    // Another light theme, but it's useless to call light() on if keep() is used
+    new Theme()
+      .name('white')
+      .keep()
+      .colors({
+        background: 'white',
+        surface: 'gray',
+        'on-background': 'black',
+        'on-surface': 'black',
+      })
+      .opacityVariant('muted', 0.3),
+
+  ]);
+```
+
+### Defining a default theme, and a named dark theme that is the default theme for dark schemes
+
+```javascript
+const plugin = new ThemeBuilder()
+  .themes([
+    // default theme, no scheme
+    new Theme()
+      .default()
+      .colors({
+        background: '#ECEFF4',
+        surface: '#D8DEE9',
+        'on-background': '#2E3440',
+        'on-surface': '#2E3440',
+      })
+      .opacityVariant('muted', 0.3),
+
+    // default dark scheme's theme, but can also be added with its name
+    new Theme()
+      .name('dark')
+      .schemeDefault()
+      .dark()
+      .keep() // this is what allows it to be added with its name
+      .colors({
+        background: '#2E3440',
+        surface: '#3B4252',
+        'on-background': '#D8DEE9',
+        'on-surface': '#D8DEE9',
+      })
+      .opacityVariant('muted', 0.3),
+
+  ]);
+```
+
+## API reference
+
+### `ThemeBuilder`
+
+| Method | Arguments | Description |
+| ------ | --------- | ----------- |
+| `defaults()` | None | Applies the default configuration.
+| `prefix()` | `prefix?: string` | Sets the prefix used for the export strategies.
+| `colorVariablePrefix()` | `prefix?: string` | Sets the color variables' names prefixes.
+| `strategy` | [`Strategy`](src/Theming/Strategy.ts) | Sets the export strategy.
+| `asPrefixedClass()` | `prefix?: string` | Sets the export strategy to `PrefixedClass`. You can pass a prefix as a parameter to this method.
+| `asClass()` | None | Sets the export strategy to `Class`.
+| `asDataAttribute()` | None | Sets the export strategy to `DataAttribute`.
+| `asPrefixedAttribute()` | `prefix?: string` | Sets the export strategy to `PrefixedAttribute`. You can pass a prefix as a parameter to this method.
+| `asAttribute()` | None | Sets the export strategy to `Attribute`.
+| `default()` | [`Theme`](src/Theming/Theme/Theme.ts) | Adds a default theme.
+| `theme()` | [`Theme`](src/Theming/Theme/Theme.ts) | Adds a theme.
+| `themes()` | [`Theme`](src/Theming/Theme/Theme.ts)`[]` | Adds multiple themes.
+| `theming()` | None | Gets the current plugin configuration.
+| `config()` | None | Gets the processed Tailwind configuration.
+| `handler()` | None | Gets the Tailwind's plugin `handler` method.
+| `plugin()` | `{}` | Gets the whole plugin. Use this method to register the plugin.
+
+### `Theme`
+
+| Method | Arguments | Description |
+| ------ | --------- | ----------- |
+| `default()` | None | Sets the theme as the default theme. Internally, changes its name to `default`, and applies `keep()` and `schemeDefault()`.
+| `keep()` | None | If the theme has a scheme, it will be added both inside and outside of the scheme media query.
+| `schemeDefault()` | None | Sets the theme as the default theme for its scheme.
+| `name()` | `string` | Sets the theme's name.
+| `light()` | None | Sets the theme's scheme to `light`.
+| `dark()` | None | Sets the theme's scheme to `dark`.
+| `color()` | `name: string`, `value: string` | Adds a `Color` to the theme.
+| `colors()` | `colors: Color[] | {}` | Adds multiple `Color` to the theme. Argument can be an associative object of `name` and `value`s or an array of `Color`.
+| `opacityVariant()` | `name: string`, `value: number`, `colors?: string[] | string` | Adds an opacity variant. Add defined color names to the `colors` array to apply the variant only to them.
+| `colorVariant()` | `name: string`, `value: string`, `colors?: string[] | string` | Adds a color variant. Add defined color names to the `colors` array to apply the variant only to them.
+| `hasVariant()` | `variant: string` | Checks if the given variant name is defined.
+| `mapVariant()` | `name: string`,` colors?: string[] | string` | Maps a variant name to a list of color names. If the color list is empty, it will be mapped to every color.
+| `variantsOf()` | `color: string[]` | Gets the variants of the given color.
+| `isDefault()` | None | Checks if this theme is set as the default theme.
+| `isSchemeDefault()` | None | Checks if this theme is its scheme's default.
+| `getName()` | None | Returns this theme's name.
+| `getColors()` | None | Returns this theme's colors.
+
+# Build from source
+
+> Soon to be written.
