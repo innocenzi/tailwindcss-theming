@@ -132,14 +132,40 @@ export class ThemeBuilder {
   }
 
   /**
-   * Sets the themes.
+   * Add a default theme.
+   *
+   * @param {Theme} theme
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  default(theme: Theme): this {
+    this._themes.push(theme.default());
+
+    return this;
+  }
+
+  /**
+   * Add a theme.
+   *
+   * @param {Theme} theme
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  theme(theme: Theme): this {
+    this._themes.push(theme);
+
+    return this;
+  }
+
+  /**
+   * Add themes.
    *
    * @param {Theme[]} themes
    * @returns {this}
    * @memberof ThemeBuilder
    */
   themes(themes: Theme[]): this {
-    this._themes = themes;
+    this._themes.push(...themes);
 
     return this;
   }
