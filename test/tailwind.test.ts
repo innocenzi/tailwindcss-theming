@@ -505,3 +505,175 @@ it('set scheme media query with attribute strategy and as default for dark schem
     .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) }
     .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
+
+it('has multiple themes with multiple defaults for multiple schemes', async () => {
+  const plugin = new ThemeBuilder();
+  plugin
+    .strategy(Strategy.Attribute)
+    .themes([
+      new Theme()
+      .default()
+      .light()
+      .colors({
+        background: '#ECEFF4',
+        surface: '#D8DEE9',
+        'on-background': '#2E3440',
+        'on-surface': '#2E3440',
+      })
+      .opacityVariant('muted', 0.3),
+
+    // default dark scheme's theme, no name
+    new Theme()
+      .schemeDefault()
+      .dark()
+      .colors({
+        background: '#2E3440',
+        surface: '#3B4252',
+        'on-background': '#D8DEE9',
+        'on-surface': '#D8DEE9',
+      })
+      .opacityVariant('muted', 0.3),
+
+    // Another dark theme, but it's useless to call dark() on if keep() is used
+    new Theme()
+      .name('black-and-white')
+      .keep()
+      .colors({
+        background: 'dark',
+        surface: 'gray',
+        'on-background': 'white',
+        'on-surface': 'white',
+      })
+      .opacityVariant('muted', 0.3),
+
+    // Another light theme, but it's useless to call light() on if keep() is used
+    new Theme()
+      .name('white')
+      .keep()
+      .colors({
+        background: 'white',
+        surface: 'gray',
+        'on-background': 'black',
+        'on-surface': 'black',
+      })
+      .opacityVariant('muted', 0.3),
+    ]);
+
+  const css = await generatePluginCss(plugin, {}, true, true, true, ['textColor']);
+
+  // @ts-ignore
+  expect(css).toMatchCss(`
+  :root {
+    --color-background: 236,239,244;
+    --color-surface: 216,222,233;
+    --color-on-background: 46,52,64;
+    --color-on-surface: 46,52,64;
+    --opacity-variant-muted: 0.3px
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --color-background: 236,239,244;
+      --color-surface: 216,222,233;
+      --color-on-background: 46,52,64;
+      --color-on-surface: 46,52,64;
+      --opacity-variant-muted: 0.3px
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background: 46,52,64;
+      --color-surface: 59,66,82;
+      --color-on-background: 216,222,233;
+      --color-on-surface: 216,222,233;
+      --opacity-variant-muted: 0.3px
+    }
+  }
+
+  [black-and-white] {
+    --color-background: 0,0,0;
+    --color-surface: 128,128,128;
+    --color-on-background: 255,255,255;
+    --color-on-surface: 255,255,255;
+    --opacity-variant-muted: 0.3px
+  }
+
+  [white] {
+    --color-background: 255,255,255;
+    --color-surface: 128,128,128;
+    --color-on-background: 0,0,0;
+    --color-on-surface: 0,0,0;
+    --opacity-variant-muted: 0.3px
+  } 
+
+  .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) } 
+  .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) } 
+  .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) } 
+  .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
+});
+
+it('a default theme and a dark theme which is the dark schemes default theme', async () => {
+  const plugin = new ThemeBuilder();
+  plugin
+    .strategy(Strategy.Attribute)
+    .themes([
+      new Theme()
+      .default()
+      .colors({
+        background: '#ECEFF4',
+        surface: '#D8DEE9',
+        'on-background': '#2E3440',
+        'on-surface': '#2E3440',
+      })
+      .opacityVariant('muted', 0.3),
+    new Theme()
+    .name('dark')
+      .schemeDefault()
+      .dark()
+      .keep()
+      .colors({
+        background: '#2E3440',
+        surface: '#3B4252',
+        'on-background': '#D8DEE9',
+        'on-surface': '#D8DEE9',
+      })
+      .opacityVariant('muted', 0.3),
+    ]);
+
+  const css = await generatePluginCss(plugin, {}, true, true, true, ['textColor']);
+
+  // @ts-ignore
+  expect(css).toMatchCss(`
+  :root {
+    --color-background: 236,239,244;
+    --color-surface: 216,222,233;
+    --color-on-background: 46,52,64;
+    --color-on-surface: 46,52,64;
+    --opacity-variant-muted: 0.3px
+  }
+
+  [dark] {
+    --color-background: 46,52,64;
+    --color-surface: 59,66,82;
+    --color-on-background: 216,222,233;
+    --color-on-surface: 216,222,233;
+    --opacity-variant-muted: 0.3px
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background: 46,52,64;
+      --color-surface: 59,66,82;
+      --color-on-background: 216,222,233;
+      --color-on-surface: 216,222,233;
+      --opacity-variant-muted: 0.3px
+    }
+  }
+  
+  .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) } 
+  .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) } 
+  .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) } 
+  .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`
+  );
+});
