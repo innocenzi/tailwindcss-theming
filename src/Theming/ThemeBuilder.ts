@@ -5,7 +5,6 @@ import { TailwindPlugin } from '../TailwindPlugin/TailwindPlugin';
 import { TailwindPluginHandler } from '../TailwindPlugin/TailwindPluginHandler';
 import { getColorConfiguration } from './Generator/getColorConfiguration';
 import { getCssConfiguration } from './Generator/getCssConfiguration';
-import { TailwindPluginHelpers } from '../TailwindPlugin/TailwindPluginHelpers';
 
 export class ThemeBuilder {
   private _themes: Theme[];
@@ -64,6 +63,70 @@ export class ThemeBuilder {
    */
   strategy(value: Strategy): this {
     this._config.strategy = value;
+
+    return this;
+  }
+
+  /**
+   * Use the `PrefixedClass` strategy.
+   *
+   * @param {string} [prefix] Prefix to be used.
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  asPrefixedClass(prefix?: string): this {
+    this._config.strategy = Strategy.PrefixedClass;
+    this._config.prefix = prefix || this._config.prefix;
+
+    return this;
+  }
+
+  /**
+   * Use the `Class` strategy.
+   *
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  asClass(): this {
+    this._config.strategy = Strategy.Class;
+
+    return this;
+  }
+
+  /**
+   * Use the `DataAttribute` strategy.
+   *
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  asDataAttribute(): this {
+    this._config.strategy = Strategy.DataAttribute;
+
+    return this;
+  }
+
+  /**
+   * Use the `PrefixedAttribute` strategy.
+   *
+   * @param {string} [prefix] Prefix to be used.
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  asPrefixedAttribute(prefix?: string): this {
+    this._config.strategy = Strategy.PrefixedAttribute;
+    this._config.prefix = prefix || this._config.prefix;
+
+    return this;
+  }
+
+  /**
+   * Use the `Attribute` strategy. This is the default one.
+   *
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  asAttribute(): this {
+    this._config.strategy = Strategy.Attribute;
 
     return this;
   }
