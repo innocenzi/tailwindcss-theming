@@ -4,15 +4,15 @@ This plugin helps with theming your application. Thanks to a simple and fluent c
 
 > **Compatibility with IE11**
 >
-> Please not that [IE11 doesn't support CSS variables (custom properties)](https://caniuse.com/#feat=css-variables). You can still have partial support for IE11 by using the [PostCSS custom properties plugin](https://github.com/postcss/postcss-custom-properties). You won't be able to change theme at runtime, but at least your main theme will work correctly.
+> Please note that [IE11 doesn't support CSS variables (custom properties)](https://caniuse.com/#feat=css-variables). You can still have partial support for IE11 by using the [PostCSS custom properties plugin](https://github.com/postcss/postcss-custom-properties). You won't be able to change theme at runtime, but at least your main theme will work correctly.
 
 # Installation
 
 You can install this plugin thanks to NPM, or you can [build it from source](#build-from-source) and include it in your project yourself.
 
 ```console
-$ npm install tailwindcss-theming
-$ yarn add tailwindcss-theming
+$ npm install tailwindcss-theming@canary
+$ yarn add tailwindcss-theming@canary
 ```
 
 # Usage
@@ -490,4 +490,29 @@ const plugin = new ThemeBuilder()
 
 # Build from source
 
-> Soon to be written.
+Clone the repository:
+
+```console
+$ git clone https://github.com/hawezo/tailwindcss-theming
+$ cd tailwindcss-theming
+```
+
+Install dependencies:
+
+```console
+$ yarn install
+```
+
+Run tests:
+
+```console
+$ yarn test
+```
+
+Build:
+
+```console
+$ yarn build
+```
+
+The main file will be `dist/index.js`.

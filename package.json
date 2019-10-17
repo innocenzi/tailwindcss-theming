@@ -1,6 +1,6 @@
 {
   "name": "tailwindcss-theming",
-  "version": "0.1.4",
+  "version": "1.0.0-beta",
   "description": "A TailwindCSS plugin that helps with theming",
   "main": "dist/index.js",
   "author": {
@@ -13,8 +13,7 @@
     "build": "yarn run clean && tsc",
     "watch": "yarn run clean && tsc -w",
     "test": "jest test",
-    "test:watch": "jest test --watch",
-    "distribute": "yarn test && yarn build && yarn publish"
+    "test:watch": "jest test --watch"
   },
   "repository": {
     "type": "git",
