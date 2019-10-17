@@ -12,6 +12,13 @@ export function getColorConfiguration(themes: Theme[], config: Configuration) {
     colorConfiguration[color.keyName] = colorConfiguration[color.keyName] || {};
     let variants = theme.variantsOf(color.keyName);
 
+    // we add the value in the default key
+    if (color.computed.a > 0) {
+      colorConfiguration[color.keyName]['default'] = `rgb(var(${getColorVariableName(color, config)}))`;
+    } else {
+      colorConfiguration[color.keyName]['default'] = `rgba(var(${getColorVariableName(color, config)}), ${color.computed.a})`;
+    }
+
     // variants, we add a key and variant subkeys
     if (variants.length > 0) {
       variants.forEach(variant => {
@@ -28,17 +35,7 @@ export function getColorConfiguration(themes: Theme[], config: Configuration) {
         }
       });
     }
-
-    // no variant, we add the value directly to the key
-    else {
-      if (color.computed.a > 0) {
-        colorConfiguration[color.keyName] = `rgb(var(${getColorVariableName(color, config)}))`;
-      } else {
-        colorConfiguration[color.keyName] = `rgba(var(${getColorVariableName(color, config)}), ${color.computed.a})`;
-      }
-    }
   });
 
-  
   return colorConfiguration;
 }

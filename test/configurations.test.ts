@@ -136,16 +136,19 @@ it('generates color configuration', () => {
 
   expect(getColorConfiguration([theme], plugin.theming)).toStrictEqual({
     primary: {
+      default: 'rgb(var(--color-primary))',
       hover: 'rgb(var(--color-variant-hover))',
       blueish: 'rgb(var(--color-variant-blueish))',
       hidden: 'rgba(var(--color-primary), var(--opacity-variant-hidden))',
     },
     secondary: {
+      default: 'rgb(var(--color-secondary))',
       blueish: 'rgb(var(--color-variant-blueish))',
       disabled: 'rgba(var(--color-secondary), var(--opacity-variant-disabled))',
       hidden: 'rgba(var(--color-secondary), var(--opacity-variant-hidden))',
     },
     brand: {
+      default: 'rgb(var(--color-brand))',
       blueish: 'rgb(var(--color-variant-blueish))',
       hidden: 'rgba(var(--color-brand), var(--opacity-variant-hidden))',
     },
@@ -252,6 +255,15 @@ it('takes strategies into account', () => {
       '--color-white': '255,255,255',
     },
     '.foo': {
+      '--color-white': '255,255,255',
+    },
+  });
+
+  expect(getCssConfiguration([getSimpleTheme().default(), getSimpleTheme().name('foo')], plugin.strategy(Strategy.DataThemeAttribute).theming)).toStrictEqual({
+    ':root': {
+      '--color-white': '255,255,255',
+    },
+    '[data-theme=foo]': {
       '--color-white': '255,255,255',
     },
   });

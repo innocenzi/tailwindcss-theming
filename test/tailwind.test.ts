@@ -135,18 +135,23 @@ it('generates utilities with multiple colors and their variants', async () => {
       --color-variant-darker: 128, 128, 128;
       --opacity-variant-less-opaque: 0.7px
     }
-    .text-transparent-actually-black { color: rgb(var(--color-variant-actually-black)) }  
-    .text-transparent-disabled { color: rgba(var(--color-transparent), var(--opacity-variant-disabled)) }  
-    .text-primary-actually-black { color: rgb(var(--color-variant-actually-black)) }  
-    .text-primary-darker { color: rgb(var(--color-variant-darker)) }  
-    .text-primary-disabled { color: rgba(var(--color-primary), var(--opacity-variant-disabled)) }  
-    .text-secondary-actually-black { color: rgb(var(--color-variant-actually-black)) }  
-    .text-secondary-disabled { color: rgba(var(--color-secondary), var(--opacity-variant-disabled)) }  
-    .text-secondary-less-opaque { color: rgba(var(--color-secondary), var(--opacity-variant-less-opaque)) }  
-    .text-tertiary-actually-black { color: rgb(var(--color-variant-actually-black)) }  
-    .text-tertiary-disabled { color: rgba(var(--color-tertiary), var(--opacity-variant-disabled)) }  
-    .text-tertiary-less-opaque { color: rgba(var(--color-tertiary), var(--opacity-variant-less-opaque)) }  
-    .text-quaternary-actually-black { color: rgb(var(--color-variant-actually-black)) }  
+    .text-transparent { color: rgba(var(--color-transparent), 0) } 
+    .text-transparent-actually-black { color: rgb(var(--color-variant-actually-black)) } 
+    .text-transparent-disabled { color: rgba(var(--color-transparent), var(--opacity-variant-disabled)) } 
+    .text-primary { color: rgb(var(--color-primary)) } 
+    .text-primary-actually-black { color: rgb(var(--color-variant-actually-black)) } 
+    .text-primary-darker { color: rgb(var(--color-variant-darker)) } 
+    .text-primary-disabled { color: rgba(var(--color-primary), var(--opacity-variant-disabled)) } 
+    .text-secondary { color: rgb(var(--color-secondary)) } 
+    .text-secondary-actually-black { color: rgb(var(--color-variant-actually-black)) } 
+    .text-secondary-disabled { color: rgba(var(--color-secondary), var(--opacity-variant-disabled)) } 
+    .text-secondary-less-opaque { color: rgba(var(--color-secondary), var(--opacity-variant-less-opaque)) } 
+    .text-tertiary { color: rgb(var(--color-tertiary)) } 
+    .text-tertiary-actually-black { color: rgb(var(--color-variant-actually-black)) } 
+    .text-tertiary-disabled { color: rgba(var(--color-tertiary), var(--opacity-variant-disabled)) } 
+    .text-tertiary-less-opaque { color: rgba(var(--color-tertiary), var(--opacity-variant-less-opaque)) } 
+    .text-quaternary { color: rgb(var(--color-quaternary)) } 
+    .text-quaternary-actually-black { color: rgb(var(--color-variant-actually-black)) } 
     .text-quaternary-disabled { color: rgba(var(--color-quaternary), var(--opacity-variant-disabled)) }`);
 });
 
@@ -228,16 +233,19 @@ it('respects multiple theme configuration and their variants', async () => {
     }
   }
 
+  .text-background { color: rgb(var(--color-background)) } 
   .text-background-high-emphasis { color: rgba(var(--color-background), var(--opacity-variant-high-emphasis)) } 
   .text-background-medium-emphasis { color: rgba(var(--color-background), var(--opacity-variant-medium-emphasis)) } 
   .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) } 
   .text-background-disabled { color: rgba(var(--color-background), var(--opacity-variant-disabled)) } 
   .text-background-slightly-visible { color: rgba(var(--color-background), var(--opacity-variant-slightly-visible)) } 
+  .text-surface { color: rgb(var(--color-surface)) } 
   .text-surface-high-emphasis { color: rgba(var(--color-surface), var(--opacity-variant-high-emphasis)) } 
   .text-surface-medium-emphasis { color: rgba(var(--color-surface), var(--opacity-variant-medium-emphasis)) } 
   .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) } 
   .text-surface-disabled { color: rgba(var(--color-surface), var(--opacity-variant-disabled)) } 
   .text-surface-slightly-visible { color: rgba(var(--color-surface), var(--opacity-variant-slightly-visible)) } 
+  .text-on-background { color: rgb(var(--color-on-background)) } 
   .text-on-background-hover { color: rgb(var(--color-variant-hover)) } 
   .text-on-background-active { color: rgb(var(--color-variant-active)) } 
   .text-on-background-high-emphasis { color: rgba(var(--color-on-background), var(--opacity-variant-high-emphasis)) } 
@@ -245,6 +253,7 @@ it('respects multiple theme configuration and their variants', async () => {
   .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) } 
   .text-on-background-disabled { color: rgba(var(--color-on-background), var(--opacity-variant-disabled)) } 
   .text-on-background-slightly-visible { color: rgba(var(--color-on-background), var(--opacity-variant-slightly-visible)) } 
+  .text-on-surface { color: rgb(var(--color-on-surface)) } 
   .text-on-surface-hover { color: rgb(var(--color-variant-hover)) } 
   .text-on-surface-active { color: rgb(var(--color-variant-active)) } 
   .text-on-surface-high-emphasis { color: rgba(var(--color-on-surface), var(--opacity-variant-high-emphasis)) } 
@@ -252,11 +261,13 @@ it('respects multiple theme configuration and their variants', async () => {
   .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) } 
   .text-on-surface-disabled { color: rgba(var(--color-on-surface), var(--opacity-variant-disabled)) } 
   .text-on-surface-slightly-visible { color: rgba(var(--color-on-surface), var(--opacity-variant-slightly-visible)) } 
+  .text-error { color: rgb(var(--color-error)) } 
   .text-error-high-emphasis { color: rgba(var(--color-error), var(--opacity-variant-high-emphasis)) } 
   .text-error-medium-emphasis { color: rgba(var(--color-error), var(--opacity-variant-medium-emphasis)) } 
   .text-error-muted { color: rgba(var(--color-error), var(--opacity-variant-muted)) } 
   .text-error-disabled { color: rgba(var(--color-error), var(--opacity-variant-disabled)) } 
   .text-error-slightly-visible { color: rgba(var(--color-error), var(--opacity-variant-slightly-visible)) } 
+  .text-on-error { color: rgb(var(--color-on-error)) } 
   .text-on-error-high-emphasis { color: rgba(var(--color-on-error), var(--opacity-variant-high-emphasis)) } 
   .text-on-error-medium-emphasis { color: rgba(var(--color-on-error), var(--opacity-variant-medium-emphasis)) } 
   .text-on-error-muted { color: rgba(var(--color-on-error), var(--opacity-variant-muted)) } 
@@ -323,9 +334,13 @@ it('sets scheme media query set as default and keep outside if asked', async () 
       }
     } 
     
-    .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) }
-    .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) }
-    .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) }
+    .text-background { color: rgb(var(--color-background)) } 
+    .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) } 
+    .text-surface { color: rgb(var(--color-surface)) } 
+    .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) } 
+    .text-on-background { color: rgb(var(--color-on-background)) } 
+    .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) } 
+    .text-on-surface { color: rgb(var(--color-on-surface)) } 
     .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
 
@@ -379,37 +394,39 @@ it('sets scheme media query set as default', async () => {
       }
     } 
     
-    .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) }
-    .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) }
-    .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) }
+    .text-background { color: rgb(var(--color-background)) } 
+    .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) } 
+    .text-surface { color: rgb(var(--color-surface)) } 
+    .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) } 
+    .text-on-background { color: rgb(var(--color-on-background)) } 
+    .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) } 
+    .text-on-surface { color: rgb(var(--color-on-surface)) } 
     .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
 
 it('set scheme media query', async () => {
   const plugin = new ThemeBuilder();
-  plugin
-    .strategy(Strategy.Attribute)
-    .themes([
-      new Theme()
-        .default()
-        .colors({
-          background: '#ECEFF4',
-          surface: '#D8DEE9',
-          'on-background': '#2E3440',
-          'on-surface': '#2E3440',
-        })
-        .opacityVariant('muted', 0.3),
-      new Theme()
-        .name('night')
-        .dark()
-        .colors({
-          background: '#2E3440',
-          surface: '#3B4252',
-          'on-background': '#D8DEE9',
-          'on-surface': '#D8DEE9',
-        })
-        .opacityVariant('muted', 0.3),
-    ]);
+  plugin.strategy(Strategy.Attribute).themes([
+    new Theme()
+      .default()
+      .colors({
+        background: '#ECEFF4',
+        surface: '#D8DEE9',
+        'on-background': '#2E3440',
+        'on-surface': '#2E3440',
+      })
+      .opacityVariant('muted', 0.3),
+    new Theme()
+      .name('night')
+      .dark()
+      .colors({
+        background: '#2E3440',
+        surface: '#3B4252',
+        'on-background': '#D8DEE9',
+        'on-surface': '#D8DEE9',
+      })
+      .opacityVariant('muted', 0.3),
+  ]);
 
   const css = await generatePluginCss(plugin, {}, true, true, true, ['textColor']);
 
@@ -433,40 +450,42 @@ it('set scheme media query', async () => {
       }
     }
     
-    .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) }
-    .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) }
-    .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) }
+    .text-background { color: rgb(var(--color-background)) } 
+    .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) } 
+    .text-surface { color: rgb(var(--color-surface)) } 
+    .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) } 
+    .text-on-background { color: rgb(var(--color-on-background)) } 
+    .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) } 
+    .text-on-surface { color: rgb(var(--color-on-surface)) } 
     .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
 
 it('set scheme media query with attribute strategy and as default for dark scheme', async () => {
   const plugin = new ThemeBuilder();
-  plugin
-    .strategy(Strategy.Attribute)
-    .themes([
-      new Theme()
-        .default()
-        .light()
-        // .schemeDefault()
-        .colors({
-          background: '#ECEFF4',
-          surface: '#D8DEE9',
-          'on-background': '#2E3440',
-          'on-surface': '#2E3440',
-        })
-        .opacityVariant('muted', 0.3),
-      new Theme()
-        // .name('night')
-        .schemeDefault()
-        .dark()
-        .colors({
-          background: '#2E3440',
-          surface: '#3B4252',
-          'on-background': '#D8DEE9',
-          'on-surface': '#D8DEE9',
-        })
-        .opacityVariant('muted', 0.3),
-    ]);
+  plugin.strategy(Strategy.Attribute).themes([
+    new Theme()
+      .default()
+      .light()
+      // .schemeDefault()
+      .colors({
+        background: '#ECEFF4',
+        surface: '#D8DEE9',
+        'on-background': '#2E3440',
+        'on-surface': '#2E3440',
+      })
+      .opacityVariant('muted', 0.3),
+    new Theme()
+      // .name('night')
+      .schemeDefault()
+      .dark()
+      .colors({
+        background: '#2E3440',
+        surface: '#3B4252',
+        'on-background': '#D8DEE9',
+        'on-surface': '#D8DEE9',
+      })
+      .opacityVariant('muted', 0.3),
+  ]);
 
   const css = await generatePluginCss(plugin, {}, true, true, true, ['textColor']);
 
@@ -500,18 +519,20 @@ it('set scheme media query with attribute strategy and as default for dark schem
       }
     }
     
-    .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) }
-    .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) }
-    .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) }
+    .text-background { color: rgb(var(--color-background)) } 
+    .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) } 
+    .text-surface { color: rgb(var(--color-surface)) } 
+    .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) } 
+    .text-on-background { color: rgb(var(--color-on-background)) } 
+    .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) } 
+    .text-on-surface { color: rgb(var(--color-on-surface)) } 
     .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
 
 it('has multiple themes with multiple defaults for multiple schemes', async () => {
   const plugin = new ThemeBuilder();
-  plugin
-    .strategy(Strategy.Attribute)
-    .themes([
-      new Theme()
+  plugin.strategy(Strategy.Attribute).themes([
+    new Theme()
       .default()
       .light()
       .colors({
@@ -557,7 +578,7 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
         'on-surface': 'black',
       })
       .opacityVariant('muted', 0.3),
-    ]);
+  ]);
 
   const css = await generatePluginCss(plugin, {}, true, true, true, ['textColor']);
 
@@ -607,18 +628,20 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
     --opacity-variant-muted: 0.3px
   } 
 
+  .text-background { color: rgb(var(--color-background)) } 
   .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) } 
+  .text-surface { color: rgb(var(--color-surface)) } 
   .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) } 
+  .text-on-background { color: rgb(var(--color-on-background)) } 
   .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) } 
+  .text-on-surface { color: rgb(var(--color-on-surface)) } 
   .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
 
 it('a default theme and a dark theme which is the dark schemes default theme', async () => {
   const plugin = new ThemeBuilder();
-  plugin
-    .strategy(Strategy.Attribute)
-    .themes([
-      new Theme()
+  plugin.strategy(Strategy.Attribute).themes([
+    new Theme()
       .default()
       .colors({
         background: '#ECEFF4',
@@ -628,7 +651,7 @@ it('a default theme and a dark theme which is the dark schemes default theme', a
       })
       .opacityVariant('muted', 0.3),
     new Theme()
-    .name('dark')
+      .name('dark')
       .schemeDefault()
       .dark()
       .keep()
@@ -639,7 +662,7 @@ it('a default theme and a dark theme which is the dark schemes default theme', a
         'on-surface': '#D8DEE9',
       })
       .opacityVariant('muted', 0.3),
-    ]);
+  ]);
 
   const css = await generatePluginCss(plugin, {}, true, true, true, ['textColor']);
 
@@ -671,9 +694,12 @@ it('a default theme and a dark theme which is the dark schemes default theme', a
     }
   }
   
+  .text-background { color: rgb(var(--color-background)) } 
   .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) } 
+  .text-surface { color: rgb(var(--color-surface)) } 
   .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) } 
+  .text-on-background { color: rgb(var(--color-on-background)) } 
   .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) } 
-  .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`
-  );
+  .text-on-surface { color: rgb(var(--color-on-surface)) } 
+  .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });

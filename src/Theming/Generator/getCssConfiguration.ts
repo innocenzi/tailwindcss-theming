@@ -23,6 +23,8 @@ function getCssThemeName(theme: Theme, config: Configuration, scheme: boolean = 
       } else {
         throw new Error('Strategy is set to prefixed attribute but no prefix is defined.');
       }
+    case Strategy.DataThemeAttribute:
+      return `[data-theme=${name}]`;
     case Strategy.DataAttribute:
       return `[data-${name}]`;
     case Strategy.Class:

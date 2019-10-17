@@ -24,6 +24,14 @@ export enum Strategy {
   DataAttribute = 'data-attribute',
 
   /**
+   * Each theme will be exported as a data-theme attribute.
+   * You will be able to use a theme by setting the attribute `data-theme` with the value `<themeName>` on a node.
+   * The CSS rule will be `[data-theme=<themeName>]`.
+   */
+  DataThemeAttribute = 'data-theme-attribute',
+
+
+  /**
    * Each theme will be exported as an attribute with a prefix.
    * You will be able to use a theme by setting the attribute `<choosenPrefix>-<themeName>` on a node.
    * The CSS rule will be `[<choosenPrefix>-<themeName>]`.

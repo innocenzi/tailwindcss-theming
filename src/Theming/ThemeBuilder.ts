@@ -106,6 +106,18 @@ export class ThemeBuilder {
   }
 
   /**
+   * Use the `DataThemeAttribute` strategy.
+   *
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  asDataThemeAttribute(): this {
+    this._config.strategy = Strategy.DataThemeAttribute;
+
+    return this;
+  }
+
+  /**
    * Use the `PrefixedAttribute` strategy.
    *
    * @param {string} [prefix] Prefix to be used.
