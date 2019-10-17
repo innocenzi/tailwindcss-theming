@@ -165,6 +165,7 @@ This plugin has multiple strategies to export your themes. You can either define
 | `asDataAttribute()` | `data-attribute` | `Strategy.DataAttribute` | Each theme will be exported as a data-attribute. You will be able to use a theme by setting the attribute `data-<themeName>` on a node. The CSS rule will be `[data-<themeName>]`. | 
 | `asPrefixedAttribute()` | `prefixed-attribute` | `Strategy.PrefixedAttribute` | Each theme will be exported as an attribute with a prefix. You will be able to use a theme by setting the attribute `<choosenPrefix>-<themeName>` on a node. The CSS rule will be `[<choosenPrefix>-<themeName>]`. | 
 | `asAttribute()` | `attribute` |  `Strategy.Attribute` | Each theme will be exported as an attribute. You will be able to use a theme by setting the attribute `<themeName>` on a node. The CSS rule will be `[<themeName>]`. |
+| `asDataThemeAttribute()` | `data-theme-attribute` |  `Strategy.DataThemeAttribute` | Each theme will be exported as a data-theme attribute. You will be able to use a theme by setting the attribute `data-theme` with the value `<themeName>` on a node. The CSS rule will be `[data-theme=<themeName>]`. |
 
 ### Using `strategy()`
 
@@ -271,7 +272,7 @@ const theme = new ThemeBuilder()
   .defaults() // defaults settings
   .default([ // default theme
     new Theme()
-      .name('my-theme') // will be erased
+      .name('my-theme') // will be erased because of .default()
       .colors({
         transparent: 'transparent',
         primary: 'white',
@@ -548,7 +549,7 @@ const plugin = new ThemeBuilder()
       .name('dark')
       .schemeDefault()
       .dark()
-      .keep() // this is what allows it to be added with its name
+      .keep() // this is what allows it to be added with its name instead of only being available with the `prefer-color-scheme` media query
       .colors({
         background: '#2E3440',
         surface: '#3B4252',
@@ -573,6 +574,7 @@ const plugin = new ThemeBuilder()
 | `asPrefixedClass()` | `prefix?: string` | Sets the export strategy to `PrefixedClass`. You can pass a prefix as a parameter to this method.
 | `asClass()` | None | Sets the export strategy to `Class`.
 | `asDataAttribute()` | None | Sets the export strategy to `DataAttribute`.
+| `asDataThemeAttribute()` | None | Sets the export strategy to `DataThemeAttribute`.
 | `asPrefixedAttribute()` | `prefix?: string` | Sets the export strategy to `PrefixedAttribute`. You can pass a prefix as a parameter to this method.
 | `asAttribute()` | None | Sets the export strategy to `Attribute`.
 | `default()` | [`Theme`](src/Theming/Theme/Theme.ts) | Adds a default theme.
