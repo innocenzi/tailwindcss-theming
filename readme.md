@@ -15,6 +15,123 @@ $ npm install tailwindcss-theming@canary
 $ yarn add tailwindcss-theming@canary
 ```
 
+# Real-world example
+
+Best way to get started would probably be to see how you would use this plugin. 
+
+Here is a good example that you can use as a base for every project. It includes some colors for a light and dark theme. If you want to make the dark theme the default for users who have set their preferred color scheme, uncomment the `.schemeDefault()` line on the second theme definition. More information on that can be found [here](https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-color-scheme).
+
+The configuration is made in a separated file for clarity. I think it's better to separate your theme definition from your bundler configuration. Let's name it `theme.config.js`. It should export a `ThemeBuilder` object.
+
+```js
+// theme.config.js
+const { ThemeBuilder, Theme } = require('tailwindcss-theming');
+
+const mainTheme = new Theme()
+  .default()
+  .colors({
+    // A transparent color, which alpha value will be detected.
+    'transparent': 'transparent',
+
+    // Navigation
+    'navigation': '#3f485d',
+    'on-navigation': '#d3d4d6',
+
+    // Brand colors
+    'brand':'#2196f3',
+    'brand-variant':'#1565c0',
+    'on-brand':'#ffffff',
+    'on-brand-variant':'#ffffff',
+    
+    // Background colors, but not limited to `bg` utilities.
+    'background':'#f4f4f4',
+    'surface':'#ffffff',
+    'on-background':'#585851',
+    'on-surface':'#3c3c3c',
+    
+    // Event colors.
+    'error':'#b00020',
+    'on-error':'#ffffff',
+    'success':'#3ab577',
+    'on-success':'#ffffff',
+    'warning':'#e65100',
+    'on-warning':'#ffffff',
+    'info':'#2481ea',
+    'on-info':'#ffffff',
+  })
+
+  // Color variants
+  .colorVariant('hover', 'white', ['on-navigation'])
+;
+
+const darkTheme = new Theme()
+  .name('dark')
+  // .schemeDefault() // Makes this theme the default base on user scheme preference (OS/browser-wide), combine with .dark()
+  .keep() // Let the theme be accessible for the current strategy
+  .dark() // Set the theme under the `prefers-color-scheme` rule
+  .colors({
+    // We didn't include `transparent`, it will be inherit since it's the same.
+    // Navigation
+    'navigation': '#282828',
+    'on-navigation': '#c1c1c1',
+
+    // Brand colors
+    'brand':'#2196f3',
+    'brand-variant':'#1565c0',
+    'on-brand':'#ffffff',
+    'on-brand-variant':'#ffffff',
+    
+    // Background colors, but not limited to `bg` utilities.
+    'background':'#1f1f1f',
+    'surface':'#282828',
+    'on-background':'#ffffff',
+    'on-surface':'#ffffff',
+    
+    // Event colors.
+    'error':'#b00020',
+    'on-error':'#ffffff',
+    'success':'#3ab577',
+    'on-success':'#ffffff',
+    'warning':'#e65100',
+    'on-warning':'#ffffff',
+    'info':'#2481ea',
+    'on-info':'#ffffff',
+  })
+
+  // Color variants
+  .colorVariant('hover', 'white', 'on-navigation') // This could be omitted, since it's inherited.
+;
+
+module.exports = new ThemeBuilder()
+  // .asClass()
+  // .asPrefixedClass('theme')
+  .asDataThemeAttribute()
+  .default(mainTheme)
+  .theme(darkTheme);
+```
+
+Now, you have a fully-functionnal theme definition with two themes that you can use. Only thing left is to include it as a Tailwind plugin, and you're done!
+
+```js
+// tailwind.config.js
+module.exports = {
+  theme: {
+      // ...
+  },
+  variants: {
+    display: ['responsive', 'group-hover', 'hover'],
+  },
+  plugins: [
+    require('./theme.config.js'), 
+    // require('tailwindcss-transitions')()
+  ],
+};
+```
+
+Voilà, everything should work. You can use every Tailwind utility that works with colors, such as `.text-<color>`, `.bg-<color>` or even `.border-<color>`. Bonus points if you add [tailwindcss-transitions](https://github.com/benface/tailwindcss-transitions) as a Tailwind plugin, so swithing themes look really smooth.
+
+![](https://raw.githubusercontent.com/hawezo/tailwindcss-theming/master/preview.gif)
+
 # Usage
 
 You will be required to use the `ThemeBuilder` API to setup your themes. Fortunately, this is a fairly easy process. In the first time, you can include `tailwindcss-theming`, instanciate it and add it to your plugin list. 
