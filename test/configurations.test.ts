@@ -166,8 +166,8 @@ it('warns at css configuration if a color is set in a theme but not the default 
       '--color-brand': '0,0,255',
       '--color-variant-hover': '128,128,128',
       '--color-variant-blueish': '0,0,255',
-      '--opacity-variant-hidden': 0,
-      '--opacity-variant-disabled': 0.25,
+      '--opacity-variant-hidden': '0',
+      '--opacity-variant-disabled': '0.25',
     },
   });
 
@@ -186,8 +186,8 @@ it('generates css configuration', () => {
       '--color-brand': '0,0,255',
       '--color-variant-hover': '128,128,128',
       '--color-variant-blueish': '0,0,255',
-      '--opacity-variant-hidden': 0,
-      '--opacity-variant-disabled': 0.25,
+      '--opacity-variant-hidden': '0',
+      '--opacity-variant-disabled': '0.25',
     },
   });
 
@@ -198,8 +198,8 @@ it('generates css configuration', () => {
       '--color-brand': '0,0,255',
       '--color-variant-hover': '128,128,128',
       '--color-variant-blueish': '0,0,255',
-      '--opacity-variant-hidden': 0,
-      '--opacity-variant-disabled': 0.25,
+      '--opacity-variant-hidden': '0',
+      '--opacity-variant-disabled': '0.25',
     },
     '[someOtherTheme]': {
       '--color-primary': '255,255,255',
@@ -207,8 +207,8 @@ it('generates css configuration', () => {
       '--color-brand': '0,0,255',
       '--color-variant-hover': '128,128,128',
       '--color-variant-blueish': '0,0,255',
-      '--opacity-variant-hidden': 0,
-      '--opacity-variant-disabled': 0.25,
+      '--opacity-variant-hidden': '0',
+      '--opacity-variant-disabled': '0.25',
     },
   });
 });

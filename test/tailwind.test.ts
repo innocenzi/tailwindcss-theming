@@ -133,7 +133,7 @@ it('generates utilities with multiple colors and their variants', async () => {
       --color-variant-actually-black: 0, 0, 0;
       --opacity-variant-disabled: 0;
       --color-variant-darker: 128, 128, 128;
-      --opacity-variant-less-opaque: 0.7px
+      --opacity-variant-less-opaque: 0.7
     }
     .text-transparent { color: rgba(var(--color-transparent), 0) } 
     .text-transparent-actually-black { color: rgb(var(--color-variant-actually-black)) } 
@@ -206,11 +206,11 @@ it('respects multiple theme configuration and their variants', async () => {
     --color-on-surface: 46,52,64;
     --color-error: 191,97,106;
     --color-on-error: 46,52,64;
-    --opacity-variant-high-emphasis: 0.81px;
-    --opacity-variant-medium-emphasis: 0.6px;
-    --opacity-variant-muted: 0.3px;
-    --opacity-variant-disabled: 0.3px;
-    --opacity-variant-slightly-visible: 0.1px;
+    --opacity-variant-high-emphasis: 0.81;
+    --opacity-variant-medium-emphasis: 0.6;
+    --opacity-variant-muted: 0.3;
+    --opacity-variant-disabled: 0.3;
+    --opacity-variant-slightly-visible: 0.1;
     --color-variant-hover: 59,66,82;
     --color-variant-active: 67,76,94
   }
@@ -223,11 +223,11 @@ it('respects multiple theme configuration and their variants', async () => {
       --color-on-surface: 216,222,233;
       --color-error: 191,97,106;
       --color-on-error: 216,222,233;
-      --opacity-variant-high-emphasis: 0.81px;
-      --opacity-variant-medium-emphasis: 0.6px;
-      --opacity-variant-muted: 0.3px;
-      --opacity-variant-disabled: 0.3px;
-      --opacity-variant-slightly-visible: 0.1px;
+      --opacity-variant-high-emphasis: 0.81;
+      --opacity-variant-medium-emphasis: 0.6;
+      --opacity-variant-muted: 0.3;
+      --opacity-variant-disabled: 0.3;
+      --opacity-variant-slightly-visible: 0.1;
       --color-variant-hover: 229,233,240;
       --color-variant-active: 236,239,244
     }
@@ -313,7 +313,7 @@ it('sets scheme media query set as default and keep outside if asked', async () 
       --color-surface: 216,222,233;
       --color-on-background: 46,52,64;
       --color-on-surface: 46,52,64;
-      --opacity-variant-muted: 0.3px
+      --opacity-variant-muted: 0.3
     }
 
     .theme-night {
@@ -321,7 +321,7 @@ it('sets scheme media query set as default and keep outside if asked', async () 
       --color-surface: 59,66,82;
       --color-on-background: 216,222,233;
       --color-on-surface: 216,222,233;
-      --opacity-variant-muted: 0.3px
+      --opacity-variant-muted: 0.3
     }
 
     @media (prefers-color-scheme: dark) {
@@ -330,7 +330,7 @@ it('sets scheme media query set as default and keep outside if asked', async () 
         --color-surface: 59,66,82;
         --color-on-background: 216,222,233;
         --color-on-surface: 216,222,233;
-        --opacity-variant-muted: 0.3px
+        --opacity-variant-muted: 0.3
       }
     } 
     
@@ -381,7 +381,7 @@ it('sets scheme media query set as default', async () => {
       --color-surface: 216,222,233;
       --color-on-background: 46,52,64;
       --color-on-surface: 46,52,64;
-      --opacity-variant-muted: 0.3px
+      --opacity-variant-muted: 0.3
     }
 
     @media (prefers-color-scheme: dark) {
@@ -390,7 +390,7 @@ it('sets scheme media query set as default', async () => {
         --color-surface: 59,66,82;
         --color-on-background: 216,222,233;
         --color-on-surface: 216,222,233;
-        --opacity-variant-muted: 0.3px
+        --opacity-variant-muted: 0.3
       }
     } 
     
@@ -437,7 +437,7 @@ it('set scheme media query', async () => {
       --color-surface: 216,222,233;
       --color-on-background: 46,52,64;
       --color-on-surface: 46,52,64;
-      --opacity-variant-muted: 0.3px
+      --opacity-variant-muted: 0.3
     }
     
     @media (prefers-color-scheme: dark) {
@@ -446,7 +446,7 @@ it('set scheme media query', async () => {
         --color-surface: 59,66,82;
         --color-on-background: 216,222,233;
         --color-on-surface: 216,222,233;
-        --opacity-variant-muted: 0.3px
+        --opacity-variant-muted: 0.3
       }
     }
     
@@ -496,7 +496,7 @@ it('set scheme media query with attribute strategy and as default for dark schem
       --color-surface: 216,222,233;
       --color-on-background: 46,52,64;
       --color-on-surface: 46,52,64;
-      --opacity-variant-muted: 0.3px
+      --opacity-variant-muted: 0.3
     }
 
     @media (prefers-color-scheme: light) {
@@ -505,7 +505,7 @@ it('set scheme media query with attribute strategy and as default for dark schem
         --color-surface: 216,222,233;
         --color-on-background: 46,52,64;
         --color-on-surface: 46,52,64;
-        --opacity-variant-muted: 0.3px
+        --opacity-variant-muted: 0.3
       }
     }
     
@@ -515,7 +515,7 @@ it('set scheme media query with attribute strategy and as default for dark schem
         --color-surface: 59,66,82;
         --color-on-background: 216,222,233;
         --color-on-surface: 216,222,233;
-        --opacity-variant-muted: 0.3px
+        --opacity-variant-muted: 0.3
       }
     }
     
@@ -589,7 +589,7 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
     --color-surface: 216,222,233;
     --color-on-background: 46,52,64;
     --color-on-surface: 46,52,64;
-    --opacity-variant-muted: 0.3px
+    --opacity-variant-muted: 0.3
   }
 
   @media (prefers-color-scheme: light) {
@@ -598,7 +598,7 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
       --color-surface: 216,222,233;
       --color-on-background: 46,52,64;
       --color-on-surface: 46,52,64;
-      --opacity-variant-muted: 0.3px
+      --opacity-variant-muted: 0.3
     }
   }
 
@@ -608,7 +608,7 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
       --color-surface: 59,66,82;
       --color-on-background: 216,222,233;
       --color-on-surface: 216,222,233;
-      --opacity-variant-muted: 0.3px
+      --opacity-variant-muted: 0.3
     }
   }
 
@@ -617,7 +617,7 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
     --color-surface: 128,128,128;
     --color-on-background: 255,255,255;
     --color-on-surface: 255,255,255;
-    --opacity-variant-muted: 0.3px
+    --opacity-variant-muted: 0.3
   }
 
   [white] {
@@ -625,7 +625,7 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
     --color-surface: 128,128,128;
     --color-on-background: 0,0,0;
     --color-on-surface: 0,0,0;
-    --opacity-variant-muted: 0.3px
+    --opacity-variant-muted: 0.3
   } 
 
   .text-background { color: rgb(var(--color-background)) } 
@@ -673,7 +673,7 @@ it('a default theme and a dark theme which is the dark schemes default theme', a
     --color-surface: 216,222,233;
     --color-on-background: 46,52,64;
     --color-on-surface: 46,52,64;
-    --opacity-variant-muted: 0.3px
+    --opacity-variant-muted: 0.3
   }
 
   [dark] {
@@ -681,7 +681,7 @@ it('a default theme and a dark theme which is the dark schemes default theme', a
     --color-surface: 59,66,82;
     --color-on-background: 216,222,233;
     --color-on-surface: 216,222,233;
-    --opacity-variant-muted: 0.3px
+    --opacity-variant-muted: 0.3
   }
 
   @media (prefers-color-scheme: dark) {
@@ -690,7 +690,7 @@ it('a default theme and a dark theme which is the dark schemes default theme', a
       --color-surface: 59,66,82;
       --color-on-background: 216,222,233;
       --color-on-surface: 216,222,233;
-      --opacity-variant-muted: 0.3px
+      --opacity-variant-muted: 0.3
     }
   }
   

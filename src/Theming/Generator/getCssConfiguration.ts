@@ -65,7 +65,7 @@ export function getCssConfiguration(themes: Theme[], config: Configuration): The
       if (variant instanceof ColorVariant) {
         thisThemeConfig[getColorVariantVariableName(variant, config)] = `${variant.color.r},${variant.color.g},${variant.color.b}`;
       } else if (variant instanceof OpacityVariant) {
-        thisThemeConfig[getOpacityVariantVariableName(variant, config)] = variant.opacity;
+        thisThemeConfig[getOpacityVariantVariableName(variant, config)] = variant.opacity.toString();
       } else {
         throw new Error(`Unknown variant type for '${variant.name}'.`);
       }
