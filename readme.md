@@ -11,8 +11,8 @@ This plugin helps with theming your application. Thanks to a simple and fluent c
 You can install this plugin thanks to NPM, or you can [build it from source](#build-from-source) and include it in your project yourself.
 
 ```console
-$ npm install tailwindcss-theming@canary
-$ yarn add tailwindcss-theming@canary
+$ npm install tailwindcss-theming
+$ yarn add tailwindcss-theming
 ```
 
 # Real-world example
