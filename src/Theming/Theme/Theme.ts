@@ -302,7 +302,7 @@ export class Theme {
    * @type {VariantMap}
    * @memberof Theme
    */
-  variantMap(): VariantMap {
+  get variantMap(): VariantMap {
     return this._variantMap;
   }
 }
