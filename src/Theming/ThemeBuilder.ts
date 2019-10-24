@@ -157,6 +157,56 @@ export class ThemeBuilder {
   }
 
   /**
+   * Add a light theme, and se.
+   *
+   * @param {Theme} theme
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  light(theme: Theme, isDefault: boolean = true, isAssignable: boolean = true): this {
+    if (!theme.hasName()) {
+      theme.name('light');
+    }
+
+    if (isDefault) {
+      theme.default();
+    }
+
+    if (isAssignable) {
+      theme.assignable();
+    }
+
+    this._themes.push(theme.light());
+
+    return this;
+  }
+
+  /**
+   * Add a dark theme, and se.
+   *
+   * @param {Theme} theme
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  dark(theme: Theme, isDefault: boolean = true, isAssignable: boolean = true): this {
+    if (!theme.hasName()) {
+      theme.name('dark');
+    }
+
+    if (isDefault) {
+      theme.default();
+    }
+
+    if (isAssignable) {
+      theme.assignable();
+    }
+
+    this._themes.push(theme.dark());
+
+    return this;
+  }
+
+  /**
    * Add a theme.
    *
    * @param {Theme} theme
