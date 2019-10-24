@@ -630,3 +630,65 @@ it('has a default theme and a dark theme which is the dark schemes default theme
   .text-on-surface { color: rgb(var(--color-on-surface)) } 
   .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
+
+it('has as default assignable theme', async () => {
+  const plugin = new ThemeBuilder();
+  plugin
+    .prefix('theme')
+    .strategy(Strategy.PrefixedClass)
+    .themes([
+      new Theme()
+        .default()
+        .assignable()
+        .colors({
+          background: '#ECEFF4',
+        }),
+    ]);
+
+  const css = await generatePluginCss(plugin);
+
+  // @ts-ignore
+  expect(css).toMatchCss(`
+    :root {
+      --color-background: 236,239,244;
+    }
+    .theme-default {
+      --color-background: 236,239,244;
+    }`);
+})
+
+it('has a default themes using ThemeBuilder helper', async () => {
+  const plugin = new ThemeBuilder()
+    .default(new Theme().color('main', 'gray'))
+    .light(new Theme().color('main', 'white'))
+    .dark(new Theme().color('main', 'black'))
+  ;
+
+  const css = await generatePluginCss(plugin);
+
+  // @ts-ignore
+  expect(css).toMatchCss(`
+    :root {
+      --color-main: 128,128,128
+    }
+  
+    [light] {
+      --color-main: 255,255,255
+    }
+  
+    @media (prefers-color-scheme: light) {
+      :root {
+        --color-main: 255,255,255
+      }
+    }
+  
+    [dark] {
+      --color-main: 0,0,0
+    }
+  
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-main: 0,0,0
+      }
+    }`);
+})
