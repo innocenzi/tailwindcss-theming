@@ -5,6 +5,7 @@ import { Theme, DEFAULT_THEME_NAME } from '../src/Theming/Theme/Theme';
 import { Color } from '../src/Theming/Color/Color';
 import { getColorConfiguration } from '../src/Theming/Generator/getColorConfiguration';
 import { getCssConfiguration } from '../src/Theming/Generator/getCssConfiguration';
+import { generateTheme } from './themeGenerator';
 
 function getTestTheme(name?: string) {
   const theme = new Theme()
@@ -50,13 +51,11 @@ it('can be configured', () => {
 });
 
 it('generates themes without variants', async () => {
-  const theme = new Theme()
-    .name('night')
-    .colors({
-      primary: 'white',
-      secondary: 'teal',
-      brand: 'blue',
-    });
+  const theme = new Theme().name('night').colors({
+    primary: 'white',
+    secondary: 'teal',
+    brand: 'blue',
+  });
 
   expect(theme.getName()).toBe('night');
   expect(theme.getColors()).toBeInstanceOf(Array);
@@ -66,7 +65,7 @@ it('generates themes without variants', async () => {
 });
 
 it('generates default theme', () => {
-  const theme = new Theme();
+  const theme = new Theme().default();
 
   expect(theme.getName()).toBe(DEFAULT_THEME_NAME);
   expect(theme.getColors()).toBeInstanceOf(Array);
@@ -101,8 +100,6 @@ it('throws without default theme', () => {
       brand: 'blue',
     })
     .colorVariant('hover', 'gray', 'primary')
-    .colorVariant('blueish', 'blue')
-    .opacityVariant('disabled', 0.25, 'secondary')
     .opacityVariant('hidden', 0);
 
   plugin.themes([theme]);
@@ -112,7 +109,7 @@ it('throws without default theme', () => {
   };
 
   const multipleDefaultThemes = () => {
-    getColorConfiguration([theme.default(), theme.default()], plugin.theming);
+    getColorConfiguration([generateTheme({ isDefault: true }), generateTheme({ isDefault: true })], plugin.theming);
   };
 
   expect(noDefaultTheme).toThrowError('There is no default theme.');
@@ -122,6 +119,7 @@ it('throws without default theme', () => {
 it('generates color configuration', () => {
   const plugin = new ThemeBuilder().defaults();
   const theme = new Theme()
+    .default()
     .colors({
       primary: 'white',
       secondary: 'teal',

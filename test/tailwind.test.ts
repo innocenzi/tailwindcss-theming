@@ -5,6 +5,7 @@ import tailwindcss from 'tailwindcss';
 import { Theme } from '../src/Theming/Theme/Theme';
 import { Color } from '../src/Theming/Color/Color';
 import { Strategy } from '../src/Theming/Strategy';
+import { generateTheme } from './themeGenerator';
 
 expect.extend({
   toMatchCss: cssMatcher,
@@ -36,8 +37,7 @@ const generatePluginCss = async (
 };
 
 it('generates root theme', async () => {
-  const plugin = new ThemeBuilder().defaults().themes([new Theme().default().color('white', 'white')]);
-
+  const plugin = new ThemeBuilder().defaults().themes([generateTheme({ isDefault: true }).color('white', 'white')]);
   const css = await generatePluginCss(plugin);
 
   // @ts-ignore
@@ -50,7 +50,7 @@ it('generates root theme', async () => {
 
 it('generates root theme with multiple colors', async () => {
   const plugin = new ThemeBuilder().defaults().themes([
-    new Theme().default().colors({
+    generateTheme({ isDefault: true }).colors({
       transparent: 'transparent',
       primary: 'white',
       secondary: '#000',
@@ -58,7 +58,6 @@ it('generates root theme with multiple colors', async () => {
       quaternary: '#ffffff1e',
     }),
   ]);
-
   const css = await generatePluginCss(plugin);
 
   // @ts-ignore
@@ -75,7 +74,7 @@ it('generates root theme with multiple colors', async () => {
 
 it('generates utilities with multiple colors', async () => {
   const plugin = new ThemeBuilder().defaults().themes([
-    new Theme().default().colors({
+    generateTheme({ isDefault: true }).colors({
       transparent: 'transparent',
       primary: 'white',
       secondary: '#000',
@@ -83,7 +82,6 @@ it('generates utilities with multiple colors', async () => {
       quaternary: '#ffffff1e',
     }),
   ]);
-
   const css = await generatePluginCss(plugin, {}, true, true, true, ['textColor']);
 
   // @ts-ignore
@@ -155,7 +153,7 @@ it('generates utilities with multiple colors and their variants', async () => {
     .text-quaternary-disabled { color: rgba(var(--color-quaternary), var(--opacity-variant-disabled)) }`);
 });
 
-it('respects multiple theme configuration and their variants', async () => {
+it("generates default theme's variants when it has multiple themes", async () => {
   const plugin = new ThemeBuilder();
   plugin.themes([
     new Theme()
@@ -275,7 +273,7 @@ it('respects multiple theme configuration and their variants', async () => {
   .text-on-error-slightly-visible { color: rgba(var(--color-on-error), var(--opacity-variant-slightly-visible)) }`);
 });
 
-it('sets scheme media query set as default and keep outside if asked', async () => {
+it('has a default theme and a default dark theme which is assignable by its name', async () => {
   const plugin = new ThemeBuilder();
   plugin
     .prefix('theme')
@@ -292,9 +290,9 @@ it('sets scheme media query set as default and keep outside if asked', async () 
         .opacityVariant('muted', 0.3),
       new Theme()
         .name('night')
+        .default()
         .dark()
-        .keep()
-        .schemeDefault()
+        .assignable()
         .colors({
           background: '#2E3440',
           surface: '#3B4252',
@@ -344,67 +342,7 @@ it('sets scheme media query set as default and keep outside if asked', async () 
     .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
 
-it('sets scheme media query set as default', async () => {
-  const plugin = new ThemeBuilder();
-  plugin
-    .prefix('theme')
-    .strategy(Strategy.PrefixedClass)
-    .themes([
-      new Theme()
-        .default()
-        .colors({
-          background: '#ECEFF4',
-          surface: '#D8DEE9',
-          'on-background': '#2E3440',
-          'on-surface': '#2E3440',
-        })
-        .opacityVariant('muted', 0.3),
-      new Theme()
-        .name('night')
-        .dark()
-        .schemeDefault()
-        .colors({
-          background: '#2E3440',
-          surface: '#3B4252',
-          'on-background': '#D8DEE9',
-          'on-surface': '#D8DEE9',
-        })
-        .opacityVariant('muted', 0.3),
-    ]);
-
-  const css = await generatePluginCss(plugin, {}, true, true, true, ['textColor']);
-
-  // @ts-ignore
-  expect(css).toMatchCss(`
-    :root {
-      --color-background: 236,239,244;
-      --color-surface: 216,222,233;
-      --color-on-background: 46,52,64;
-      --color-on-surface: 46,52,64;
-      --opacity-variant-muted: 0.3
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color-background: 46,52,64;
-        --color-surface: 59,66,82;
-        --color-on-background: 216,222,233;
-        --color-on-surface: 216,222,233;
-        --opacity-variant-muted: 0.3
-      }
-    } 
-    
-    .text-background { color: rgb(var(--color-background)) } 
-    .text-background-muted { color: rgba(var(--color-background), var(--opacity-variant-muted)) } 
-    .text-surface { color: rgb(var(--color-surface)) } 
-    .text-surface-muted { color: rgba(var(--color-surface), var(--opacity-variant-muted)) } 
-    .text-on-background { color: rgb(var(--color-on-background)) } 
-    .text-on-background-muted { color: rgba(var(--color-on-background), var(--opacity-variant-muted)) } 
-    .text-on-surface { color: rgb(var(--color-on-surface)) } 
-    .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
-});
-
-it('set scheme media query', async () => {
+it('has a default theme and a named dark theme', async () => {
   const plugin = new ThemeBuilder();
   plugin.strategy(Strategy.Attribute).themes([
     new Theme()
@@ -460,13 +398,11 @@ it('set scheme media query', async () => {
     .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
 
-it('set scheme media query with attribute strategy and as default for dark scheme', async () => {
+it('has a default theme and a default dark theme', async () => {
   const plugin = new ThemeBuilder();
   plugin.strategy(Strategy.Attribute).themes([
     new Theme()
       .default()
-      .light()
-      // .schemeDefault()
       .colors({
         background: '#ECEFF4',
         surface: '#D8DEE9',
@@ -475,8 +411,7 @@ it('set scheme media query with attribute strategy and as default for dark schem
       })
       .opacityVariant('muted', 0.3),
     new Theme()
-      // .name('night')
-      .schemeDefault()
+      .default()
       .dark()
       .colors({
         background: '#2E3440',
@@ -497,16 +432,6 @@ it('set scheme media query with attribute strategy and as default for dark schem
       --color-on-background: 46,52,64;
       --color-on-surface: 46,52,64;
       --opacity-variant-muted: 0.3
-    }
-
-    @media (prefers-color-scheme: light) {
-      :root {
-        --color-background: 236,239,244;
-        --color-surface: 216,222,233;
-        --color-on-background: 46,52,64;
-        --color-on-surface: 46,52,64;
-        --opacity-variant-muted: 0.3
-      }
     }
     
     @media (prefers-color-scheme: dark) {
@@ -529,9 +454,24 @@ it('set scheme media query with attribute strategy and as default for dark schem
     .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
 
-it('has multiple themes with multiple defaults for multiple schemes', async () => {
+it('has default themes for both schemes,a default assignable theme, and another theme', async () => {
   const plugin = new ThemeBuilder();
   plugin.strategy(Strategy.Attribute).themes([
+
+    // A default, named and assignable theme
+    new Theme()
+      .default()
+      .assignable()
+      .name('black-and-white')
+      .colors({
+        background: 'dark',
+        surface: 'gray',
+        'on-background': 'white',
+        'on-surface': 'white',
+      })
+      .opacityVariant('muted', 0.3),
+
+    // A default light theme, not assignable
     new Theme()
       .default()
       .light()
@@ -543,9 +483,9 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
       })
       .opacityVariant('muted', 0.3),
 
-    // default dark scheme's theme, no name
+    // A default dark scheme, not assignable
     new Theme()
-      .schemeDefault()
+      .default()
       .dark()
       .colors({
         background: '#2E3440',
@@ -555,22 +495,9 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
       })
       .opacityVariant('muted', 0.3),
 
-    // Another dark theme, but it's useless to call dark() on if keep() is used
-    new Theme()
-      .name('black-and-white')
-      .keep()
-      .colors({
-        background: 'dark',
-        surface: 'gray',
-        'on-background': 'white',
-        'on-surface': 'white',
-      })
-      .opacityVariant('muted', 0.3),
-
-    // Another light theme, but it's useless to call light() on if keep() is used
+    // Another assignable theme
     new Theme()
       .name('white')
-      .keep()
       .colors({
         background: 'white',
         surface: 'gray',
@@ -585,10 +512,18 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
   // @ts-ignore
   expect(css).toMatchCss(`
   :root {
-    --color-background: 236,239,244;
-    --color-surface: 216,222,233;
-    --color-on-background: 46,52,64;
-    --color-on-surface: 46,52,64;
+    --color-background: 0,0,0;
+    --color-surface: 128,128,128;
+    --color-on-background: 255,255,255;
+    --color-on-surface: 255,255,255;
+    --opacity-variant-muted: 0.3
+  }
+
+  [black-and-white] {
+    --color-background: 0,0,0;
+    --color-surface: 128,128,128;
+    --color-on-background: 255,255,255;
+    --color-on-surface: 255,255,255;
     --opacity-variant-muted: 0.3
   }
 
@@ -612,14 +547,6 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
     }
   }
 
-  [black-and-white] {
-    --color-background: 0,0,0;
-    --color-surface: 128,128,128;
-    --color-on-background: 255,255,255;
-    --color-on-surface: 255,255,255;
-    --opacity-variant-muted: 0.3
-  }
-
   [white] {
     --color-background: 255,255,255;
     --color-surface: 128,128,128;
@@ -638,7 +565,7 @@ it('has multiple themes with multiple defaults for multiple schemes', async () =
   .text-on-surface-muted { color: rgba(var(--color-on-surface), var(--opacity-variant-muted)) }`);
 });
 
-it('a default theme and a dark theme which is the dark schemes default theme', async () => {
+it('has a default theme and a dark theme which is the dark schemes default theme', async () => {
   const plugin = new ThemeBuilder();
   plugin.strategy(Strategy.Attribute).themes([
     new Theme()
@@ -652,9 +579,9 @@ it('a default theme and a dark theme which is the dark schemes default theme', a
       .opacityVariant('muted', 0.3),
     new Theme()
       .name('dark')
-      .schemeDefault()
       .dark()
-      .keep()
+      .default()
+      .assignable()
       .colors({
         background: '#2E3440',
         surface: '#3B4252',
