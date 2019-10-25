@@ -13,22 +13,28 @@ import { ThemeScheme } from '../Theme/ThemeScheme';
  * @returns {Theme}
  */
 export function getDefaultTheme(themes: Theme[]): Theme {
-  let defaults = themes.filter(theme => theme.isDefault());
+  let defaultsWithoutScheme = themes.filter(theme => theme.isDefault() && !theme.hasScheme());
+  let defaultsDarkScheme = themes.filter(theme => theme.isDefault() && theme.getScheme() === ThemeScheme.Dark);
+  let defaultsLightScheme = themes.filter(theme => theme.isDefault() && theme.getScheme() === ThemeScheme.Light);
+  let unamed = themes.filter(theme => !theme.hasName() && !theme.isDefault());
 
-  if (defaults.length > 1) {
-    let darkDefaults = defaults.filter(t => t.isSchemeDefault() && t.scheme === ThemeScheme.Dark).length;
-    let lightDefaults = defaults.filter(t => t.isSchemeDefault() && t.scheme === ThemeScheme.Light).length;
-
-    if (darkDefaults !== 1 || lightDefaults !== 1) {
-      throw new Error('There are multiple default themes.');
-    }
+  if (unamed.length > 0) {
+    throw new Error(`Some themes don't have names.`);
   }
 
-  if (defaults.length === 0) {
+  if (defaultsWithoutScheme.length === 0) {
     throw new Error('There is no default theme.');
   }
 
-  return defaults[0];
+  if (defaultsWithoutScheme.length > 1) {
+    throw new Error('There are multiple default themes.');
+  }
+
+  if (defaultsDarkScheme.length > 1 || defaultsLightScheme.length > 1) {
+    throw new Error('There are multiple default themes for a scheme.');
+  }
+
+  return defaultsWithoutScheme[0];
 }
 
 /**

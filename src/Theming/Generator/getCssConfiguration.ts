@@ -5,10 +5,9 @@ import { Configuration } from '../Configuration';
 import { ColorVariant } from '../Variant/ColorVariant';
 import { OpacityVariant } from '../Variant/OpacityVariant';
 import { Strategy } from '../Strategy';
-import { ThemeScheme } from '../Theme/ThemeScheme';
 
-function getCssThemeName(theme: Theme, config: Configuration, scheme: boolean = false): string {
-  if (theme.isDefault() || (scheme && theme.isSchemeDefault())) {
+function getCssThemeName(theme: Theme, config: Configuration, keepName: boolean = false): string {
+  if (!keepName && (theme.isDefault())) {
     return ':root';
   }
 
@@ -71,16 +70,23 @@ export function getCssConfiguration(themes: Theme[], config: Configuration): The
       }
     });
 
-    // If the theme has no scheme, adds it
-    if (!theme.hasScheme || theme.kept) {
+    // Theme is not under a preference scheme, so we put it in the css and rename it to
+    // :root if needed
+    if (!theme.hasScheme()) {
       cssConfiguration[getCssThemeName(theme, config)] = thisThemeConfig;
     }
 
-    // If the theme has a scheme, sets the theme under the corresponding color scheme media query
-    if (theme.hasScheme) {
-      let query: string = `@media (prefers-color-scheme: ${theme.scheme})`;
+    // Theme needs to be assignable, so we keep a version outside of the media queries and
+    // we don't rename it to :root if it's the default theme
+    if (theme.isAssignable()) {
+      cssConfiguration[getCssThemeName(theme, config, true)] = thisThemeConfig;
+    }
+
+    // Theme is under a media query, so we set it under that media query.
+    if (theme.hasScheme()) {
+      let query: string = `@media (prefers-color-scheme: ${theme.getScheme()})`;
       cssConfiguration[query] = cssConfiguration[query] || {};
-      cssConfiguration[query][getCssThemeName(theme, config, true)] = thisThemeConfig;
+      cssConfiguration[query][getCssThemeName(theme, config)] = thisThemeConfig;
     } 
     
   });

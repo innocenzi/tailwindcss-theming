@@ -11,8 +11,8 @@ This plugin helps with theming your application. Thanks to a simple and fluent c
 You can install this plugin thanks to NPM, or you can [build it from source](#build-from-source) and include it in your project yourself.
 
 ```console
-$ npm install tailwindcss-theming@canary
-$ yarn add tailwindcss-theming@canary
+$ npm install tailwindcss-theming
+$ yarn add tailwindcss-theming
 ```
 
 # Real-world example
@@ -34,8 +34,9 @@ const mainTheme = new Theme()
     'transparent': 'transparent',
 
     // Navigation
-    'navigation': '#3f485d',
-    'on-navigation': '#d3d4d6',
+    'navigation-primary': '#3c4253',
+    'navigation-secondary': '#303030',
+    'on-navigation': '#9aa2b6',
 
     // Brand colors
     'brand':'#2196f3',
@@ -65,15 +66,17 @@ const mainTheme = new Theme()
 ;
 
 const darkTheme = new Theme()
-  .name('dark')
-  // .schemeDefault() // Makes this theme the default base on user scheme preference (OS/browser-wide), combine with .dark()
-  .keep() // Let the theme be accessible for the current strategy
-  .dark() // Set the theme under the `prefers-color-scheme` rule
+// All four options below are already set thanks to `ThemeBuilder`'s `.dark()` method,
+//   .name('dark')
+//   .default() // Makes this theme the default based on user scheme preference (OS/browser-wide), combine with .dark()
+//   .dark() // Set the theme under the `prefers-color-scheme` rule
+//   .assignable() // Keep this theme manually assignable
   .colors({
     // We didn't include `transparent`, it will be inherit since it's the same.
     // Navigation
-    'navigation': '#282828',
-    'on-navigation': '#c1c1c1',
+    'navigation-primary': '#282828',
+    'navigation-secondary': '#303030',
+    'on-navigation': '#9aa2b6',
 
     // Brand colors
     'brand':'#2196f3',
@@ -88,13 +91,13 @@ const darkTheme = new Theme()
     'on-surface':'#ffffff',
     
     // Event colors.
-    'error':'#b00020',
+    'error':'#e67388',
     'on-error':'#ffffff',
     'success':'#3ab577',
     'on-success':'#ffffff',
-    'warning':'#e65100',
+    'warning':'#ffa777',
     'on-warning':'#ffffff',
-    'info':'#2481ea',
+    'info':'#83bdff',
     'on-info':'#ffffff',
   })
 
@@ -103,11 +106,11 @@ const darkTheme = new Theme()
 ;
 
 module.exports = new ThemeBuilder()
-  // .asClass()
-  // .asPrefixedClass('theme')
-  .asDataThemeAttribute()
+  // .asClass() // => <body class="dark" />
+  // .asPrefixedClass('theme') // => <body class="theme-dark" />
+  .asDataThemeAttribute() // => <body data-theme="dark" />
   .default(mainTheme)
-  .theme(darkTheme);
+  .dark(darkTheme);
 ```
 
 Now, you have a fully-functionnal theme definition with two themes that you can use. Only thing left is to include it as a Tailwind plugin, and you're done!
@@ -259,7 +262,7 @@ You will be able to define one or multiple themes. You will need to have at leas
 
 For instance, if you have a `primary` color in your default theme and you have a `primary` and a `secondary` color in a named theme, the `secondary` color utilities won't be generated, and you will only be able to use utilities such as `text-primary`.
 
-### Default Theme
+### Defining a default theme
 
 There are multiple ways to add a default theme. You can call the `default` method of `ThemeBuilder` with a `Theme` object, or call the `theme` or `themes` method with a `Theme` object as well. 
 
@@ -269,10 +272,9 @@ The `default` method will call a `Theme`'s `default()` method, so it will be exp
 import { ThemeBuilder, Theme } from 'tailwindcss-theming';
 
 const theme = new ThemeBuilder()
-  .defaults() // defaults settings
   .default([ // default theme
     new Theme()
-      .name('my-theme') // will be erased because of .default()
+      .name('my-theme') // this name will not be usable unless you call .assignable()
       .colors({
         transparent: 'transparent',
         primary: 'white',
@@ -280,17 +282,17 @@ const theme = new ThemeBuilder()
   ]);
 ```
 
-### Adding one or multiple themes
+### Defining multiple themes
 
 Use the `theme` method to add a single theme or the `themes` method to add multiple themes. 
 
 ```javascript
 import { ThemeBuilder, Theme } from 'tailwindcss-theming';
 
-// Careful, this setup has NO DEFAULT THEME.
 const theme = new ThemeBuilder()
-  .defaults() // defaults settings
   .theme(new Theme()
+    .default() // don't forget to always have a default theme
+    .assignable()
     .name('main-theme')
     .colors({
       transparent: 'transparent',
@@ -310,7 +312,7 @@ const theme = new ThemeBuilder()
 
 A `Theme` has a fluent API that allow an elegant setup. A `Theme` is a collection of `Color` and `Variant` objects. A `Variant` **is not** a Tailwind variant, but a color utility variant. 
 
-Here is a vanille Tailwind configuration to illustrate what a variant is in this plugin:
+Here is a vanilla Tailwind configuration to illustrate what a variant is in this plugin:
 
 ```javascript
 module.exports = [
@@ -366,7 +368,6 @@ For a theme definition, it would look like this:
 import { ThemeBuilder, Theme } from 'tailwindcss-theming';
 
 const theme = new ThemeBuilder()
-  .defaults() // defaults settings
   .default(new Theme()
     .colors({
       transparent: 'transparent',
@@ -439,16 +440,13 @@ Basically, you can setup a theme to be defined in a `dark` or `light` media quer
 
 #### Defining a default dark (or light) theme
 
-To make a theme its scheme's default, you have to define its `scheme` by calling `dark()` or `light()` on it. If the `Theme` is set as the default, it will be the default theme for its scheme as well. To set a default theme for the other `scheme`, you need to call `schemeDefault` on it. 
-
-The example below defines two themes. The first one will be the default theme as well as the light scheme's default theme, and the second one will be the dark scheme's default theme.
+To make a theme its scheme's default, you have to define its `scheme` by calling `dark()` or `light()`, and call `default`. The example below defines two themes. The first one will be the default theme, and the second one will be the dark scheme's default theme.
 
 ```javascript
 const plugin = new ThemeBuilder()
   .themes([
     new Theme()
       .default()
-      .light()
       .colors({
         background: '#ECEFF4',
         surface: '#D8DEE9',
@@ -457,8 +455,8 @@ const plugin = new ThemeBuilder()
       })
       .opacityVariant('muted', 0.3),
     new Theme()
-      .schemeDefault()
       .dark()
+      .default()
       .colors({
         background: '#2E3440',
         surface: '#3B4252',
@@ -469,7 +467,27 @@ const plugin = new ThemeBuilder()
   ]);
 ```
 
-### Defining multiple themes with defaults for each scheme
+If you wanted the second theme to be assignable (with `.theme-dark` for example), you would have to set a name and make it assignable:
+
+```js
+new Theme()
+    .dark()
+    .default()
+    .name('dark')
+    .assignable()
+    .colors({
+        background: '#2E3440',
+        surface: '#3B4252',
+        'on-background': '#D8DEE9',
+        'on-surface': '#D8DEE9',
+    })
+    .opacityVariant('muted', 0.3)
+;
+```
+
+This would output a `:root` theme in the `prefers-color-scheme: dark` media query, as well as a `.theme-dark` outside of it.
+
+### Defining both scheme's default, a fallback theme, and another assignable one
 
 In this example, you will have a default theme that is also the theme if a user has an explicit `light` scheme, a theme if a user has an explicit `dark` scheme, and two other named themes that need attributes to be applied.
 
@@ -477,34 +495,11 @@ In this example, you will have a default theme that is also the theme if a user 
 const plugin = new ThemeBuilder()
   .themes([
 
-    // default theme, default light scheme's theme
+    // A default, named and assignable theme. Used as a fallback if no `prefers-color-scheme` is defined.
     new Theme()
       .default()
-      .light()
-      .colors({
-        background: '#ECEFF4',
-        surface: '#D8DEE9',
-        'on-background': '#2E3440',
-        'on-surface': '#2E3440',
-      })
-      .opacityVariant('muted', 0.3),
-
-    // default dark scheme's theme, no name
-    new Theme()
-      .schemeDefault()
-      .dark()
-      .colors({
-        background: '#2E3440',
-        surface: '#3B4252',
-        'on-background': '#D8DEE9',
-        'on-surface': '#D8DEE9',
-      })
-      .opacityVariant('muted', 0.3),
-
-    // Another dark theme, but it's useless to call dark() on if keep() is used
-    new Theme()
+      .assignable()
       .name('black-and-white')
-      .keep()
       .colors({
         background: 'dark',
         surface: 'gray',
@@ -513,29 +508,10 @@ const plugin = new ThemeBuilder()
       })
       .opacityVariant('muted', 0.3),
 
-    // Another light theme, but it's useless to call light() on if keep() is used
-    new Theme()
-      .name('white')
-      .keep()
-      .colors({
-        background: 'white',
-        surface: 'gray',
-        'on-background': 'black',
-        'on-surface': 'black',
-      })
-      .opacityVariant('muted', 0.3),
-
-  ]);
-```
-
-### Defining a default theme, and a named dark theme that is the default theme for dark schemes
-
-```javascript
-const plugin = new ThemeBuilder()
-  .themes([
-    // default theme, no scheme
+    // A default light theme, not assignable
     new Theme()
       .default()
+      .light()
       .colors({
         background: '#ECEFF4',
         surface: '#D8DEE9',
@@ -544,17 +520,26 @@ const plugin = new ThemeBuilder()
       })
       .opacityVariant('muted', 0.3),
 
-    // default dark scheme's theme, but can also be added with its name
+    // A default dark scheme, not assignable
     new Theme()
-      .name('dark')
-      .schemeDefault()
+      .default()
       .dark()
-      .keep() // this is what allows it to be added with its name instead of only being available with the `prefer-color-scheme` media query
       .colors({
         background: '#2E3440',
         surface: '#3B4252',
         'on-background': '#D8DEE9',
         'on-surface': '#D8DEE9',
+      })
+      .opacityVariant('muted', 0.3),
+
+    // Another assignable theme
+    new Theme()
+      .name('white')
+      .colors({
+        background: 'white',
+        surface: 'gray',
+        'on-background': 'black',
+        'on-surface': 'black',
       })
       .opacityVariant('muted', 0.3),
 
@@ -578,6 +563,8 @@ const plugin = new ThemeBuilder()
 | `asPrefixedAttribute()` | `prefix?: string` | Sets the export strategy to `PrefixedAttribute`. You can pass a prefix as a parameter to this method.
 | `asAttribute()` | None | Sets the export strategy to `Attribute`.
 | `default()` | [`Theme`](src/Theming/Theme/Theme.ts) | Adds a default theme.
+| `dark()` | [`Theme`](src/Theming/Theme/Theme.ts), `default: boolean = true`, `assignable: boolean = true` | Adds a dark theme.
+| `light()` | [`Theme`](src/Theming/Theme/Theme.ts), `default: boolean = true`, `assignable: boolean = true` | Adds a light theme.
 | `theme()` | [`Theme`](src/Theming/Theme/Theme.ts) | Adds a theme.
 | `themes()` | [`Theme`](src/Theming/Theme/Theme.ts)`[]` | Adds multiple themes.
 | `theming()` | None | Gets the current plugin configuration.
@@ -589,9 +576,8 @@ const plugin = new ThemeBuilder()
 
 | Method | Arguments | Description |
 | ------ | --------- | ----------- |
-| `default()` | None | Sets the theme as the default theme. Internally, changes its name to `default`, and applies `keep()` and `schemeDefault()`.
-| `keep()` | None | If the theme has a scheme, it will be added both inside and outside of the scheme media query.
-| `schemeDefault()` | None | Sets the theme as the default theme for its scheme.
+| `default()` | None | Sets the theme as the default theme. Internally, changes its name to `default` if it has no name.
+| `assignable()` | None | Let the theme be assignable whether it's the default theme or not.
 | `name()` | `string` | Sets the theme's name.
 | `light()` | None | Sets the theme's scheme to `light`.
 | `dark()` | None | Sets the theme's scheme to `dark`.
@@ -603,9 +589,13 @@ const plugin = new ThemeBuilder()
 | `mapVariant()` | `name: string`,` colors?: string[] | string` | Maps a variant name to a list of color names. If the color list is empty, it will be mapped to every color.
 | `variantsOf()` | `color: string[]` | Gets the variants of the given color.
 | `isDefault()` | None | Checks if this theme is set as the default theme.
-| `isSchemeDefault()` | None | Checks if this theme is its scheme's default.
 | `getName()` | None | Returns this theme's name.
 | `getColors()` | None | Returns this theme's colors.
+| `getScheme()` | None | Returns this theme's scheme, or null if it has none.
+| `hasName()` | None | Returns if this theme has a name.
+| `isAssignable()` | None | Returns if this theme is assignable.
+| `hasScheme()` | None | Returns if this theme has a scheme.
+| `hasScheme()` | None | Returns if this theme has a scheme.
 
 # Build from source
 

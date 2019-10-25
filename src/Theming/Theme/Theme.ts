@@ -19,18 +19,16 @@ export interface VariantMap {
 }
 
 export class Theme {
-  private _name!: string;
-  private _scheme!: ThemeScheme;
+  private _name?: string;
+  private _scheme?: ThemeScheme;
   private _colors: Color[];
   private _variants: Variant[];
   private _variantMap: VariantMap;
-  private _schemeDefault: boolean;
-  private _keep: boolean;
+  private _assignable: boolean;
+  private _default!: boolean;
 
   constructor() {
-    this.default();
-    this._keep = false;
-    this._schemeDefault = false;
+    this._assignable = false;
     this._colors = [];
     this._variants = [];
     this._variantMap = {};
@@ -43,33 +41,20 @@ export class Theme {
    * @memberof Theme
    */
   default(): this {
-    this._name = DEFAULT_THEME_NAME;
-    this.keep();
-    this.schemeDefault();
+    this._default = true;
+    this._name = this._name || DEFAULT_THEME_NAME;
 
     return this;
   }
 
   /**
-   * Let the theme be set inside and outside the scheme media query.
+   * Defines if this theme must be assignable by strategy. 
    *
    * @returns {this}
    * @memberof Theme
    */
-  keep(): this {
-    this._keep = true;
-
-    return this;
-  }
-
-  /**
-   * Sets this theme as the default theme for the current scheme.
-   *
-   * @returns {this}
-   * @memberof Theme
-   */
-  schemeDefault(): this {
-    this._schemeDefault = true;
+  assignable(): this {
+    this._assignable = true;
 
     return this;
   }
@@ -243,18 +228,7 @@ export class Theme {
    * @memberof Theme
    */
   isDefault(): boolean {
-    return this._name === DEFAULT_THEME_NAME;
-  }
-
-  /**
-   * Checks if this theme is this scheme's default.
-   *
-   * @readonly
-   * @type {boolean}
-   * @memberof Theme
-   */
-  isSchemeDefault(): boolean {
-    return this._schemeDefault;
+    return this._default;
   }
 
   /**
@@ -263,8 +237,8 @@ export class Theme {
    * @returns {string}
    * @memberof Theme
    */
-  getName(): string {
-    return this._name;
+  getName(): string | null {
+    return this._name || null;
   }
 
   /**
@@ -283,19 +257,31 @@ export class Theme {
    * @returns {ThemeScheme}
    * @memberof Theme
    */
-  get scheme(): ThemeScheme {
-    return this._scheme;
+  getScheme(): ThemeScheme | null {
+    return this._scheme || null;
   }
 
   /**
-   * Defines if the theme has to stay outside its scheme media query.
+   * Gets if this theme has a defined name.
    *
    * @readonly
    * @type {boolean}
    * @memberof Theme
    */
-  get kept(): boolean {
-    return this._keep;
+  hasName(): boolean
+  {
+    return undefined !== this._name && this._name.length > 0;
+  }
+
+  /**
+   * Gets if this theme must be assignable by strategy. 
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberof Theme
+   */
+  isAssignable(): boolean {
+    return this._assignable;
   }
 
   /**
@@ -305,7 +291,7 @@ export class Theme {
    * @type {boolean}
    * @memberof Theme
    */
-  get hasScheme(): boolean {
+  hasScheme(): boolean {
     return undefined !== this._scheme;
   }
 
