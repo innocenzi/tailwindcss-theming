@@ -19,7 +19,7 @@ $ yarn add tailwindcss-theming@canary
 
 Best way to get started would probably be to see how you would use this plugin. 
 
-Here is a good example that you can use as a base for every project. It includes some colors for a light and dark theme. If you want to make the dark theme the default for users who have set their preferred color scheme, uncomment the `.schemeDefault()` line on the second theme definition. More information on that can be found [here](https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-color-scheme).
+Here is a good example that you can use as a base for every project. It includes some colors for a light and dark theme.
 
 The configuration is made in a separated file for clarity. I think it's better to separate your theme definition from your bundler configuration. Let's name it `theme.config.js`. It should export a `ThemeBuilder` object.
 
