@@ -2,15 +2,9 @@
   <img alt="I'm not a designer leave me alone I know this banner suck" src="docs/assets/banner.jpg">
   <br>
   <div align="center">
-  <a href="https://github.com/hawezo/tailwindcss-theming/releases">
-    <img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/hawezo/tailwindcss-theming?include_prereleases&style=flat-square">
-  </a>
-  <a href="https://npmjs.com/package/tailwindcss-theming">
-    <img alt="npm" src="https://img.shields.io/npm/v/tailwindcss-theming?style=flat-square">
-  </a>
-  <a href="https://npmjs.com/package/tailwindcss-theming">
-    <img alt="npm" src="https://img.shields.io/npm/dt/tailwindcss-theming?style=flat-square">
-  </a>
+  <a href="https://github.com/hawezo/tailwindcss-theming/releases" target="_blank"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/hawezo/tailwindcss-theming?include_prereleases&style=flat-square"></a>
+  <a href="https://npmjs.com/package/tailwindcss-theming" target="_blank"><img alt="npm" src="https://img.shields.io/npm/v/tailwindcss-theming?style=flat-square"></a>
+  <a href="https://npmjs.com/package/tailwindcss-theming" target="_blank"><img alt="npm" src="https://img.shields.io/npm/dt/tailwindcss-theming?style=flat-square"></a>
   <img alt="npm bundle size" src="https://img.shields.io/bundlephobia/minzip/tailwindcss-theming?style=flat-square">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/hawezo/tailwindcss-theming?style=flat-square">
   </div>
