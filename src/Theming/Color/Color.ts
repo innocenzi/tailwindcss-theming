@@ -7,7 +7,7 @@ export class Color {
 
   constructor(name?: string, value?: string) {
     this.name(name || 'transparent');
-    this.value(name || 'transparent');
+    this.value(value || 'transparent');
   }
 
   /**
