@@ -97,7 +97,7 @@ it('generates utilities with multiple colors', async () => {
     .text-primary { color: rgb(var(--color-primary)) }
     .text-secondary { color: rgb(var(--color-secondary)) }
     .text-tertiary { color: rgb(var(--color-tertiary)) }
-    .text-quaternary { color: rgb(var(--color-quaternary)) }
+    .text-quaternary { color: rgba(var(--color-quaternary), 0.11764705882352941) }
   `);
 });
 
@@ -148,7 +148,7 @@ it('generates utilities with multiple colors and their variants', async () => {
     .text-tertiary-actually-black { color: rgb(var(--color-variant-actually-black)) } 
     .text-tertiary-disabled { color: rgba(var(--color-tertiary), var(--opacity-variant-disabled)) } 
     .text-tertiary-less-opaque { color: rgba(var(--color-tertiary), var(--opacity-variant-less-opaque)) } 
-    .text-quaternary { color: rgb(var(--color-quaternary)) } 
+    .text-quaternary { color: rgba(var(--color-quaternary), 0.11764705882352941) } 
     .text-quaternary-actually-black { color: rgb(var(--color-variant-actually-black)) } 
     .text-quaternary-disabled { color: rgba(var(--color-quaternary), var(--opacity-variant-disabled)) }`);
 });

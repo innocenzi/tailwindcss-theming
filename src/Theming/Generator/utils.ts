@@ -72,3 +72,74 @@ export function getColorVariantVariableName(variant: ColorVariant, config: Confi
 export function getOpacityVariantVariableName(variant: OpacityVariant, config: Configuration): string {
   return `--opacity-variant-${variant.name}`;
 }
+
+/**
+ * Gets the CSS value for a color variant.
+ *
+ * @export
+ * @param {ColorVariant} variant
+ * @param {Configuration} config
+ * @returns {string}
+ */
+export function getColorVariantCssConfiguration(variant: ColorVariant, config: Configuration): string {
+  if (variant.color.a !== 1) {
+    return `rgba(var(${getColorVariantVariableName(variant, config)}), ${variant.color.a})`;
+  } else {
+    return `rgb(var(${getColorVariantVariableName(variant, config)}))`;
+  }
+}
+
+/**
+ * Gets the CSS variable value for a color variant.
+ *
+ * @export
+ * @param {ColorVariant} variant
+ * @returns {string}
+ */
+export function getColorVariantCssVariableValue(variant: ColorVariant): string {
+  if (variant.color.a !== 1) {
+    return `${variant.color.r},${variant.color.g},${variant.color.b},,${variant.color.a}`;
+  } else {
+    return `${variant.color.r},${variant.color.g},${variant.color.b}`;
+  }
+}
+
+/**
+ * Gets the CSS value for an opacity variant.
+ *
+ * @export
+ * @param {Color} color
+ * @param {OpacityVariant} variant
+ * @param {Configuration} config
+ * @returns {string}
+ */
+export function getOpacityVariantCssConfiguration(color: Color, variant: OpacityVariant, config: Configuration): string {
+  return `rgba(var(${getColorVariableName(color, config)}), var(${getOpacityVariantVariableName(variant, config)}))`;
+}
+
+/**
+ * Gets the CSS value for a color.
+ *
+ * @export
+ * @param {Color} color
+ * @param {Configuration} config
+ * @returns {string}
+ */
+export function getColorCssConfiguration(color: Color, config: Configuration): string {
+  if (color.computed.a !== 1) {
+    return `rgba(var(${getColorVariableName(color, config)}), ${color.computed.a})`;
+  } else {
+    return `rgb(var(${getColorVariableName(color, config)}))`;
+  }
+}
+
+/**
+ * Gets the CSS variable value for a color.
+ *
+ * @export
+ * @param {Color} color
+ * @returns {string}
+ */
+export function getColorCssVariableValue(color: Color): string {
+  return `${color.computed.r},${color.computed.g},${color.computed.b}`;
+}

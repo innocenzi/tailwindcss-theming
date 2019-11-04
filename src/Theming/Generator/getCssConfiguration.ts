@@ -1,5 +1,5 @@
 import { Theme } from '../Theme/Theme';
-import { getDefaultTheme, getColorVariableName, getColorVariantVariableName, getOpacityVariantVariableName } from './utils';
+import { getDefaultTheme, getColorVariableName, getColorVariantVariableName, getOpacityVariantVariableName, getColorVariantCssVariableValue, getColorCssVariableValue } from './utils';
 import { Variant } from '../Variant/Variant';
 import { Configuration } from '../Configuration';
 import { ColorVariant } from '../Variant/ColorVariant';
@@ -7,7 +7,7 @@ import { OpacityVariant } from '../Variant/OpacityVariant';
 import { Strategy } from '../Strategy';
 
 function getCssThemeName(theme: Theme, config: Configuration, keepName: boolean = false): string {
-  if (!keepName && (theme.isDefault())) {
+  if (!keepName && theme.isDefault()) {
     return ':root';
   }
 
@@ -50,7 +50,7 @@ export function getCssConfiguration(themes: Theme[], config: Configuration): The
 
     // Define colors
     theme.getColors().forEach(color => {
-      thisThemeConfig[getColorVariableName(color, config)] = `${color.computed.r},${color.computed.g},${color.computed.b}`;
+      thisThemeConfig[getColorVariableName(color, config)] = getColorCssVariableValue(color);
       variants.push(...theme.variantsOf(color.keyName));
 
       // Warn if color is not defined in default theme
@@ -62,7 +62,7 @@ export function getCssConfiguration(themes: Theme[], config: Configuration): The
     // Define variants
     variants.forEach(variant => {
       if (variant instanceof ColorVariant) {
-        thisThemeConfig[getColorVariantVariableName(variant, config)] = `${variant.color.r},${variant.color.g},${variant.color.b}`;
+        thisThemeConfig[getColorVariantVariableName(variant, config)] = getColorVariantCssVariableValue(variant);
       } else if (variant instanceof OpacityVariant) {
         thisThemeConfig[getOpacityVariantVariableName(variant, config)] = variant.opacity.toString();
       } else {
@@ -87,8 +87,7 @@ export function getCssConfiguration(themes: Theme[], config: Configuration): The
       let query: string = `@media (prefers-color-scheme: ${theme.getScheme()})`;
       cssConfiguration[query] = cssConfiguration[query] || {};
       cssConfiguration[query][getCssThemeName(theme, config)] = thisThemeConfig;
-    } 
-    
+    }
   });
 
   return cssConfiguration;
