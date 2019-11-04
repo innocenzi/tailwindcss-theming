@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="I'm not a designer leave me alone I know this banner suck" src="docs/assets/banner.jpg">
+  <a href="#"><img alt="I'm not a designer leave me alone I know this banner suck" src="docs/assets/banner.jpg"></a>
   <br>
   <div align="center">
   <a href="https://github.com/hawezo/tailwindcss-theming/releases" target="_blank"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/hawezo/tailwindcss-theming?include_prereleases&style=flat-square"></a>
