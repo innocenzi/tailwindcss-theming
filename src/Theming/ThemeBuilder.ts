@@ -3,8 +3,8 @@ import { Configuration } from './Configuration';
 import { Strategy } from './Strategy';
 import { TailwindPlugin } from '../TailwindPlugin/TailwindPlugin';
 import { TailwindPluginHandler } from '../TailwindPlugin/TailwindPluginHandler';
-import { getColorConfiguration } from './Generator/getColorConfiguration';
 import { getCssConfiguration } from './Generator/CSS/getCssConfiguration';
+import { getThemeConfiguration } from './Generator/getThemeConfiguration';
 
 export class ThemeBuilder {
   private _themes: Theme[];
@@ -251,9 +251,7 @@ export class ThemeBuilder {
    */
   get config(): any {
     return {
-      theme: {
-        colors: getColorConfiguration(this._themes, this._config),
-      }
+      theme: getThemeConfiguration(this._themes, this._config),
     };
   }
 

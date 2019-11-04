@@ -3,6 +3,7 @@ import mockConsole from 'jest-mock-console';
 import { Strategy } from '../src/Theming/Strategy';
 import { Theme, DEFAULT_THEME_NAME } from '../src/Theming/Theme/Theme';
 import { Color } from '../src/Theming/Color/Color';
+import { getThemeConfiguration } from '../src/Theming/Generator/getThemeConfiguration';
 import { getColorConfiguration } from '../src/Theming/Generator/getColorConfiguration';
 import { getCssConfiguration } from '../src/Theming/Generator/CSS/getCssConfiguration';
 import { generateTheme } from './themeGenerator';
@@ -116,6 +117,32 @@ it('throws without default theme', () => {
   expect(multipleDefaultThemes).toThrowError('There are multiple default themes.');
 });
 
+it('generates a tailwind configuration extension', async () => {
+  const plugin = new ThemeBuilder().defaults();
+  const theme = new Theme()
+    .default()
+    .variable('title', ['Roboto', '"Segoe UI"'], 'fontFamily')
+    .variable('huge', '64px', 'spacing');
+
+  plugin.themes([theme]);
+
+  expect(getThemeConfiguration([theme], plugin.theming)).toStrictEqual({
+    colors: {},
+    extend: {
+      fontFamily: { 'title': 'var(--title)' }, // TODO PREFIX
+      spacing: { huge: 'var(--huge)' } // TODO PREFIX
+    }
+  });
+
+  // const css = await generatePluginCss(plugin, undefined, true, true, true, [ 'fontFamily' ]);
+
+  // // @ts-ignore
+  // expect(css).toMatchCss(`
+  //   :root {
+  //   }
+  // `);
+});
+
 it('generates color configuration', () => {
   const plugin = new ThemeBuilder().defaults();
   const theme = new Theme()
@@ -158,8 +185,8 @@ it('generates css variables', () => {
   const theme = getTestTheme()
     .variable('int-var', 1)
     .variable('float-var', 1.2)
-    .variable('array-var', ['value1', 'value2', 1, 1.2, 'spaced text','"spaced quote"'])
-    .variable('array-raw-var', ['value1', 'value2'], false)
+    .variable('array-var', ['value1', 'value2', 1, 1.2, 'spaced text', '"spaced quote"'])
+    .customProperty('array-raw-var', ['value1', 'value2'], false)
     .variable('str-var', 'hello')
     .variable('color-var', '#ffffff')
     .variable('mixed-var', '3px 6px rgb(20, 32, 54)')

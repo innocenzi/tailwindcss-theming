@@ -108,8 +108,8 @@ export class Theme {
    * @returns {this}
    * @memberof Theme
    */
-  customProperty(name: string, value: CustomPropertyValueType, parse: boolean = false): this {
-    this._customProperties.push(new CustomProperty(name, value, parse));
+  customProperty(name: string, value: CustomPropertyValueType, parse: boolean = false, extend?: string): this {
+    this._customProperties.push(new CustomProperty(name, value, extend, parse));
 
     return this;
   }
@@ -123,8 +123,8 @@ export class Theme {
    * @returns {this}
    * @memberof Theme
    */
-  variable(name: string, value: CustomPropertyValueType, parse: boolean = false): this {
-    return this.customProperty(name, value, parse);
+  variable(name: string, value: CustomPropertyValueType, extend?: string, parse: boolean = false): this {
+    return this.customProperty(name, value, parse, extend);
   }
 
   /**
