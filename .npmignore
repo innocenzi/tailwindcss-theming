@@ -6,3 +6,5 @@ node_modules
 .gitignore
 babel.config.json
 preview.gif
+docs
+banner.jpg
