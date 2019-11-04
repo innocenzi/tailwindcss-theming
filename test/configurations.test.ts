@@ -129,18 +129,10 @@ it('generates a tailwind configuration extension', async () => {
   expect(getThemeConfiguration([theme], plugin.theming)).toStrictEqual({
     colors: {},
     extend: {
-      fontFamily: { 'title': 'var(--title)' }, // TODO PREFIX
-      spacing: { huge: 'var(--huge)' } // TODO PREFIX
+      fontFamily: { 'title': 'var(--title)' },
+      spacing: { huge: 'var(--huge)' }
     }
   });
-
-  // const css = await generatePluginCss(plugin, undefined, true, true, true, [ 'fontFamily' ]);
-
-  // // @ts-ignore
-  // expect(css).toMatchCss(`
-  //   :root {
-  //   }
-  // `);
 });
 
 it('generates color configuration', () => {
