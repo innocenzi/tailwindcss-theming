@@ -5,6 +5,7 @@ import { Colors } from '../Parser/Color/Colors';
 import { Variant } from '../Variant/Variant';
 import { OpacityVariant } from '../Variant/OpacityVariant';
 import { ColorVariant } from '../Variant/ColorVariant';
+import { CustomProperty, CustomPropertyValueType } from '../CustomProperty/CustomProperty';
 
 export const DEFAULT_THEME_NAME = 'default';
 
@@ -22,6 +23,7 @@ export class Theme {
   private _name?: string;
   private _scheme?: ThemeScheme;
   private _colors: Color[];
+  private _customProperties: CustomProperty[];
   private _variants: Variant[];
   private _variantMap: VariantMap;
   private _assignable: boolean;
@@ -30,6 +32,7 @@ export class Theme {
   constructor() {
     this._assignable = false;
     this._colors = [];
+    this._customProperties = [];
     this._variants = [];
     this._variantMap = {};
   }
@@ -94,6 +97,32 @@ export class Theme {
     this._scheme = ThemeScheme.Dark;
 
     return this;
+  }
+
+  /**
+   * Sets a variable on this theme.
+   *
+   * @param {string} name
+   * @param {CustomPropertyValueType} value
+   * @returns {this}
+   * @memberof Theme
+   */
+  customProperty(name: string, value: CustomPropertyValueType): this {
+    this._customProperties.push(new CustomProperty(name, value));
+
+    return this;
+  }
+
+  /**
+   * Sets a variable on this theme.
+   *
+   * @param {string} name
+   * @param {CustomPropertyValueType} value
+   * @returns {this}
+   * @memberof Theme
+   */
+  variable(name: string, value: CustomPropertyValueType): this {
+    return this.customProperty(name, value);
   }
 
   /**
@@ -249,6 +278,16 @@ export class Theme {
    */
   getColors(): Color[] {
     return this._colors;
+  }
+
+  /**
+   * Return this theme's custom properties.
+   *
+   * @returns {CustomProperty[]}
+   * @memberof Theme
+   */
+  getCustomProperties(): CustomProperty[] {
+    return this._customProperties;
   }
 
   /**

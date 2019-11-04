@@ -4,6 +4,7 @@ import { Configuration } from '../Configuration';
 import { ColorVariant } from '../Variant/ColorVariant';
 import { OpacityVariant } from '../Variant/OpacityVariant';
 import { ThemeScheme } from '../Theme/ThemeScheme';
+import { CustomProperty } from '../CustomProperty/CustomProperty';
 
 /**
  * Get the default theme out of an array of themes.
@@ -57,7 +58,7 @@ export function getColorVariableName(color: Color, config: Configuration): strin
  * @param {Configuration} config
  * @returns {string}
  */
-export function getColorVariantVariableName(variant: ColorVariant, config: Configuration): string {
+export function getColorVariantVariableName(variant: ColorVariant): string {
   return `--color-variant-${variant.name}`;
 }
 
@@ -69,8 +70,19 @@ export function getColorVariantVariableName(variant: ColorVariant, config: Confi
  * @param {Configuration} config
  * @returns {string}
  */
-export function getOpacityVariantVariableName(variant: OpacityVariant, config: Configuration): string {
+export function getOpacityVariantVariableName(variant: OpacityVariant): string {
   return `--opacity-variant-${variant.name}`;
+}
+
+/**
+ * Get the name of the CSS custom property.
+ *
+ * @export
+ * @param {CustomProperty} property
+ * @returns {string}
+ */
+export function getCustomPropertyVariableName(property: CustomProperty): string {
+  return `--${getPascalCase(property.getName())}`;
 }
 
 /**
@@ -83,9 +95,9 @@ export function getOpacityVariantVariableName(variant: OpacityVariant, config: C
  */
 export function getColorVariantCssConfiguration(variant: ColorVariant, config: Configuration): string {
   if (variant.color.a !== 1) {
-    return `rgba(var(${getColorVariantVariableName(variant, config)}), ${variant.color.a})`;
+    return `rgba(var(${getColorVariantVariableName(variant)}), ${variant.color.a})`;
   } else {
-    return `rgb(var(${getColorVariantVariableName(variant, config)}))`;
+    return `rgb(var(${getColorVariantVariableName(variant)}))`;
   }
 }
 
@@ -114,7 +126,7 @@ export function getColorVariantCssVariableValue(variant: ColorVariant): string {
  * @returns {string}
  */
 export function getOpacityVariantCssConfiguration(color: Color, variant: OpacityVariant, config: Configuration): string {
-  return `rgba(var(${getColorVariableName(color, config)}), var(${getOpacityVariantVariableName(variant, config)}))`;
+  return `rgba(var(${getColorVariableName(color, config)}), var(${getOpacityVariantVariableName(variant)}))`;
 }
 
 /**
@@ -142,4 +154,15 @@ export function getColorCssConfiguration(color: Color, config: Configuration): s
  */
 export function getColorCssVariableValue(color: Color): string {
   return `${color.computed.r},${color.computed.g},${color.computed.b}`;
+}
+
+/**
+ * Gets the pascal case version of the string.
+ *
+ * @export
+ * @param {string} str
+ * @returns {string}
+ */
+export function getPascalCase(str: string): string {
+  return str && (str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g) || []).map(x => x.toLowerCase()).join('-');
 }

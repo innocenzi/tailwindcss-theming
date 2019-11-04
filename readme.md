@@ -546,6 +546,45 @@ const plugin = new ThemeBuilder()
   ]);
 ```
 
+### Custom Properties
+
+There are situations where you may want to have custom properties defined theme-wise. You can add one this by calling `.variable()` on a theme. 
+For instance: 
+
+```js
+new Theme()
+    .name('dark')
+    .colors({
+        background: '#ECEFF4',
+        surface: '#D8DEE9',
+        'on-background': '#2E3440',
+        'on-surface': '#2E3440',
+    })
+    .opacityVariant('muted', 0.3),
+    .variable('theme-scheme', 'dark');
+```
+
+Will output:
+
+```css
+.theme-dark {
+    --color-background: #ECEFF4;
+    --color-surface: #D8DEE9;
+    --color-on-background: #2E3440;
+    --color-on-surface: #2E3440;
+    --opacity-variant-muted: 0.3;
+    --theme-scheme: dark;
+}
+```
+
+You can also use an array as the property's value: `.variable('font-title', ['Roboto', '"Segoe UI"', 'Arial'])`. The output will automatically be converted to a string:
+
+```
+:root {
+    --font-title: Roboto,"Segoe UI",Arial;
+}
+```
+
 ## API reference
 
 ### `ThemeBuilder`
@@ -582,6 +621,8 @@ const plugin = new ThemeBuilder()
 | `light()` | None | Sets the theme's scheme to `light`.
 | `dark()` | None | Sets the theme's scheme to `dark`.
 | `color()` | `name: string`, `value: string` | Adds a `Color` to the theme.
+| `customProperty()` | `name: string`, `value: string | number | string[] | number[]` | Adds a custom property to the theme.
+| `variable()` | `name: string`, `value: string | number | string[] | number[]` | Adds a custom property to the theme.
 | `colors()` | `colors: Color[] | {}` | Adds multiple `Color` to the theme. Argument can be an associative object of `name` and `value`s or an array of `Color`.
 | `opacityVariant()` | `name: string`, `value: number`, `colors?: string[] | string` | Adds an opacity variant. Add defined color names to the `colors` array to apply the variant only to them.
 | `colorVariant()` | `name: string`, `value: string`, `colors?: string[] | string` | Adds a color variant. Add defined color names to the `colors` array to apply the variant only to them.

@@ -72,6 +72,33 @@ it('generates root theme with multiple colors', async () => {
   `);
 });
 
+it('generates custom css properties', async () => {
+  const plugin = new ThemeBuilder().defaults().themes([
+    generateTheme({ isDefault: true })
+      .variable('int-var', 1)
+      .variable('float-var', 1.2)
+      .variable('array-var', ['value1', 'value2', 1, 1.2, 'spaced text', '"spaced quote"'])
+      .variable('str-var', 'hello')
+      .variable('color-var', '#ffffff')
+      .variable('mixed-var', '3px 6px rgb(20, 32, 54)')
+      .variable('differentCaseVar', 'hello'),
+  ]);
+  const css = await generatePluginCss(plugin);
+
+  // @ts-ignore
+  expect(css).toMatchCss(`
+    :root {
+      --int-var: 1;
+      --float-var: 1.2;
+      --array-var: value1,value2,1,1.2,spaced text,"spaced quote";
+      --str-var: hello;
+      --color-var: #ffffff;
+      --mixed-var: 3px 6px rgb(20, 32, 54);
+      --different-case-var: hello
+    }
+  `);
+});
+
 it('generates utilities with multiple colors', async () => {
   const plugin = new ThemeBuilder().defaults().themes([
     generateTheme({ isDefault: true }).colors({
@@ -457,7 +484,6 @@ it('has a default theme and a default dark theme', async () => {
 it('has default themes for both schemes,a default assignable theme, and another theme', async () => {
   const plugin = new ThemeBuilder();
   plugin.strategy(Strategy.Attribute).themes([
-
     // A default, named and assignable theme
     new Theme()
       .default()
@@ -655,14 +681,13 @@ it('has as default assignable theme', async () => {
     .theme-default {
       --color-background: 236,239,244;
     }`);
-})
+});
 
 it('has a default themes using ThemeBuilder helper', async () => {
   const plugin = new ThemeBuilder()
     .default(new Theme().color('main', 'gray'))
     .light(new Theme().color('main', 'white'))
-    .dark(new Theme().color('main', 'black'))
-  ;
+    .dark(new Theme().color('main', 'black'));
 
   const css = await generatePluginCss(plugin);
 
@@ -691,4 +716,4 @@ it('has a default themes using ThemeBuilder helper', async () => {
         --color-main: 0,0,0
       }
     }`);
-})
+});

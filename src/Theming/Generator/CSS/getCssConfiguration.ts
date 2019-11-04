@@ -1,43 +1,18 @@
-import { Theme } from '../Theme/Theme';
-import { getDefaultTheme, getColorVariableName, getColorVariantVariableName, getOpacityVariantVariableName, getColorVariantCssVariableValue, getColorCssVariableValue } from './utils';
-import { Variant } from '../Variant/Variant';
-import { Configuration } from '../Configuration';
-import { ColorVariant } from '../Variant/ColorVariant';
-import { OpacityVariant } from '../Variant/OpacityVariant';
-import { Strategy } from '../Strategy';
-
-function getCssThemeName(theme: Theme, config: Configuration, keepName: boolean = false): string {
-  if (!keepName && theme.isDefault()) {
-    return ':root';
-  }
-
-  let name = theme.getName(); // tailwind should pascal-case this
-
-  switch (config.strategy) {
-    case Strategy.Attribute:
-      return `[${name}]`;
-    case Strategy.PrefixedAttribute:
-      if (config.prefix) {
-        return `[${config.prefix}-${name}]`;
-      } else {
-        throw new Error('Strategy is set to prefixed attribute but no prefix is defined.');
-      }
-    case Strategy.DataThemeAttribute:
-      return `[data-theme=${name}]`;
-    case Strategy.DataAttribute:
-      return `[data-${name}]`;
-    case Strategy.Class:
-      return `.${name}`;
-    case Strategy.PrefixedClass:
-      if (config.prefix) {
-        return `.${config.prefix}-${name}`;
-      } else {
-        throw new Error('Strategy is set to prefixed class but no prefix is defined.');
-      }
-    default:
-      throw new Error(`Unknown strategy: ${config.strategy}.`);
-  }
-}
+import { Theme } from '../../Theme/Theme';
+import {
+  getDefaultTheme,
+  getColorVariableName,
+  getColorVariantVariableName,
+  getOpacityVariantVariableName,
+  getColorVariantCssVariableValue,
+  getColorCssVariableValue,
+  getCustomPropertyVariableName,
+} from '../utils';
+import { Variant } from '../../Variant/Variant';
+import { Configuration } from '../../Configuration';
+import { ColorVariant } from '../../Variant/ColorVariant';
+import { OpacityVariant } from '../../Variant/OpacityVariant';
+import { getCssThemeName } from './getCssThemeName';
 
 export function getCssConfiguration(themes: Theme[], config: Configuration): Theme {
   const defaultTheme = getDefaultTheme(themes);
@@ -62,13 +37,18 @@ export function getCssConfiguration(themes: Theme[], config: Configuration): The
     // Define variants
     variants.forEach(variant => {
       if (variant instanceof ColorVariant) {
-        thisThemeConfig[getColorVariantVariableName(variant, config)] = getColorVariantCssVariableValue(variant);
+        thisThemeConfig[getColorVariantVariableName(variant)] = getColorVariantCssVariableValue(variant);
       } else if (variant instanceof OpacityVariant) {
-        thisThemeConfig[getOpacityVariantVariableName(variant, config)] = variant.opacity.toString();
+        thisThemeConfig[getOpacityVariantVariableName(variant)] = variant.opacity.toString();
       } else {
         throw new Error(`Unknown variant type for '${variant.name}'.`);
       }
     });
+
+    // Define custom properties
+    theme.getCustomProperties().forEach(property => {
+      thisThemeConfig[getCustomPropertyVariableName(property)] = property.computed;
+    })
 
     // Theme is not under a preference scheme, so we put it in the css and rename it to
     // :root if needed

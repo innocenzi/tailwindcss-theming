@@ -4,7 +4,7 @@ import { Strategy } from '../src/Theming/Strategy';
 import { Theme, DEFAULT_THEME_NAME } from '../src/Theming/Theme/Theme';
 import { Color } from '../src/Theming/Color/Color';
 import { getColorConfiguration } from '../src/Theming/Generator/getColorConfiguration';
-import { getCssConfiguration } from '../src/Theming/Generator/getCssConfiguration';
+import { getCssConfiguration } from '../src/Theming/Generator/CSS/getCssConfiguration';
 import { generateTheme } from './themeGenerator';
 
 function getTestTheme(name?: string) {
@@ -149,6 +149,39 @@ it('generates color configuration', () => {
       default: 'rgb(var(--color-brand))',
       blueish: 'rgb(var(--color-variant-blueish))',
       hidden: 'rgba(var(--color-brand), var(--opacity-variant-hidden))',
+    },
+  });
+});
+
+it('generates css variables', () => {
+  const plugin = new ThemeBuilder().defaults();
+  const theme = getTestTheme()
+    .variable('int-var', 1)
+    .variable('float-var', 1.2)
+    .variable('array-var', ['value1', 'value2', 1, 1.2, 'spaced text','"spaced quote"'])
+    .variable('str-var', 'hello')
+    .variable('color-var', '#ffffff')
+    .variable('mixed-var', '3px 6px rgb(20, 32, 54)')
+    .variable('differentCaseVar', 'hello');
+
+  plugin.themes([theme]);
+
+  expect(getCssConfiguration([theme], plugin.theming)).toStrictEqual({
+    ':root': {
+      '--color-primary': '255,255,255',
+      '--color-secondary': '0,128,128',
+      '--color-brand': '0,0,255',
+      '--color-variant-hover': '128,128,128',
+      '--color-variant-blueish': '0,0,255',
+      '--opacity-variant-hidden': '0',
+      '--opacity-variant-disabled': '0.25',
+      '--int-var': '1',
+      '--float-var': '1.2',
+      '--array-var': 'value1,value2,1,1.2,spaced text,"spaced quote"', // avoid spaced text tho
+      '--str-var': 'hello',
+      '--color-var': '#ffffff',
+      '--mixed-var': '3px 6px rgb(20, 32, 54)',
+      '--different-case-var': 'hello',
     },
   });
 });
