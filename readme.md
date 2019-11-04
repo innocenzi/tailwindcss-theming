@@ -585,6 +585,8 @@ You can also use an array as the property's value: `.variable('font-title', ['Ro
 }
 ```
 
+If for some reason you don't want the output to be transformed by the plugin, you can pass `false` as a third argument to `.variable()`. It will disable formatting, even though the output will most likely be the same either way.
+
 ## API reference
 
 ### `ThemeBuilder`
@@ -621,8 +623,8 @@ You can also use an array as the property's value: `.variable('font-title', ['Ro
 | `light()` | None | Sets the theme's scheme to `light`.
 | `dark()` | None | Sets the theme's scheme to `dark`.
 | `color()` | `name: string`, `value: string` | Adds a `Color` to the theme.
-| `customProperty()` | `name: string`, `value: string | number | string[] | number[]` | Adds a custom property to the theme.
-| `variable()` | `name: string`, `value: string | number | string[] | number[]` | Adds a custom property to the theme.
+| `customProperty()` | `name: string`, `value: string | number | string[] | number[]`, `parse: boolean` | Adds a custom property to the theme.
+| `variable()` | `name: string`, `value: string | number | string[] | number[]`, `parse: boolean` | Adds a custom property to the theme.
 | `colors()` | `colors: Color[] | {}` | Adds multiple `Color` to the theme. Argument can be an associative object of `name` and `value`s or an array of `Color`.
 | `opacityVariant()` | `name: string`, `value: number`, `colors?: string[] | string` | Adds an opacity variant. Add defined color names to the `colors` array to apply the variant only to them.
 | `colorVariant()` | `name: string`, `value: string`, `colors?: string[] | string` | Adds a color variant. Add defined color names to the `colors` array to apply the variant only to them.

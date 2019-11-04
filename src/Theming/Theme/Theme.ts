@@ -104,11 +104,12 @@ export class Theme {
    *
    * @param {string} name
    * @param {CustomPropertyValueType} value
+   * @param {boolean} parse
    * @returns {this}
    * @memberof Theme
    */
-  customProperty(name: string, value: CustomPropertyValueType): this {
-    this._customProperties.push(new CustomProperty(name, value));
+  customProperty(name: string, value: CustomPropertyValueType, parse: boolean = false): this {
+    this._customProperties.push(new CustomProperty(name, value, parse));
 
     return this;
   }
@@ -118,11 +119,12 @@ export class Theme {
    *
    * @param {string} name
    * @param {CustomPropertyValueType} value
+   * @param {boolean} parse
    * @returns {this}
    * @memberof Theme
    */
-  variable(name: string, value: CustomPropertyValueType): this {
-    return this.customProperty(name, value);
+  variable(name: string, value: CustomPropertyValueType, parse: boolean = false): this {
+    return this.customProperty(name, value, parse);
   }
 
   /**

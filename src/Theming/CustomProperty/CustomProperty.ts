@@ -4,9 +4,10 @@ export class CustomProperty {
   private _value!: CustomPropertyValueType;
   private _parse!: boolean;
 
-  constructor(name: string, value: CustomPropertyValueType) {
+  constructor(name: string, value: CustomPropertyValueType, parse: boolean = true) {
     this.name(name);
     this.value(value);
+    this.parse(parse);
   }
 
   /**

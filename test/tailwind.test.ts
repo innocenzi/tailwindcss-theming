@@ -73,6 +73,7 @@ it('generates root theme with multiple colors', async () => {
 });
 
 it('generates custom css properties', async () => {
+  console.log(['test1','test2',3].toString());
   const plugin = new ThemeBuilder().defaults().themes([
     generateTheme({ isDefault: true })
       .variable('int-var', 1)

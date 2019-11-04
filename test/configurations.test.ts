@@ -159,6 +159,7 @@ it('generates css variables', () => {
     .variable('int-var', 1)
     .variable('float-var', 1.2)
     .variable('array-var', ['value1', 'value2', 1, 1.2, 'spaced text','"spaced quote"'])
+    .variable('array-raw-var', ['value1', 'value2'], false)
     .variable('str-var', 'hello')
     .variable('color-var', '#ffffff')
     .variable('mixed-var', '3px 6px rgb(20, 32, 54)')
@@ -178,6 +179,7 @@ it('generates css variables', () => {
       '--int-var': '1',
       '--float-var': '1.2',
       '--array-var': 'value1,value2,1,1.2,spaced text,"spaced quote"', // avoid spaced text tho
+      '--array-raw-var': 'value1,value2', // avoid spaced text tho
       '--str-var': 'hello',
       '--color-var': '#ffffff',
       '--mixed-var': '3px 6px rgb(20, 32, 54)',
