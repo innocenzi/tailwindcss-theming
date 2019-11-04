@@ -178,7 +178,7 @@ it('generates css variables', () => {
     .variable('int-var', 1)
     .variable('float-var', 1.2)
     .variable('array-var', ['value1', 'value2', 1, 1.2, 'spaced text', '"spaced quote"'])
-    .customProperty('array-raw-var', ['value1', 'value2'], false)
+    .variable('array-raw-var', ['value1', 'value2'])
     .variable('str-var', 'hello')
     .variable('color-var', '#ffffff')
     .variable('mixed-var', '3px 6px rgb(20, 32, 54)')
