@@ -3,9 +3,10 @@ import cssMatcher from 'jest-matcher-css';
 import postcss from 'postcss';
 import tailwindcss from 'tailwindcss';
 import { Theme } from '../src/Theming/Theme/Theme';
-import { Color } from '../src/Theming/Color/Color';
 import { Strategy } from '../src/Theming/Strategy';
 import { generateTheme } from './themeGenerator';
+import { tryStatement } from '@babel/types';
+import { getThemeConfiguration } from '../src/Theming/Generator/getThemeConfiguration';
 
 expect.extend({
   toMatchCss: cssMatcher,
@@ -96,6 +97,30 @@ it('generates custom css properties', async () => {
       --mixed-var: 3px 6px rgb(20, 32, 54);
       --different-case-var: hello
     }
+  `);
+});
+
+it('generates a tailwind configuration extension', async () => {
+  const plugin = new ThemeBuilder().defaults();
+  const theme = new Theme()
+    .default()
+    .variable('title', ['Roboto', '"Segoe UI"'], 'fontFamily', 'font')
+    .variable('huge', '64px', 'spacing', 'spacing');
+
+  plugin.themes([theme]);
+
+  const css = await generatePluginCss(plugin, undefined, true, true, true, [ 'fontFamily' ]);
+
+  // @ts-ignore
+  expect(css).toMatchCss(`
+    :root {
+      --font-title: Roboto,"Segoe UI";
+      --spacing-huge: 64px
+    }
+    .font-sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" }
+    .font-serif { font-family: Georgia, Cambria, "Times New Roman", Times, serif }
+    .font-mono { font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace }
+    .font-title { font-family: var(--font-title) }
   `);
 });
 

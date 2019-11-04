@@ -82,7 +82,7 @@ export function getOpacityVariantVariableName(variant: OpacityVariant): string {
  * @returns {string}
  */
 export function getCustomPropertyVariableName(property: CustomProperty): string {
-  return `--${getPascalCase(property.getName())}`;
+  return `--${property.getPrefix()}${getPascalCase(property.getName())}`;
 }
 
 /**
