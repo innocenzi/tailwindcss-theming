@@ -1,16 +1,18 @@
-import { getPascalCase } from "../Generator/utils";
+import { getPascalCase } from '../Generator/utils';
 
 export type CustomPropertyValueType = string | number | Array<string | number>;
 export class CustomProperty {
   private _name!: string;
   private _value!: CustomPropertyValueType;
   private _parse!: boolean;
-  private _extendPath: string | undefined;
+  private _path?: string;
+  private _prefix?: string;
 
-  constructor(name: string, value: CustomPropertyValueType, extend?: string, parse: boolean = true) {
+  constructor(name: string, value: CustomPropertyValueType, extend?: string, prefix?: string, parse: boolean = true) {
     this.name(name);
     this.value(value);
     this.extend(extend);
+    this.prefix(prefix);
     this.parse(parse);
   }
 
@@ -54,14 +56,27 @@ export class CustomProperty {
   }
 
   /**
-   * Adds this variable in the Tailwind configuration, at the given path (using dot syntax).
+   * Extends Tailwind's configuration at the given path.
    *
    * @param {string} [path]
    * @returns {this}
    * @memberof CustomProperty
    */
   extend(path?: string): this {
-    this._extendPath = path;
+    this._path = path;
+
+    return this;
+  }
+
+  /**
+   * Sets a prefix to the variable.
+   *
+   * @param {string} [prefix]
+   * @returns {this}
+   * @memberof CustomProperty
+   */
+  prefix(prefix?: string): this {
+    this._prefix = prefix;
 
     return this;
   }
@@ -73,7 +88,7 @@ export class CustomProperty {
    * @memberof CustomProperty
    */
   extends(): boolean {
-    return !!this._extendPath;
+    return !!this._path;
   }
 
   /**
@@ -98,9 +113,25 @@ export class CustomProperty {
    * @type {string}
    * @memberof CustomProperty
    */
-  get extendPath(): string {
-    let name: string = getPascalCase(this._name);
-    return this._extendPath ? `${this._extendPath}.${name}` : name;
+  getPath(): string {
+    if (this._path) {
+      let name: string = getPascalCase(this._name);
+
+      return `${this._path}.${name}`;
+    }
+
+    return this._name;
+  }
+
+  /**
+   * Gets the prefix for this property.
+   *
+   * @readonly
+   * @type {string}
+   * @memberof CustomProperty
+   */
+  getPrefix(withDash: boolean = true): string {
+    return this._prefix ? `${this._prefix}${withDash ? '-' : ''}` : '';
   }
 
   /**

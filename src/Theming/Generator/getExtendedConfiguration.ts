@@ -9,8 +9,8 @@ export function getExtendedConfiguration(themes: Theme[], config: Configuration)
     .getCustomProperties()
     .filter(prop => prop.extends());
 
-  properties.forEach(prop => {
-    set(extendConfiguration, prop.extendPath, `var(${getCustomPropertyVariableName(prop)})`);
+  properties.forEach(property => {
+    set(extendConfiguration, property.getPath(), `var(${getCustomPropertyVariableName(property)})`);
   });
 
   return extendConfiguration;

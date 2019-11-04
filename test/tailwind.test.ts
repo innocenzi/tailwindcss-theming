@@ -104,8 +104,8 @@ it('generates a tailwind configuration extension', async () => {
   const plugin = new ThemeBuilder().defaults();
   const theme = new Theme()
     .default()
-    .variable('title', ['Roboto', '"Segoe UI"'], 'fontFamily')
-    .variable('huge', '64px', 'spacing');
+    .variable('title', ['Roboto', '"Segoe UI"'], 'fontFamily', 'font')
+    .variable('huge', '64px', 'spacing', 'spacing');
 
   plugin.themes([theme]);
 
@@ -114,13 +114,13 @@ it('generates a tailwind configuration extension', async () => {
   // @ts-ignore
   expect(css).toMatchCss(`
     :root {
-      --title: Roboto,"Segoe UI";
-      --huge: 64px
+      --font-title: Roboto,"Segoe UI";
+      --spacing-huge: 64px
     }
     .font-sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" }
     .font-serif { font-family: Georgia, Cambria, "Times New Roman", Times, serif }
     .font-mono { font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace }
-    .font-title { font-family: var(--title) }
+    .font-title { font-family: var(--font-title) }
   `);
 });
 
