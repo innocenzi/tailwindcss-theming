@@ -121,17 +121,23 @@ it('generates a tailwind configuration extension', async () => {
   const plugin = new ThemeBuilder().defaults();
   const theme = new Theme()
     .default()
-    .variable('title', ['Roboto', '"Segoe UI"'], 'fontFamily')
-    .variable('huge', '64px', 'spacing');
+    .variable('title', ['Roboto', '"Segoe UI"'], 'fontFamily') // auto prefix (with auto-case)
+    .variable('tiny', '1px', 'spacing', 'space') // custom prefix
+    .variable('huge', '64px', 'spacing') // auto prefix
+    .variable('absolute-unit', '128px', 'spacing', false); // no prefix
 
   plugin.themes([theme]);
 
   expect(getThemeConfiguration([theme], plugin.theming)).toStrictEqual({
     colors: {},
     extend: {
-      fontFamily: { 'title': 'var(--title)' },
-      spacing: { huge: 'var(--huge)' }
-    }
+      fontFamily: { title: 'var(--font-family-title)' },
+      spacing: {
+        tiny: 'var(--space-tiny)',
+        huge: 'var(--spacing-huge)',
+        'absolute-unit': 'var(--absolute-unit)',
+      },
+    },
   });
 });
 

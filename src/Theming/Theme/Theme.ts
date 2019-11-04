@@ -6,7 +6,6 @@ import { Variant } from '../Variant/Variant';
 import { OpacityVariant } from '../Variant/OpacityVariant';
 import { ColorVariant } from '../Variant/ColorVariant';
 import { CustomProperty, CustomPropertyValueType } from '../CustomProperty/CustomProperty';
-import { Extension } from '../CustomProperty/Extension';
 
 export const DEFAULT_THEME_NAME = 'default';
 
@@ -106,12 +105,12 @@ export class Theme {
    * @param {string} name
    * @param {CustomPropertyValueType} value
    * @param {string} [extend]
-   * @param {string} [prefix]
+   * @param {string|false} [prefix]
    * @param {boolean} [parse=true]
    * @returns {this}
    * @memberof Theme
    */
-  customProperty(name: string, value: CustomPropertyValueType, extend?: string, prefix?: string, parse: boolean = true): this {
+  customProperty(name: string, value: CustomPropertyValueType, extend?: string, prefix?: string | false, parse: boolean = true): this {
     this._customProperties.push(new CustomProperty(name, value, extend, prefix, parse));
 
     return this;
@@ -123,12 +122,12 @@ export class Theme {
    * @param {string} name
    * @param {CustomPropertyValueType} value
    * @param {string} [extend]
-   * @param {string} [prefix]
+   * @param {string|false} [prefix]
    * @param {boolean} [parse=true]
    * @returns {this}
    * @memberof Theme
    */
-  variable(name: string, value: CustomPropertyValueType, extend?: string, prefix?: string, parse: boolean = true): this {
+  variable(name: string, value: CustomPropertyValueType, extend?: string, prefix?: string | false, parse: boolean = true): this {
     return this.customProperty(name, value, extend, prefix, parse);
   }
 

@@ -6,9 +6,9 @@ export class CustomProperty {
   private _value!: CustomPropertyValueType;
   private _parse!: boolean;
   private _path?: string;
-  private _prefix?: string;
+  private _prefix?: string | false;
 
-  constructor(name: string, value: CustomPropertyValueType, extend?: string, prefix?: string, parse: boolean = true) {
+  constructor(name: string, value: CustomPropertyValueType, extend?: string, prefix?: string | false, parse: boolean = true) {
     this.name(name);
     this.value(value);
     this.extend(extend);
@@ -71,11 +71,11 @@ export class CustomProperty {
   /**
    * Sets a prefix to the variable.
    *
-   * @param {string} [prefix]
+   * @param {string|false} [prefix]
    * @returns {this}
    * @memberof CustomProperty
    */
-  prefix(prefix?: string): this {
+  prefix(prefix?: string | false): this {
     this._prefix = prefix;
 
     return this;
@@ -120,7 +120,7 @@ export class CustomProperty {
       return `${this._path}.${name}`;
     }
 
-    return this._name;
+    return '';
   }
 
   /**
@@ -131,7 +131,12 @@ export class CustomProperty {
    * @memberof CustomProperty
    */
   getPrefix(withDash: boolean = true): string {
-    return this._prefix ? `${this._prefix}${withDash ? '-' : ''}` : '';
+    if (false === this._prefix) {
+      return '';
+    }
+    
+    let prefix = this._prefix || this._path;
+    return prefix ? `${getPascalCase(prefix)}${withDash ? '-' : ''}` : '';
   }
 
   /**
