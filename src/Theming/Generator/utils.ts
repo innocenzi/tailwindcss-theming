@@ -98,7 +98,7 @@ export function getColorVariantCssConfiguration(variant: ColorVariant, config: C
  */
 export function getColorVariantCssVariableValue(variant: ColorVariant): string {
   if (variant.color.a !== 1) {
-    return `${variant.color.r},${variant.color.g},${variant.color.b},,${variant.color.a}`;
+    return `${variant.color.r},${variant.color.g},${variant.color.b},${variant.color.a}`;
   } else {
     return `${variant.color.r},${variant.color.g},${variant.color.b}`;
   }
