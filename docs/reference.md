@@ -18,18 +18,18 @@
 | `defaults()` | None | Applies the default configuration.
 | `prefix()` | `prefix?: string` | Sets the prefix used for the export strategies.
 | `colorVariablePrefix()` | `prefix?: string` | Sets the color variables' names prefixes.
-| `strategy` | [`Strategy`](src/Theming/Strategy.ts) | Sets the export strategy.
+| `strategy` | [`Strategy`](../src/Theming/Strategy.ts) | Sets the export strategy.
 | `asPrefixedClass()` | `prefix?: string` | Sets the export strategy to `PrefixedClass`. You can pass a prefix as a parameter to this method.
 | `asClass()` | None | Sets the export strategy to `Class`.
 | `asDataAttribute()` | None | Sets the export strategy to `DataAttribute`.
 | `asDataThemeAttribute()` | None | Sets the export strategy to `DataThemeAttribute`.
 | `asPrefixedAttribute()` | `prefix?: string` | Sets the export strategy to `PrefixedAttribute`. You can pass a prefix as a parameter to this method.
 | `asAttribute()` | None | Sets the export strategy to `Attribute`.
-| `default()` | [`Theme`](src/Theming/Theme/Theme.ts) | Adds a default theme.
-| `dark()` | [`Theme`](src/Theming/Theme/Theme.ts), `default: boolean = true`, `assignable: boolean = true` | Adds a dark theme.
-| `light()` | [`Theme`](src/Theming/Theme/Theme.ts), `default: boolean = true`, `assignable: boolean = true` | Adds a light theme.
-| `theme()` | [`Theme`](src/Theming/Theme/Theme.ts) | Adds a theme.
-| `themes()` | [`Theme`](src/Theming/Theme/Theme.ts)`[]` | Adds multiple themes.
+| `default()` | [`Theme`](../src/Theming/Theme/Theme.ts) | Adds a default theme.
+| `dark()` | [`Theme`](../src/Theming/Theme/Theme.ts), `default: boolean = true`, `assignable: boolean = true` | Adds a dark theme.
+| `light()` | [`Theme`](../src/Theming/Theme/Theme.ts), `default: boolean = true`, `assignable: boolean = true` | Adds a light theme.
+| `theme()` | [`Theme`](../src/Theming/Theme/Theme.ts) | Adds a theme.
+| `themes()` | [`Theme`](../src/Theming/Theme/Theme.ts)`[]` | Adds multiple themes.
 | `theming()` | None | Gets the current plugin configuration.
 | `config()` | None | Gets the processed Tailwind configuration.
 | `handler()` | None | Gets the Tailwind's plugin `handler` method.
