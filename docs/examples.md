@@ -5,7 +5,8 @@
 # Table of contents
 
 - [Transitions](#transitions)
-- [Example 1](#example-1)
+    - [Configuration](#configuration)
+    - [Application](#application)
 - [← Back](../readme.md)
 
 # Transitions
@@ -23,7 +24,7 @@ It is advised to use this plugin with [benface's tailwindcss-transitions](https:
     <i>Yeah, this is a GIF. The FPS is not on point, but I swear it's smoooooth.</i>
 </p>
 
-# Example 1
+# Configuration
 
 This example showcase a configuration which defines a default and a dark theme, both of which are assignable and have a set of variants. 
 The dark theme inherits some of the opacity variants of the main theme. 
@@ -130,6 +131,8 @@ module.exports = new ThemeBuilder()
   .dark(darkTheme);
 ```
 
-# Example 2
+# Application
 
-> To be added.
+A `vue-cli` application with Tailwind, this plugin and a few PostCSS plugins is available as an example. This application is in [`examples/prefers-scheme`](https://github.com/hawezo/tailwindcss-theming/tree/master/examples/prefers-scheme).
+
+![](assets/example.gif)

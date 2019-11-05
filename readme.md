@@ -28,6 +28,8 @@
   - [ThemeBuilder](docs/reference.md#theme-builder)
   - [Theme](docs/reference.md#theme)
 - [Examples](docs/examples.md)
+    - [Configuration](docs/examples.md#configuration)
+    - [Application](docs/examples.md#application)
 - [Compatibility](#compatibility)
 
 
