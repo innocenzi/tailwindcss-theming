@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="I'm not a designer leave me alone I know this banner suck" src="assets/banner.jpg">
+  <img alt="I'm not a designer leave me alone I know this banner suck" src="assets/banner.png">
 </p>
 
 # Table of contents
