@@ -42,7 +42,7 @@
     "postcss": "^7.0.18",
     "tailwindcss": "canary",
     "ts-jest": "^24.1.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.7.0"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^2.5.3"
