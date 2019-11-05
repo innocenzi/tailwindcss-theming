@@ -53,3 +53,12 @@ $ yarn add tailwindcss-theming --dev
 Please note that IE11 [doesn't support CSS custom properties](https://caniuse.com/#feat=css-variables). You can still have partial support for IE11 by using the [PostCSS custom properties plugin](https://github.com/postcss/postcss-custom-properties). 
 
 You won't be able to change theme at runtime, but at least your main and  theme will work flawlessly.
+
+<p align="center">
+    <br />
+    •
+    <br />
+    <br />
+    <img src="docs/assets/example.gif" alt="Example of what you can do with this plugin" />
+    <i>A dark/light mode switch example - see <a href="docs/examples.md#application">here</a>.</i>
+</p>
