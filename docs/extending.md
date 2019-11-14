@@ -41,7 +41,6 @@ With this in mind, we can enhance the previous example with the following:
 // theme.config.js
 const { ThemeBuilder, Theme } = require('tailwindcss-theming');
 const mainTheme = new Theme()
-  .color('primary', '#e1e1e1')
   .variable('title', ['Roboto', '"Segoe UI"'], 'fontFamily')
 ;
 
@@ -69,7 +68,7 @@ Now, you can use the Tailwind's `fontFamily` utilities in your templates:
 <span class="font-title">Ohayo</span>
 ```
 
-This feature opens the gate to really powerful theming, as you can now theming basically any Tailwind utility with CSS properties.
+This feature opens the gate to really powerful theming, as you can now theme basically any Tailwind utility with CSS properties.
 
 ## Prefixes
 
