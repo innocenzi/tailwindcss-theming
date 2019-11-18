@@ -166,6 +166,7 @@ it('generates utilities with multiple colors and their variants', async () => {
       })
       .colorVariant('actually-black', 'black')
       .colorVariant('darker', 'gray', ['primary'])
+      .colorVariant('hover', '#28282885', ['primary'])
       .opacityVariant('disabled', 0)
       .opacityVariant('less-opaque', 0.7, ['secondary', 'tertiary']),
   ]);
@@ -183,6 +184,7 @@ it('generates utilities with multiple colors and their variants', async () => {
       --color-variant-actually-black: 0, 0, 0;
       --opacity-variant-disabled: 0;
       --color-variant-darker: 128, 128, 128;
+      --color-variant-hover: 40,40,40,0.5215686274509804;
       --opacity-variant-less-opaque: 0.7
     }
     .text-transparent { color: rgba(var(--color-transparent), 0) } 
@@ -191,6 +193,7 @@ it('generates utilities with multiple colors and their variants', async () => {
     .text-primary { color: rgb(var(--color-primary)) } 
     .text-primary-actually-black { color: rgb(var(--color-variant-actually-black)) } 
     .text-primary-darker { color: rgb(var(--color-variant-darker)) } 
+    .text-primary-hover { color: rgba(var(--color-variant-hover)) } 
     .text-primary-disabled { color: rgba(var(--color-primary), var(--opacity-variant-disabled)) } 
     .text-secondary { color: rgb(var(--color-secondary)) } 
     .text-secondary-actually-black { color: rgb(var(--color-variant-actually-black)) } 

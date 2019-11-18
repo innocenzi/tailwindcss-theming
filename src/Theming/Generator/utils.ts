@@ -95,7 +95,7 @@ export function getCustomPropertyVariableName(property: CustomProperty): string 
  */
 export function getColorVariantCssConfiguration(variant: ColorVariant, config: Configuration): string {
   if (variant.color.a !== 1) {
-    return `rgba(var(${getColorVariantVariableName(variant)}), ${variant.color.a})`;
+    return `rgba(var(${getColorVariantVariableName(variant)}))`;
   } else {
     return `rgb(var(${getColorVariantVariableName(variant)}))`;
   }
