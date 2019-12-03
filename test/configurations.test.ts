@@ -51,6 +51,44 @@ it('can be configured', () => {
   });
 });
 
+it('can have same variant names for different scopes', () => {
+  expect(() => {
+    new Theme()
+      .name('night')
+      .colors({
+        primary: 'white',
+        secondary: 'teal',
+      })
+      .colorVariant('light', '#FF569C', 'primary')
+      .colorVariant('light', '#FFFFFF', ['secondary']);
+  }).not.toThrow();
+});
+
+it('cannot duplicate unscoped variants', () => {
+  expect(() => {
+    new Theme()
+      .name('night')
+      .colors({
+        primary: 'white',
+        secondary: 'teal',
+      })
+      .colorVariant('light', '#FF569C')
+      .colorVariant('light', '#FFFFFF');
+  }).toThrowError('Variant light already exists.');
+});
+
+it('cannot duplicate scoped variants', () => {
+  expect(() => {
+    new Theme()
+      .name('night')
+      .colors({
+        primary: 'white',
+      })
+      .colorVariant('light', '#FF569C', 'primary')
+      .colorVariant('light', '#FF569C', ['primary']);
+  }).toThrowError("Variant light already exists for the color 'primary'.");
+});
+
 it('generates themes without variants', async () => {
   const theme = new Theme().name('night').colors({
     primary: 'white',
@@ -160,14 +198,14 @@ it('generates color configuration', () => {
   expect(getColorConfiguration([theme], plugin.theming)).toStrictEqual({
     primary: {
       default: 'rgb(var(--color-primary))',
-      hover: 'rgb(var(--color-variant-hover))',
+      hover: 'rgb(var(--color-variant-primary-hover))',
       blueish: 'rgb(var(--color-variant-blueish))',
       hidden: 'rgba(var(--color-primary), var(--opacity-variant-hidden))',
     },
     secondary: {
       default: 'rgb(var(--color-secondary))',
       blueish: 'rgb(var(--color-variant-blueish))',
-      disabled: 'rgba(var(--color-secondary), var(--opacity-variant-disabled))',
+      disabled: 'rgba(var(--color-secondary), var(--opacity-variant-secondary-disabled))',
       hidden: 'rgba(var(--color-secondary), var(--opacity-variant-hidden))',
     },
     brand: {
@@ -197,10 +235,10 @@ it('generates css variables', () => {
       '--color-primary': '255,255,255',
       '--color-secondary': '0,128,128',
       '--color-brand': '0,0,255',
-      '--color-variant-hover': '128,128,128',
+      '--color-variant-primary-hover': '128,128,128',
       '--color-variant-blueish': '0,0,255',
       '--opacity-variant-hidden': '0',
-      '--opacity-variant-disabled': '0.25',
+      '--opacity-variant-secondary-disabled': '0.25',
       '--int-var': '1',
       '--float-var': '1.2',
       '--array-var': 'value1,value2,1,1.2,spaced text,"spaced quote"', // avoid spaced text tho
@@ -222,10 +260,10 @@ it('warns at css configuration if a color is set in a theme but not the default 
       '--color-primary': '255,255,255',
       '--color-secondary': '0,128,128',
       '--color-brand': '0,0,255',
-      '--color-variant-hover': '128,128,128',
+      '--color-variant-primary-hover': '128,128,128',
       '--color-variant-blueish': '0,0,255',
       '--opacity-variant-hidden': '0',
-      '--opacity-variant-disabled': '0.25',
+      '--opacity-variant-secondary-disabled': '0.25',
     },
   });
 
@@ -242,10 +280,10 @@ it('generates css configuration', () => {
       '--color-primary': '255,255,255',
       '--color-secondary': '0,128,128',
       '--color-brand': '0,0,255',
-      '--color-variant-hover': '128,128,128',
+      '--color-variant-primary-hover': '128,128,128',
       '--color-variant-blueish': '0,0,255',
       '--opacity-variant-hidden': '0',
-      '--opacity-variant-disabled': '0.25',
+      '--opacity-variant-secondary-disabled': '0.25',
     },
   });
 
@@ -254,19 +292,19 @@ it('generates css configuration', () => {
       '--color-primary': '255,255,255',
       '--color-secondary': '0,128,128',
       '--color-brand': '0,0,255',
-      '--color-variant-hover': '128,128,128',
+      '--color-variant-primary-hover': '128,128,128',
       '--color-variant-blueish': '0,0,255',
       '--opacity-variant-hidden': '0',
-      '--opacity-variant-disabled': '0.25',
+      '--opacity-variant-secondary-disabled': '0.25',
     },
     '[someOtherTheme]': {
       '--color-primary': '255,255,255',
       '--color-secondary': '0,128,128',
       '--color-brand': '0,0,255',
-      '--color-variant-hover': '128,128,128',
+      '--color-variant-primary-hover': '128,128,128',
       '--color-variant-blueish': '0,0,255',
       '--opacity-variant-hidden': '0',
-      '--opacity-variant-disabled': '0.25',
+      '--opacity-variant-secondary-disabled': '0.25',
     },
   });
 });

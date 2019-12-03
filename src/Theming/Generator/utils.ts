@@ -5,6 +5,7 @@ import { ColorVariant } from '../Variant/ColorVariant';
 import { OpacityVariant } from '../Variant/OpacityVariant';
 import { ThemeScheme } from '../Theme/ThemeScheme';
 import { CustomProperty } from '../CustomProperty/CustomProperty';
+import { Variant } from '../Variant/Variant';
 
 /**
  * Get the default theme out of an array of themes.
@@ -59,7 +60,27 @@ export function getColorVariableName(color: Color, config: Configuration): strin
  * @returns {string}
  */
 export function getColorVariantVariableName(variant: ColorVariant): string {
-  return `--color-variant-${variant.name}`;
+  return `--color-variant-${getFormattedVariantScope(variant)}${variant.name}`;
+}
+
+/**
+ * Get a string with the variant scope.
+ *
+ * @param variant
+ */
+export function getFormattedVariantScope(variant: Variant): string {
+  const scope = getVariantScope(variant);
+
+  return scope ? `${scope}-` : '';
+}
+
+/**
+ * Get the name of the variant's target or null.
+ *
+ * @param variant
+ */
+export function getVariantScope(variant: Variant): string | null {
+  return variant.colors.length === 1 ? variant.colors[0] : null;
 }
 
 /**
@@ -71,7 +92,7 @@ export function getColorVariantVariableName(variant: ColorVariant): string {
  * @returns {string}
  */
 export function getOpacityVariantVariableName(variant: OpacityVariant): string {
-  return `--opacity-variant-${variant.name}`;
+  return `--opacity-variant-${getFormattedVariantScope(variant)}${variant.name}`;
 }
 
 /**

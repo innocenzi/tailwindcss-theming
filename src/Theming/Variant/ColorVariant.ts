@@ -5,8 +5,8 @@ export class ColorVariant extends Variant {
   originalInput: string;
   color: TinyColor;
 
-  constructor(name: string, value: string) {
-    super(name);
+  constructor(name: string, value: string, colors?: string[]) {
+    super(name, colors);
 
     this.originalInput = value;
     this.color = new TinyColor(value);

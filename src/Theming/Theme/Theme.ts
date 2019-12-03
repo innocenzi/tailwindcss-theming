@@ -9,23 +9,12 @@ import { CustomProperty, CustomPropertyValueType } from '../CustomProperty/Custo
 
 export const DEFAULT_THEME_NAME = 'default';
 
-/**
- * Maps variants to a list of colors.
- *
- * @export
- * @interface VariantMap
- */
-export interface VariantMap {
-  [variantName: string]: string[];
-}
-
 export class Theme {
   private _name?: string;
   private _scheme?: ThemeScheme;
   private _colors: Color[];
   private _customProperties: CustomProperty[];
   private _variants: Variant[];
-  private _variantMap: VariantMap;
   private _assignable: boolean;
   private _default!: boolean;
 
@@ -34,7 +23,6 @@ export class Theme {
     this._colors = [];
     this._customProperties = [];
     this._variants = [];
-    this._variantMap = {};
   }
 
   /**
@@ -51,7 +39,7 @@ export class Theme {
   }
 
   /**
-   * Defines if this theme must be assignable by strategy. 
+   * Defines if this theme must be assignable by strategy.
    *
    * @returns {this}
    * @memberof Theme
@@ -172,9 +160,8 @@ export class Theme {
    * @memberof Theme
    */
   opacityVariant(name: string, value: number, colors?: string[] | string): this {
-    this.hasVariant(name, true);
-    this._variants.push(new OpacityVariant(name, value));
-    this.mapVariant(name, colors);
+    this.checkVariantUniqueness(name, colors, true);
+    this._variants.push(new OpacityVariant(name, value, !colors ? [] : Array.isArray(colors) ? colors : [colors]));
 
     return this;
   }
@@ -189,9 +176,8 @@ export class Theme {
    * @memberof Theme
    */
   colorVariant(name: string, value: string, colors?: string[] | string): this {
-    this.hasVariant(name, true);
-    this._variants.push(new ColorVariant(name, value));
-    this.mapVariant(name, colors);
+    this.checkVariantUniqueness(name, colors, true);
+    this._variants.push(new ColorVariant(name, value, !colors ? [] : Array.isArray(colors) ? colors : [colors]));
 
     return this;
   }
@@ -216,29 +202,27 @@ export class Theme {
   }
 
   /**
-   * Map a variant name to a list of color names. If the color list is empty, it will be mapped to every color.
+   * Checks if a variant exists for a color on this theme.
    *
-   * @param {string} name
-   * @param {string[]} [colors]
-   * @returns {this}
+   * @param {string} name Variant name.
+   * @param {(string[] | string)} [colors] Colors.
+   * @param {boolean} [throws=false] Throws an exception.
+   * @returns {boolean}
    * @memberof Theme
    */
-  mapVariant(name: string, colors?: string[] | string): this {
-    if (typeof colors === 'string') {
-      colors = [ colors ];
+  checkVariantUniqueness(name: string, colors?: string[] | string, throws: boolean = false): boolean {
+    if (typeof colors === 'string' || (Array.isArray(colors) && 1 === colors.length)) {
+      let color = Array.isArray(colors) ? colors[0] : colors;
+      let exists = this._variants.find(v => v.name === name && v.colors.length === 1 && v.colors[0] === color);
+
+      if (exists && throws) {
+        throw new Error(`Variant ${name} already exists for the color '${color}'.`);
+      }
+
+      return !!exists;
     }
 
-    if (!colors || !Array.isArray(colors)) {
-      colors = this._colors.map<string>(color => color.keyName);
-    }
-
-    if (!(name in this._variantMap)) {
-      this._variantMap[name] = [];
-    }
-
-    this._variantMap[name].push(...colors);
-
-    return this;
+    return this.hasVariant(name, true);
   }
 
   /**
@@ -249,11 +233,7 @@ export class Theme {
    * @memberof Theme
    */
   variantsOf(color: string): Variant[] {
-    return <Variant[]>Object.entries(this._variantMap).map<Variant | undefined>(([variantName, colors]) => {
-      if (colors.find(m => m === color)) {
-        return this._variants.find(v => v.name === variantName);
-      }
-    }).filter(Boolean);
+    return this._variants.filter(variant => variant.colors.includes(color) || 0 === variant.colors.length);
   }
 
   /**
@@ -313,13 +293,12 @@ export class Theme {
    * @type {boolean}
    * @memberof Theme
    */
-  hasName(): boolean
-  {
+  hasName(): boolean {
     return undefined !== this._name && this._name.length > 0;
   }
 
   /**
-   * Gets if this theme must be assignable by strategy. 
+   * Gets if this theme must be assignable by strategy.
    *
    * @readonly
    * @type {boolean}
@@ -338,16 +317,5 @@ export class Theme {
    */
   hasScheme(): boolean {
     return undefined !== this._scheme;
-  }
-
-  /**
-   * Gets the variant map.
-   *
-   * @readonly
-   * @type {VariantMap}
-   * @memberof Theme
-   */
-  get variantMap(): VariantMap {
-    return this._variantMap;
   }
 }

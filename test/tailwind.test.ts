@@ -109,7 +109,7 @@ it('generates a tailwind configuration extension', async () => {
 
   plugin.themes([theme]);
 
-  const css = await generatePluginCss(plugin, undefined, true, true, true, [ 'fontFamily' ]);
+  const css = await generatePluginCss(plugin, undefined, true, true, true, ['fontFamily']);
 
   // @ts-ignore
   expect(css).toMatchCss(`
@@ -165,7 +165,7 @@ it('generates utilities with multiple colors and their variants', async () => {
         quaternary: '#ffffff1e',
       })
       .colorVariant('actually-black', 'black')
-      .colorVariant('darker', 'gray', ['primary'])
+      .colorVariant('darker', 'gray', 'primary')
       .colorVariant('hover', '#28282885', ['primary'])
       .opacityVariant('disabled', 0)
       .opacityVariant('less-opaque', 0.7, ['secondary', 'tertiary']),
@@ -183,8 +183,8 @@ it('generates utilities with multiple colors and their variants', async () => {
       --color-quaternary: 255, 255, 255;
       --color-variant-actually-black: 0, 0, 0;
       --opacity-variant-disabled: 0;
-      --color-variant-darker: 128, 128, 128;
-      --color-variant-hover: 40,40,40,0.5215686274509804;
+      --color-variant-primary-darker: 128, 128, 128;
+      --color-variant-primary-hover: 40,40,40,0.5215686274509804;
       --opacity-variant-less-opaque: 0.7
     }
     .text-transparent { color: rgba(var(--color-transparent), 0) } 
@@ -192,8 +192,8 @@ it('generates utilities with multiple colors and their variants', async () => {
     .text-transparent-disabled { color: rgba(var(--color-transparent), var(--opacity-variant-disabled)) } 
     .text-primary { color: rgb(var(--color-primary)) } 
     .text-primary-actually-black { color: rgb(var(--color-variant-actually-black)) } 
-    .text-primary-darker { color: rgb(var(--color-variant-darker)) } 
-    .text-primary-hover { color: rgba(var(--color-variant-hover)) } 
+    .text-primary-darker { color: rgb(var(--color-variant-primary-darker)) } 
+    .text-primary-hover { color: rgba(var(--color-variant-primary-hover)) } 
     .text-primary-disabled { color: rgba(var(--color-primary), var(--opacity-variant-disabled)) } 
     .text-secondary { color: rgb(var(--color-secondary)) } 
     .text-secondary-actually-black { color: rgb(var(--color-variant-actually-black)) } 
@@ -743,5 +743,42 @@ it('has a default themes using ThemeBuilder helper', async () => {
       :root {
         --color-main: 0,0,0
       }
+    }`);
+});
+
+it('generates variants with the same name for different scopes', async () => {
+  const plugin = new ThemeBuilder().default(
+    new Theme()
+      .default()
+      .colors({
+        'on-accent': '#FFFFFF',
+        accent: '#CB116E',
+
+        'on-primary': '#292929',
+        primary: '#FAFAFA',
+      })
+      .colorVariant('light', '#FF569C', 'accent')
+      .colorVariant('dark', '#940043', 'accent')
+      .colorVariant('light', '#FFFFFF', 'primary')
+      .colorVariant('dark', '#C7C7C7', 'primary')
+      .opacityVariant('slightly-visible', .2, 'accent')
+      .opacityVariant('slightly-visible', .1, 'primary')
+  );
+
+  const css = await generatePluginCss(plugin);
+
+  // @ts-ignore
+  expect(css).toMatchCss(`
+    :root {
+      --color-on-accent: 255,255,255;
+      --color-accent: 203,17,110;
+      --color-on-primary: 41,41,41;
+      --color-primary: 250,250,250;
+      --color-variant-accent-light: 255,86,156;
+      --color-variant-accent-dark: 148,0,67;
+      --opacity-variant-accent-slightly-visible: 0.2;
+      --color-variant-primary-light: 255,255,255;
+      --color-variant-primary-dark: 199,199,199;
+      --opacity-variant-primary-slightly-visible: 0.1;
     }`);
 });
