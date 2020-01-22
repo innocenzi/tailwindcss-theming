@@ -26,6 +26,7 @@ export class ThemeBuilder {
       prefix: undefined,
       colorVariablePrefix: 'color',
       strategy: Strategy.Attribute,
+      hexadecimal: false,
     };
 
     return this;
@@ -63,6 +64,18 @@ export class ThemeBuilder {
    */
   strategy(value: Strategy): this {
     this._config.strategy = value;
+
+    return this;
+  }
+
+  /**
+   * Enables hexadecimal mode. Opacity variants are disabled.
+   *
+   * @returns {this}
+   * @memberof ThemeBuilder
+   */
+  hexadecimal(): this {
+    this._config.hexadecimal = true;
 
     return this;
   }

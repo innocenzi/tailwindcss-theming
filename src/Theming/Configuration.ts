@@ -16,4 +16,10 @@ export interface Configuration {
    * A variable will name will be `--<prefix>-<key>`.
    */
   colorVariablePrefix: string | undefined;
+
+  /**
+   * Use hexadecimal instead of RGB and RGBA. 
+   * This disables transparency variants.
+   */
+  hexadecimal: boolean;
 }
