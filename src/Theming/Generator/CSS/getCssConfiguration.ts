@@ -25,7 +25,7 @@ export function getCssConfiguration(themes: Theme[], config: Configuration): The
 
     // Define colors
     theme.getColors().forEach(color => {
-      thisThemeConfig[getColorVariableName(color, config)] = getColorCssVariableValue(color);
+      thisThemeConfig[getColorVariableName(color, config)] = getColorCssVariableValue(color, config);
       variants.push(...theme.variantsOf(color.keyName));
 
       // Warn if color is not defined in default theme
@@ -37,9 +37,11 @@ export function getCssConfiguration(themes: Theme[], config: Configuration): The
     // Define variants
     variants.forEach(variant => {
       if (variant instanceof ColorVariant) {
-        thisThemeConfig[getColorVariantVariableName(variant)] = getColorVariantCssVariableValue(variant);
+        thisThemeConfig[getColorVariantVariableName(variant)] = getColorVariantCssVariableValue(variant, config);
       } else if (variant instanceof OpacityVariant) {
-        thisThemeConfig[getOpacityVariantVariableName(variant)] = variant.opacity.toString();
+        if (!config.hexadecimal) {
+          thisThemeConfig[getOpacityVariantVariableName(variant)] = variant.opacity.toString();
+        }
       } else {
         throw new Error(`Unknown variant type for '${variant.name}'.`);
       }
@@ -48,7 +50,7 @@ export function getCssConfiguration(themes: Theme[], config: Configuration): The
     // Define custom properties
     theme.getCustomProperties().forEach(property => {
       thisThemeConfig[getCustomPropertyVariableName(property)] = property.computed;
-    })
+    });
 
     // Theme is not under a preference scheme, so we put it in the css and rename it to
     // :root if needed

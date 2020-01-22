@@ -115,10 +115,14 @@ export function getCustomPropertyVariableName(property: CustomProperty): string 
  * @returns {string}
  */
 export function getColorVariantCssConfiguration(variant: ColorVariant, config: Configuration): string {
-  if (variant.color.a !== 1) {
-    return `rgba(var(${getColorVariantVariableName(variant)}))`;
+  const variable = `var(${getColorVariantVariableName(variant)})`;
+
+  if (config.hexadecimal) {
+    return variable;
+  } else if (variant.color.a !== 1) {
+    return `rgba(${variable})`;
   } else {
-    return `rgb(var(${getColorVariantVariableName(variant)}))`;
+    return `rgb(${variable})`;
   }
 }
 
@@ -129,8 +133,10 @@ export function getColorVariantCssConfiguration(variant: ColorVariant, config: C
  * @param {ColorVariant} variant
  * @returns {string}
  */
-export function getColorVariantCssVariableValue(variant: ColorVariant): string {
-  if (variant.color.a !== 1) {
+export function getColorVariantCssVariableValue(variant: ColorVariant, config: Configuration): string {
+  if (config.hexadecimal) {
+    return variant.color.toHex8String();
+  } else if (variant.color.a !== 1) {
     return `${variant.color.r},${variant.color.g},${variant.color.b},${variant.color.a}`;
   } else {
     return `${variant.color.r},${variant.color.g},${variant.color.b}`;
@@ -159,10 +165,14 @@ export function getOpacityVariantCssConfiguration(color: Color, variant: Opacity
  * @returns {string}
  */
 export function getColorCssConfiguration(color: Color, config: Configuration): string {
-  if (color.computed.a !== 1) {
-    return `rgba(var(${getColorVariableName(color, config)}), ${color.computed.a})`;
+  const variable = `var(${getColorVariableName(color, config)})`;
+
+  if (config.hexadecimal) {
+    return variable;
+  } else if (color.computed.a !== 1) {
+    return `rgba(${variable}, ${color.computed.a})`;
   } else {
-    return `rgb(var(${getColorVariableName(color, config)}))`;
+    return `rgb(${variable})`;
   }
 }
 
@@ -173,8 +183,8 @@ export function getColorCssConfiguration(color: Color, config: Configuration): s
  * @param {Color} color
  * @returns {string}
  */
-export function getColorCssVariableValue(color: Color): string {
-  return `${color.computed.r},${color.computed.g},${color.computed.b}`;
+export function getColorCssVariableValue(color: Color, config: Configuration): string {
+  return config.hexadecimal ? color.computed.toHex8String() : `${color.computed.r},${color.computed.g},${color.computed.b}`;
 }
 
 /**

@@ -21,7 +21,9 @@ export function getColorConfiguration(themes: Theme[], config: Configuration) {
         if (variant instanceof ColorVariant) {
           colorConfiguration[color.keyName][variant.name] = getColorVariantCssConfiguration(variant, config);
         } else if (variant instanceof OpacityVariant) {
-          colorConfiguration[color.keyName][variant.name] = getOpacityVariantCssConfiguration(color, variant, config);
+          if (!config.hexadecimal) {
+            colorConfiguration[color.keyName][variant.name] = getOpacityVariantCssConfiguration(color, variant, config);
+          }
         } else {
           throw new Error('Unknown color variant.');
         }
