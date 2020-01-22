@@ -19,6 +19,7 @@
 | `prefix()` | `prefix?: string` | Sets the prefix used for the export strategies.
 | `colorVariablePrefix()` | `prefix?: string` | Sets the color variables' names prefixes.
 | `strategy` | [`Strategy`](../src/Theming/Strategy.ts) | Sets the export strategy.
+| `hexadecimal` | None | Enables the hexadecimal mode, which uses HEX8 instead of RGB and RGBA. It disables opacity variants.
 | `asPrefixedClass()` | `prefix?: string` | Sets the export strategy to `PrefixedClass`. You can pass a prefix as a parameter to this method.
 | `asClass()` | None | Sets the export strategy to `Class`.
 | `asDataAttribute()` | None | Sets the export strategy to `DataAttribute`.

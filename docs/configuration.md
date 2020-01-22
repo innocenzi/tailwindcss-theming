@@ -332,3 +332,12 @@ Instead of this way:
     <!-- ... -->
 </div>
 ```
+To enabled it, use `hexadecimal` on your `ThemeBuilder`.
+
+```js
+// theme.config.js
+const { ThemeBuilder } = require('tailwindcss-theming');
+
+module.exports = new ThemeBuilder()
+  .hexadecimal();
+```
