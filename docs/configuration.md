@@ -332,7 +332,7 @@ Instead of this way:
     <!-- ... -->
 </div>
 ```
-To enabled it, use `hexadecimal` on your `ThemeBuilder`.
+To enable it, use `hexadecimal` on your `ThemeBuilder`.
 
 ```js
 // theme.config.js
