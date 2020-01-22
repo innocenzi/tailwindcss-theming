@@ -21,6 +21,7 @@
 - [Other](#other)
     - [Color variables' prefixes](#color-variables-prefixes)
     - [Themes shorthand](#themes-shorthand)
+    - [Hexadecimal mode](#hexadecimal-mode)
 - [← Back](../readme.md)
 
 # Configuration
@@ -298,3 +299,36 @@ const theme = new ThemeBuilder()
 ## Themes shorthand
 
 You can declare multiple themes at once by calling `themes()` on the `ThemeBuilder` object. The only parameter is an array of `Theme` objects. If you are using this, don't forget to have at least one default theme in the array. 
+
+## Hexadecimal mode
+
+If you don't want to deal with RGB or RGBA, you can enable the hexadecimal mode, which will use the HEX8 format. **It will disable opacity variants**, but color variants will still be available. 
+
+For instance, the following theme:
+
+```javascript
+new Theme()
+  .colors({
+    primary: 'white',
+  })
+  .opacityVariant('hidden', 0)
+  .colorVariant('hover', '#3B4252', 'primary');
+```
+
+Will output the `--color-primary: #ffffffff` variable in `:root`, as well as the `--color-variant-primary-hover: #3B4252FF` variant, but the `hidden` opacity variant will be ignored. No utility nor variable will be generated. 
+
+This mode will allow you to work with inline variable in an easier way. For instance, you will be able to change your brand color this way:
+
+```html
+<div style="--color-brand: #ff00ff">
+    <!-- ... -->
+</div>
+```
+
+Instead of this way:
+
+```html
+<div style="--color-brand: 255,0,255">
+    <!-- ... -->
+</div>
+```
