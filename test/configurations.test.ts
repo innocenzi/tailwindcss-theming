@@ -364,3 +364,37 @@ it('takes strategies into account', () => {
     },
   });
 });
+
+it('generates hexadecimal colors and variants with hexadecimal mode', () => {
+  const plugin = new ThemeBuilder().defaults().hexadecimal();
+
+  expect(getCssConfiguration([getTestTheme()], plugin.theming)).toStrictEqual({
+    ':root': {
+      '--color-primary': '#ffffffff',
+      '--color-secondary': '#008080ff',
+      '--color-brand': '#0000ffff',
+      '--color-variant-primary-hover': '#808080ff',
+      '--color-variant-blueish': '#0000ffff',
+    },
+  });
+});
+
+it('does not generate opacity variants with hexadecimal mode', () => {
+  const plugin = new ThemeBuilder().defaults().hexadecimal();
+  const theme = new Theme()
+    .default()
+    .colors({
+      primary: 'white',
+    })
+    .colorVariant('hover', 'gray', 'primary')
+    .colorVariant('focus', 'darkgray')
+    .opacityVariant('hidden', 0);
+
+  expect(getCssConfiguration([theme], plugin.theming)).toStrictEqual({
+    ':root': {
+      '--color-primary': '#ffffffff',
+      '--color-variant-primary-hover': '#808080ff',
+      '--color-variant-focus': '#a9a9a9ff',
+    },
+  });
+});

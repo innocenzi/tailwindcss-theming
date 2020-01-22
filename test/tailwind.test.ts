@@ -73,6 +73,33 @@ it('generates root theme with multiple colors', async () => {
   `);
 });
 
+it('generates root theme with multiple colors in hexadecimal mode', async () => {
+  const plugin = new ThemeBuilder()
+    .defaults()
+    .hexadecimal()
+    .themes([
+      generateTheme({ isDefault: true }).colors({
+        transparent: 'transparent',
+        primary: 'white',
+        secondary: '#000',
+        tertiary: 'blue',
+        quaternary: '#ffffff1e',
+      }),
+    ]);
+  const css = await generatePluginCss(plugin);
+
+  // @ts-ignore
+  expect(css).toMatchCss(`
+    :root {
+      --color-transparent: #00000000;
+      --color-primary: #ffffffff;
+      --color-secondary: #000000ff;
+      --color-tertiary: #0000ffff;
+      --color-quaternary: #ffffff1e
+    }
+  `);
+});
+
 it('generates custom css properties', async () => {
   const plugin = new ThemeBuilder().defaults().themes([
     generateTheme({ isDefault: true })
@@ -153,6 +180,38 @@ it('generates utilities with multiple colors', async () => {
   `);
 });
 
+it('generates utilities with multiple colors in hexadecimal mode', async () => {
+  const plugin = new ThemeBuilder()
+    .defaults()
+    .hexadecimal()
+    .themes([
+      generateTheme({ isDefault: true }).colors({
+        transparent: 'transparent',
+        primary: 'white',
+        secondary: '#000',
+        tertiary: 'blue',
+        quaternary: '#ffffff1e',
+      }),
+    ]);
+  const css = await generatePluginCss(plugin, {}, true, true, true, ['textColor']);
+
+  // @ts-ignore
+  expect(css).toMatchCss(`
+    :root {
+      --color-transparent: #00000000;
+      --color-primary: #ffffffff;
+      --color-secondary: #000000ff;
+      --color-tertiary: #0000ffff;
+      --color-quaternary: #ffffff1e
+    }
+    .text-transparent { color: var(--color-transparent) }
+    .text-primary { color: var(--color-primary) }
+    .text-secondary { color: var(--color-secondary) }
+    .text-tertiary { color: var(--color-tertiary) }
+    .text-quaternary { color: var(--color-quaternary) }
+  `);
+});
+
 it('generates utilities with multiple colors and their variants', async () => {
   const plugin = new ThemeBuilder().defaults().themes([
     new Theme()
@@ -206,6 +265,55 @@ it('generates utilities with multiple colors and their variants', async () => {
     .text-quaternary { color: rgba(var(--color-quaternary), 0.11764705882352941) } 
     .text-quaternary-actually-black { color: rgb(var(--color-variant-actually-black)) } 
     .text-quaternary-disabled { color: rgba(var(--color-quaternary), var(--opacity-variant-disabled)) }`);
+});
+
+it('generates utilities with multiple colors and their variants in hexadecimal mode', async () => {
+  const plugin = new ThemeBuilder()
+    .defaults()
+    .hexadecimal()
+    .themes([
+      new Theme()
+        .default()
+        .colors({
+          transparent: 'transparent',
+          primary: 'white',
+          secondary: '#000',
+          tertiary: 'blue',
+          quaternary: '#ffffff1e',
+        })
+        .colorVariant('actually-black', 'black')
+        .colorVariant('darker', 'gray', 'primary')
+        .colorVariant('hover', '#28282885', ['primary'])
+        .opacityVariant('disabled', 0)
+        .opacityVariant('less-opaque', 0.7, ['secondary', 'tertiary']),
+    ]);
+
+  const css = await generatePluginCss(plugin, {}, true, true, true, ['textColor']);
+
+  // @ts-ignore
+  expect(css).toMatchCss(`
+    :root {
+      --color-transparent: #00000000;
+      --color-primary: #ffffffff;
+      --color-secondary: #000000ff;
+      --color-tertiary: #0000ffff;
+      --color-quaternary: #ffffff1e;
+      --color-variant-actually-black: #000000ff;
+      --color-variant-primary-darker: #808080ff;
+      --color-variant-primary-hover: #28282885
+    }
+    .text-transparent { color: var(--color-transparent) } 
+    .text-transparent-actually-black { color: var(--color-variant-actually-black) } 
+    .text-primary { color: var(--color-primary) } 
+    .text-primary-actually-black { color: var(--color-variant-actually-black) } 
+    .text-primary-darker { color: var(--color-variant-primary-darker) } 
+    .text-primary-hover { color: var(--color-variant-primary-hover) } 
+    .text-secondary { color: var(--color-secondary) } 
+    .text-secondary-actually-black { color: var(--color-variant-actually-black) } 
+    .text-tertiary { color: var(--color-tertiary) } 
+    .text-tertiary-actually-black { color: var(--color-variant-actually-black) } 
+    .text-quaternary { color: var(--color-quaternary) } 
+    .text-quaternary-actually-black { color: var(--color-variant-actually-black) } `);
 });
 
 it("generates default theme's variants when it has multiple themes", async () => {
@@ -761,8 +869,8 @@ it('generates variants with the same name for different scopes', async () => {
       .colorVariant('dark', '#940043', 'accent')
       .colorVariant('light', '#FFFFFF', 'primary')
       .colorVariant('dark', '#C7C7C7', 'primary')
-      .opacityVariant('slightly-visible', .2, 'accent')
-      .opacityVariant('slightly-visible', .1, 'primary')
+      .opacityVariant('slightly-visible', 0.2, 'accent')
+      .opacityVariant('slightly-visible', 0.1, 'primary')
   );
 
   const css = await generatePluginCss(plugin);
