@@ -40,7 +40,7 @@
     "jest-matcher-css": "^1.1.0",
     "jest-mock-console": "^1.0.0",
     "postcss": "^7.0.18",
-    "tailwindcss": "v1.2.0-canary.5",
+    "tailwindcss": "v1.2.0",
     "ts-jest": "^24.3.0",
     "typescript": "^3.7.0"
   },
