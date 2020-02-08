@@ -144,9 +144,9 @@ it('generates a tailwind configuration extension', async () => {
       --font-title: Roboto,"Segoe UI";
       --spacing-huge: 64px
     }
-    .font-sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" }
-    .font-serif { font-family: Georgia, Cambria, "Times New Roman", Times, serif }
-    .font-mono { font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace }
+    .font-sans { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" } 
+    .font-serif { font-family: Georgia, Cambria, "Times New Roman", Times, serif } 
+    .font-mono { font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace } 
     .font-title { font-family: var(--font-title) }
   `);
 });
