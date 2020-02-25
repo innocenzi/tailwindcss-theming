@@ -38,7 +38,7 @@
 > **Note** - This plugin works with [**Tailwind CSS v1.2**](https://github.com/tailwindcss/tailwindcss/releases/tag/v1.2.0) upwards.
 > There is an unmaintained version of this plugin available for Tailwind CSS v1.1. Check out the [`tailwind-1.1`](https://github.com/hawezo/tailwindcss-theming/tree/tailwind-1.1) branch.
 
-`tailwindcss-theming` is a Tailwind plugin made to solve the common need to have multiple themes in an application. 
+`tailwindcss-theming` is a Tailwind plugin made to solve the common need to have multiple themes in an application. It is also perfect for making dark themes.
 
 It uses [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) in order to make your themes changeable on the client-side. Swapping themes is as simple as changing the class of your `body` or `html` element. 
 
