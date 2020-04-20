@@ -38,6 +38,7 @@
     "@types/faker": "^4.1.6",
     "@types/jest": "^24.0.25",
     "@types/lodash": "^4.14.150",
+    "@types/node": "^13.13.1",
     "babel-jest": "^24.9.0",
     "faker": "^4.1.0",
     "jest": "^24.9.0",
