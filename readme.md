@@ -39,6 +39,7 @@ Moreover, this plugin fully supports the [`prefers-color-scheme`](https://develo
 
 ```console
 $ yarn add tailwindcss-theming --dev
+$ npm i tailwindcss-theming -D
 ```
 
 
