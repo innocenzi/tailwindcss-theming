@@ -20,7 +20,6 @@
   - [Theme](docs/reference.md#theme)
 - [Examples](docs/examples.md)
     - [Configuration](docs/examples.md#configuration)
-    - [Application](docs/examples.md#application)
 - [Compatibility](#compatibility)
 
 
@@ -55,5 +54,5 @@ You won't be able to change theme at runtime, but at least your main will work f
     <br />
     <br />
     <img src="docs/assets/example.gif" alt="Example of what you can do with this plugin" />
-    <i>A dark/light mode switch example - see <a href="docs/examples.md#application">here</a>.</i>
+    <i>A dark/light mode switch example.</i>
 </p>

@@ -11,10 +11,10 @@
 
 # Transitions
 
-It is advised to use this plugin with [benface's tailwindcss-transitions](https://github.com/benface/tailwindcss-transitions). With it, you can make smooth transitions between themes:
+It is advised to use Tailwind's transitions, in order to achieve smooth client-side theme change.
 
 ```html
-<body class="transition-all transition-250" data-theme="light">
+<body class="transition-all duration-250" data-theme="light">
   <!-- /// -->
 </body>
 ```
@@ -131,8 +131,6 @@ module.exports = new ThemeBuilder()
   .dark(darkTheme);
 ```
 
-# Application
-
-A `vue-cli` application with Tailwind, this plugin and a few PostCSS plugins is available as an example. This application is in [`examples/prefers-scheme`](https://github.com/hawezo/tailwindcss-theming/tree/master/examples/prefers-scheme).
+---
 
 ![](assets/example.gif)
