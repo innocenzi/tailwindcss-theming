@@ -1,17 +1,8 @@
-<p align="center">
-  <a href="#"><img alt="I'm not a designer leave me alone I know this banner suck" src="docs/assets/banner.png"></a>
-  <br>
-  <div align="center">
-  <a href="https://github.com/hawezo/tailwindcss-theming/releases" target="_blank"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/hawezo/tailwindcss-theming?include_prereleases&style=flat-square"></a>
-  <a href="https://npmjs.com/package/tailwindcss-theming" target="_blank"><img alt="npm" src="https://img.shields.io/npm/v/tailwindcss-theming?style=flat-square"></a>
-  <a href="https://npmjs.com/package/tailwindcss-theming" target="_blank"><img alt="npm" src="https://img.shields.io/npm/dt/tailwindcss-theming?style=flat-square"></a>
-  <img alt="npm bundle size" src="https://img.shields.io/bundlephobia/minzip/tailwindcss-theming?style=flat-square">
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/hawezo/tailwindcss-theming?style=flat-square">
-  </div>
-  <br>
-</p>
+# Tailwind CSS Theming [![GitHub release](https://img.shields.io/github/v/release/hawezo/tailwindcss-theming?include_prereleases&style=flat-square)](https://github.com/hawezo/tailwindcss-theming/releases) [![NPM release](https://img.shields.io/npm/v/tailwindcss-theming?style=flat-square)](https://npmjs.com/package/tailwindcss-theming) [![Top Language](https://img.shields.io/github/languages/top/hawezo/tailwindcss-theming?style=flat-square)]() 
 
-# Table of contents
+[<img src="docs/assets/logo.svg" align="right" width="100">]()
+
+## Table of contents
 
 - [Introduction](#introduction)
 - [Setup](docs/setup.md)
