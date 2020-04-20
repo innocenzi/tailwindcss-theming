@@ -1,8 +1,7 @@
+import { TailwindPluginHandler, TailwindPlugin } from 'tailwindcss';
 import { Theme } from './Theme/Theme';
 import { Configuration } from './Configuration';
 import { Strategy } from './Strategy';
-import { TailwindPlugin } from '../TailwindPlugin/TailwindPlugin';
-import { TailwindPluginHandler } from '../TailwindPlugin/TailwindPluginHandler';
 import { getCssConfiguration } from './Generator/CSS/getCssConfiguration';
 import { getThemeConfiguration } from './Generator/getThemeConfiguration';
 
