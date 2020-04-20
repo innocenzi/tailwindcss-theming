@@ -37,6 +37,7 @@
     "@babel/preset-typescript": "^7.6.0",
     "@types/faker": "^4.1.6",
     "@types/jest": "^24.0.25",
+    "@types/lodash": "^4.14.150",
     "babel-jest": "^24.9.0",
     "faker": "^4.1.0",
     "jest": "^24.9.0",
@@ -48,6 +49,7 @@
     "typescript": "^3.7.0"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^2.5.3"
+    "@ctrl/tinycolor": "^2.5.3",
+    "lodash": "^4.17.15"
   }
 }
