@@ -47,7 +47,7 @@ $ npm i tailwindcss-theming -D
 
 Please note that IE11 [doesn't support CSS custom properties](https://caniuse.com/#feat=css-variables). You can still have partial support for IE11 by using the [PostCSS custom properties plugin](https://github.com/postcss/postcss-custom-properties). 
 
-You won't be able to change theme at runtime, but at least your main and  theme will work flawlessly.
+You won't be able to change theme at runtime, but at least your main will work flawlessly.
 
 <p align="center">
     <br />
