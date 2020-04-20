@@ -1,4 +1,4 @@
-import { Theme } from '../..';
+import { Theme } from '../Theme/Theme';
 import { Configuration } from '../Configuration';
 import { getDefaultTheme, getCustomPropertyVariableName } from './utils';
 import set from 'lodash/set';

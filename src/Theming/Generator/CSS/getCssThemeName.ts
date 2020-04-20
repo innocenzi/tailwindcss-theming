@@ -1,4 +1,5 @@
-import { Theme, Strategy } from '../../..';
+import { Theme } from '../../Theme/Theme';
+import { Strategy } from '../../Strategy';
 import { Configuration } from '../../Configuration';
 
 export function getCssThemeName(theme: Theme, config: Configuration, keepName: boolean = false): string {
