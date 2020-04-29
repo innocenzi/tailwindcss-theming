@@ -26,7 +26,13 @@ export interface ThemingPluginOptions {
  * @returns {ThemeBuilder}
  */
 function getThemeBuilder(configPath: string): ThemeBuilder {
-  return require(path.resolve(configPath))?.default as ThemeBuilder;
+  const resolved = path.resolve(configPath);
+
+  try {
+    return require(resolved)?.default as ThemeBuilder;
+  } catch {
+    throw new Error(`Could not find the theme configuration file. Tried '${resolved}'.`);
+  }
 }
 
 /**
@@ -37,8 +43,8 @@ function getThemeBuilder(configPath: string): ThemeBuilder {
  */
 function getOptions(options: Partial<ThemingPluginOptions>): ThemingPluginOptions {
   return {
-    ...options,
     ...defaultOptions,
+    ...options,
   };
 }
 
