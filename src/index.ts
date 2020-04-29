@@ -1,5 +1,5 @@
 import plugin from 'tailwindcss/plugin';
-import { ThemingPluginOptions, getOptions, getThemeBuilder } from './plugin';
+import { ThemingPluginOptions, getOptions, getThemeManager } from './plugin';
 
 /**
  * Exports a Tailwind plugin, which overrides the config and
@@ -11,8 +11,8 @@ export = plugin.withOptions(
    * the plugin's options.
    */
   (options: ThemingPluginOptions) => {
-    const { path } = getOptions(options);
-    const themes = getThemeBuilder(path);
+    const { path, preset } = getOptions(options);
+    const themes = preset ?? getThemeManager(path);
 
     // The Tailwind plugin.
     return function ({ addBase }) {
@@ -27,8 +27,8 @@ export = plugin.withOptions(
    * Takes as parameters the plugin's options.
    */
   (options: ThemingPluginOptions) => {
-    const { path } = getOptions(options);
-    const themes = getThemeBuilder(path);
+    const { path, preset } = getOptions(options);
+    const themes = preset ?? getThemeManager(path);
 
     // Overrides some of the user's configuration.
     return {

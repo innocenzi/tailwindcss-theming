@@ -1,5 +1,6 @@
-import { ThemeBuilder } from './Theming/ThemeBuilder';
+import { ThemeManager } from './theme/themeManager';
 import path from 'path';
+import fs from 'fs';
 
 /**
  * The default plugin options.
@@ -16,23 +17,28 @@ export interface ThemingPluginOptions {
    * The path to the theme file.
    */
   path: string;
+
+  /**
+   * A given preset.
+   */
+  preset?: ThemeManager;
 }
 
 /**
- * Get the ThemeBuilder from the user theme file.
+ * Get the ThemeManager from the user theme file.
  *
  * @export
  * @param {string} configPath
- * @returns {ThemeBuilder}
+ * @returns {ThemeManager}
  */
-function getThemeBuilder(configPath: string): ThemeBuilder {
+function getThemeManager(configPath: string): ThemeManager {
   const resolved = path.resolve(configPath);
 
-  try {
-    return require(resolved)?.default as ThemeBuilder;
-  } catch {
+  if (!fs.existsSync(resolved)) {
     throw new Error(`Could not find the theme configuration file. Tried '${resolved}'.`);
   }
+
+  return require(resolved)?.default as ThemeManager;
 }
 
 /**
@@ -48,4 +54,4 @@ function getOptions(options: Partial<ThemingPluginOptions>): ThemingPluginOption
   };
 }
 
-export { defaultOptions, getThemeBuilder, getOptions };
+export { defaultOptions, getThemeManager, getOptions };
