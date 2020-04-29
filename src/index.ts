@@ -7,8 +7,8 @@ import { ThemingPluginOptions, getOptions, getThemeBuilder } from './plugin';
  */
 export = plugin.withOptions(
   /**
-   * Function that returns another function, which is the Tailwind
-   * plugin. The first function takes the user options in paramters.
+   * Returns the actual Tailwind plugin, and takes as parameters
+   * the plugin's options.
    */
   (options: ThemingPluginOptions) => {
     const { path } = getOptions(options);
@@ -23,9 +23,8 @@ export = plugin.withOptions(
   },
 
   /**
-   * Function that returns a Tailwind configuration object,
-   * which overrides the user's. The user options are passed in
-   * parameters.
+   * Returns a configuration that replaces the user's Tailwind configuration.
+   * Takes as parameters the plugin's options.
    */
   (options: ThemingPluginOptions) => {
     const { path } = getOptions(options);
