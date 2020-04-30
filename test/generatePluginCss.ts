@@ -5,12 +5,12 @@ import plugin from '../src';
 import _ from 'lodash';
 
 export async function generatePluginCss(
-  config: any = {},
   options: Partial<ThemingPluginOptions> = {
     path: './test/stubs/theme.config.js',
-  }
+  },
+  config: any = {}
 ) {
-  const result = await postcss(
+  const { css } = await postcss(
     tailwindcss(
       _.merge(
         {
@@ -29,5 +29,5 @@ export async function generatePluginCss(
     from: undefined,
   });
 
-  return result.css;
+  return css;
 }

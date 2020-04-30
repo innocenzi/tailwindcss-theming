@@ -7,7 +7,7 @@ export enum ColorScheme {
   /**
    * Indicates that the theme has no specified color scheme.
    */
-  Undefined = 'undefined',
+  Undefined = 'no-preference',
 
   /**
    * Indicates that the theme is created for light themes.

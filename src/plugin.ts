@@ -1,12 +1,20 @@
 import { ThemeManager } from './theme/themeManager';
 import path from 'path';
 import fs from 'fs';
+import _ from 'lodash';
 
 /**
  * The default plugin options.
  */
 const defaultOptions: ThemingPluginOptions = {
   path: 'theme.config.js',
+  variants: {
+    light: false,
+    dark: false,
+    noPreference: false,
+    variantName: scheme => scheme,
+    selectorName: scheme => scheme,
+  },
 };
 
 /**
@@ -22,6 +30,42 @@ export interface ThemingPluginOptions {
    * A given preset.
    */
   preset?: ThemeManager;
+
+  /**
+   * Configuration for the variant plugin.
+   */
+  variants: Partial<VariantPluginOptions>;
+}
+
+export interface VariantPluginOptions {
+  /**
+   * Enables the `light` variant.
+   */
+  light: boolean;
+
+  /**
+   * Enables the `dark` variant.
+   */
+  dark: boolean;
+
+  /**
+   * Enables the `no-preference` variant.
+   */
+  noPreference: boolean;
+
+  /**
+   * Defines the name of the variant's selector.
+   *
+   * @param {string} scheme The scheme name.
+   */
+  selectorName: (scheme: string) => string;
+
+  /**
+   * Defines the name of the variant.
+   *
+   * @param {string} scheme The scheme name.
+   */
+  variantName: (scheme: string) => string;
 }
 
 /**
@@ -48,10 +92,9 @@ function getThemeManager(configPath: string): ThemeManager {
  * @returns {ThemingPluginOptions}
  */
 function getOptions(options: Partial<ThemingPluginOptions>): ThemingPluginOptions {
-  return {
-    ...defaultOptions,
-    ...options,
-  };
+  // Deep cloning is required, because somehow the defaultOptions are
+  // merged with options and subsequent calls are merged with them too.
+  return _.merge(_.cloneDeep(defaultOptions), _.cloneDeep(options));
 }
 
 export { defaultOptions, getThemeManager, getOptions };
