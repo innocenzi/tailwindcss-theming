@@ -24,13 +24,29 @@ export enum VariantType {
  */
 export type VariantTransformer = (color: TinyColor) => TinyColor;
 
-export interface IVariant {
+/**
+ * Represents a variant.
+ */
+export interface Variant {
+  /**
+   * The type of the variant.
+   */
   getType(): VariantType;
+
+  /**
+   * The name of the variant.
+   */
   getName(): string;
+
+  /**
+   * Applies the variant on a color.
+   *
+   * @param input The color to apply the variant on.
+   */
   apply(input: ColorInput): TinyColor;
 }
 
-export class CustomVariant implements IVariant {
+export class CustomVariant implements Variant {
   private _name: string;
   private _transformer: VariantTransformer;
 
@@ -45,16 +61,10 @@ export class CustomVariant implements IVariant {
     this._transformer = transformer;
   }
 
-  /**
-   * Gets the type of variant.
-   */
   getType(): VariantType {
     return VariantType.Custom;
   }
 
-  /**
-   * Gets the name of the variant.
-   */
   getName(): string {
     return this._name;
   }
@@ -67,6 +77,9 @@ export class CustomVariant implements IVariant {
   }
 }
 
+/**
+ * A variant that replaces its color.
+ */
 export class ColorVariant extends CustomVariant {
   private _replacement: ColorInput;
 
@@ -82,21 +95,21 @@ export class ColorVariant extends CustomVariant {
     this._replacement = replacement;
   }
 
+  getType(): VariantType {
+    return VariantType.Color;
+  }
+
   /**
    * Gets the replacement color.
    */
   getReplacement(): ColorInput {
     return this._replacement;
   }
-
-  /**
-   * Gets the type of variant.
-   */
-  getType(): VariantType {
-    return VariantType.Color;
-  }
 }
 
+/**
+ * A variant that changes the opacity of its color.
+ */
 export class OpacityVariant extends CustomVariant {
   private _opacity: number;
 
@@ -112,17 +125,14 @@ export class OpacityVariant extends CustomVariant {
     this._opacity = opacity;
   }
 
+  getType(): VariantType {
+    return VariantType.Opacity;
+  }
+
   /**
    * Gets the opacity.
    */
   getOpacity(): number {
     return this._opacity;
-  }
-
-  /**
-   * Gets the type of variant.
-   */
-  getType(): VariantType {
-    return VariantType.Opacity;
   }
 }

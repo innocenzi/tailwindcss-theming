@@ -1,7 +1,7 @@
 import { ColorInput, TinyColor } from '@ctrl/tinycolor';
 import {
   CustomVariant,
-  IVariant,
+  Variant,
   ColorVariant,
   VariantType,
   OpacityVariant,
@@ -141,7 +141,7 @@ export class VariableColor extends Color {
   /**
    * Gets every variant of the specified type.
    */
-  getVariantsByType(type: VariantType): IVariant[] {
-    return this._variants.filter(variant => variant.getType() === type) as IVariant[];
+  getVariantsByType(type: VariantType): Variant[] {
+    return this._variants.filter(variant => variant.getType() === type) as Variant[];
   }
 }
