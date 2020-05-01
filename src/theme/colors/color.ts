@@ -1,10 +1,10 @@
 import { ColorInput, TinyColor } from '@ctrl/tinycolor';
 import {
-  NVariant,
-  NVariantInterface,
-  NColorVariant,
-  NVariantType,
-  NOpacityVariant,
+  Variant,
+  IVariant,
+  ColorVariant,
+  VariantType,
+  OpacityVariant,
   VariantTransformer,
 } from '../../api';
 
@@ -66,7 +66,7 @@ export class Color {
  * A color that may be affected by multiple variants.
  */
 export class VariableColor extends Color {
-  private _variants: NVariant[];
+  private _variants: Variant[];
 
   constructor(name: string, value: ColorInput) {
     super(name, value);
@@ -77,7 +77,7 @@ export class VariableColor extends Color {
   /**
    * Adds a variant to that color.
    */
-  addVariant(variant: NVariant): this {
+  addVariant(variant: Variant): this {
     this._variants.push(variant);
 
     return this;
@@ -87,7 +87,7 @@ export class VariableColor extends Color {
    * Sets a color variant for that color.
    */
   setColorVariant(name: string, value: ColorInput): this {
-    this._variants.push(new NColorVariant(name, value));
+    this._variants.push(new ColorVariant(name, value));
 
     return this;
   }
@@ -96,7 +96,7 @@ export class VariableColor extends Color {
    * Sets a color variant for that color.
    */
   setOpacityVariant(name: string, value: number): this {
-    this._variants.push(new NOpacityVariant(name, value));
+    this._variants.push(new OpacityVariant(name, value));
 
     return this;
   }
@@ -105,7 +105,7 @@ export class VariableColor extends Color {
    * Sets a custom variant for that color.
    */
   setCustomVariant(name: string, transformer: VariantTransformer): this {
-    this._variants.push(new NVariant(name, transformer));
+    this._variants.push(new Variant(name, transformer));
 
     return this;
   }
@@ -113,31 +113,31 @@ export class VariableColor extends Color {
   /**
    * Gets every variants for this color.
    */
-  getVariants(): NVariant[] {
+  getVariants(): Variant[] {
     return this._variants;
   }
 
   /**
    * Gets every color variant for this color.
    */
-  getColorVariants(): NColorVariant[] {
+  getColorVariants(): ColorVariant[] {
     return this._variants.filter(
-      variant => variant.getType() === NVariantType.Color
-    ) as NColorVariant[];
+      variant => variant.getType() === VariantType.Color
+    ) as ColorVariant[];
   }
 
   /**
    * Gets every opacity variant for this color.
    */
-  getOpacityVariants(): NOpacityVariant[] {
+  getOpacityVariants(): OpacityVariant[] {
     return this._variants.filter(
-      variant => variant.getType() === NVariantType.Opacity
-    ) as NOpacityVariant[];
+      variant => variant.getType() === VariantType.Opacity
+    ) as OpacityVariant[];
   }
 
-  getCustomVariants(): NVariant[] {
+  getCustomVariants(): Variant[] {
     return this._variants.filter(
-      variant => variant.getType() === NVariantType.Unspecified
-    ) as NOpacityVariant[];
+      variant => variant.getType() === VariantType.Unspecified
+    ) as OpacityVariant[];
   }
 }

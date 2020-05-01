@@ -1,8 +1,8 @@
 import {
-  NColorVariant,
-  NOpacityVariant,
-  NVariant,
-  NVariantType,
+  ColorVariant,
+  OpacityVariant,
+  Variant,
+  VariantType,
   VariantTransformer,
   ColorScheme,
   VariableColor,
@@ -18,7 +18,7 @@ export class Theme {
   private _colorScheme: ColorScheme;
   private _targetable: boolean;
   private _colors: VariableColor[];
-  private _globalVariants: NVariant[];
+  private _globalVariants: Variant[];
 
   /**
    * Creates a new theme.
@@ -230,7 +230,7 @@ export class Theme {
    * @param colorNames The color name, or list of color names.
    */
   addColorVariant(name: string, value: ColorInput, colorNames?: string | string[]): this {
-    return this.addVariant(new NColorVariant(name, value), colorNames);
+    return this.addVariant(new ColorVariant(name, value), colorNames);
   }
 
   /**
@@ -241,7 +241,7 @@ export class Theme {
    * @param colorNames The color name, or list of color names.
    */
   addOpacityVariant(name: string, opacity: number, colorNames?: string | string[]): this {
-    return this.addVariant(new NOpacityVariant(name, opacity), colorNames);
+    return this.addVariant(new OpacityVariant(name, opacity), colorNames);
   }
 
   /**
@@ -256,7 +256,7 @@ export class Theme {
     transformer: VariantTransformer,
     colorNames?: string | string[]
   ): this {
-    return this.addVariant(new NVariant(name, transformer), colorNames);
+    return this.addVariant(new Variant(name, transformer), colorNames);
   }
 
   /**
@@ -265,7 +265,7 @@ export class Theme {
    * @param name The variant name.
    * @param colorNames The color name, or list of color names.
    */
-  addVariant(variant: NVariant, colorNames?: string | string[]): this {
+  addVariant(variant: Variant, colorNames?: string | string[]): this {
     // If no color name is used, adding to all colors.
     if (!colorNames) {
       colorNames = this._colors.map(color => color.getName());
@@ -295,42 +295,42 @@ export class Theme {
   /**
    * Get all variants.
    */
-  getVariants(): NVariant[] {
+  getVariants(): Variant[] {
     return _.flatten(this._colors.map(color => color.getVariants()));
   }
 
   /**
    * Get all color variants.
    */
-  getColorVariants(): NColorVariant[] {
+  getColorVariants(): ColorVariant[] {
     return _.flatten(
       this._colors.map(color =>
-        color.getVariants().filter(variant => variant.getType() === NVariantType.Color)
+        color.getVariants().filter(variant => variant.getType() === VariantType.Color)
       )
-    ) as NColorVariant[];
+    ) as ColorVariant[];
   }
 
   /**
    * Get all opacity variants.
    */
-  getOpacityVariants(): NColorVariant[] {
+  getOpacityVariants(): ColorVariant[] {
     return _.flatten(
       this._colors.map(color =>
-        color.getVariants().filter(variant => variant.getType() === NVariantType.Opacity)
+        color.getVariants().filter(variant => variant.getType() === VariantType.Opacity)
       )
-    ) as NColorVariant[];
+    ) as ColorVariant[];
   }
 
   /**
    * Get all custom variants.
    */
-  getCustomVariants(): NVariant[] {
+  getCustomVariants(): Variant[] {
     return _.flatten(
       this._colors.map(color =>
         color
           .getVariants()
-          .filter(variant => variant.getType() === NVariantType.Unspecified)
+          .filter(variant => variant.getType() === VariantType.Unspecified)
       )
-    ) as NVariant[];
+    ) as Variant[];
   }
 }

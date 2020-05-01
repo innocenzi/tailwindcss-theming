@@ -1,23 +1,36 @@
 import { ColorInput, TinyColor } from '@ctrl/tinycolor';
-import { Color } from '../../api';
 
-// ------
-
-export enum NVariantType {
+/**
+ * Represents the possible types of variants.
+ */
+export enum VariantType {
+  /**
+   * A normal variant.
+   */
   Unspecified,
+  /**
+   * A variant that replaces the color by another.
+   */
   Color,
+
+  /**
+   * A variant that changes the opacity of the color.
+   */
   Opacity,
 }
 
+/**
+ * Takes a color and returns a possibly transformed color.
+ */
 export type VariantTransformer = (color: TinyColor) => TinyColor;
 
-export interface NVariantInterface {
-  getType(): NVariantType;
+export interface IVariant {
+  getType(): VariantType;
   getName(): string;
   apply(input: ColorInput): TinyColor;
 }
 
-export class NVariant implements NVariantInterface {
+export class Variant implements IVariant {
   private _name: string;
   private _transformer: VariantTransformer;
 
@@ -35,8 +48,8 @@ export class NVariant implements NVariantInterface {
   /**
    * Gets the type of variant.
    */
-  getType(): NVariantType {
-    return NVariantType.Unspecified;
+  getType(): VariantType {
+    return VariantType.Unspecified;
   }
 
   /**
@@ -54,7 +67,7 @@ export class NVariant implements NVariantInterface {
   }
 }
 
-export class NColorVariant extends NVariant {
+export class ColorVariant extends Variant {
   private _replacement: ColorInput;
 
   /**
@@ -79,12 +92,12 @@ export class NColorVariant extends NVariant {
   /**
    * Gets the type of variant.
    */
-  getType(): NVariantType {
-    return NVariantType.Color;
+  getType(): VariantType {
+    return VariantType.Color;
   }
 }
 
-export class NOpacityVariant extends NVariant {
+export class OpacityVariant extends Variant {
   private _opacity: number;
 
   /**
@@ -109,7 +122,7 @@ export class NOpacityVariant extends NVariant {
   /**
    * Gets the type of variant.
    */
-  getType(): NVariantType {
-    return NVariantType.Opacity;
+  getType(): VariantType {
+    return VariantType.Opacity;
   }
 }

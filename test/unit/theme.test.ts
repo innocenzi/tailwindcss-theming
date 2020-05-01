@@ -1,4 +1,4 @@
-import { VariableColor, Theme, NColorVariant, NOpacityVariant } from '../../src/api';
+import { VariableColor, Theme, ColorVariant, OpacityVariant } from '../../src/api';
 import _ from 'lodash';
 import { TinyColor } from '@ctrl/tinycolor';
 
@@ -53,7 +53,7 @@ it('registers a global variant on a theme', () => {
 
   theme.addColorVariant('hover', 'cyan');
 
-  theme.getVariants().forEach((variant: NColorVariant) => {
+  theme.getVariants().forEach((variant: ColorVariant) => {
     expect(variant.getName()).toBe('hover');
     expect(variant.getReplacement()).toBe('cyan');
   });
