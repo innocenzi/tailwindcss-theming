@@ -1,4 +1,10 @@
-import { VariableColor, Theme, ColorVariant, OpacityVariant } from '../../src/api';
+import {
+  VariableColor,
+  Theme,
+  ColorVariant,
+  OpacityVariant,
+  VariantType,
+} from '../../src/api';
 import _ from 'lodash';
 import { TinyColor } from '@ctrl/tinycolor';
 
@@ -119,4 +125,52 @@ it('associates a variant to multiple colors', () => {
       color.getOpacityVariants().map(v => [v.getName(), v.getOpacity()])
     ).toStrictEqual([['focus', 0.5]]);
   });
+});
+
+it(`recognizes variants of a variant object`, () => {
+  const theme = new Theme();
+
+  theme.addColors({ color1: 'red' }).addVariants({
+    focus: 0.5,
+    lighten: color => color.lighten(),
+    blue: 'blue',
+  });
+
+  expect(
+    theme.getVariants().map(variant => [variant.getName(), variant.getType()])
+  ).toStrictEqual([
+    ['focus', VariantType.Opacity],
+    ['lighten', VariantType.Custom],
+    ['blue', VariantType.Color],
+  ]);
+});
+
+it(`associates a variant object's variants to their colors`, () => {
+  const theme = new Theme();
+
+  theme
+    .addColors({
+      color1: 'red',
+      color2: 'blue',
+      color3: 'green',
+    })
+    .addVariants({
+      focus: { variant: 0.5, colors: 'color1' },
+      hover: { variant: c => c.darken(), colors: ['color1', 'color2'] },
+      yes: { variant: 'blue', colors: 'color3' },
+      all: 0.2,
+    });
+
+  const color1 = theme.getColors('color1').shift();
+  expect(color1.getVariants().map(v => v.getName())).toStrictEqual([
+    'focus',
+    'hover',
+    'all',
+  ]);
+
+  const color2 = theme.getColors('color2').shift();
+  expect(color2.getVariants().map(v => v.getName())).toStrictEqual(['hover', 'all']);
+
+  const color3 = theme.getColors('color3').shift();
+  expect(color3.getVariants().map(v => v.getName())).toStrictEqual(['yes', 'all']);
 });

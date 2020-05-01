@@ -6,11 +6,14 @@ import {
   VariantTransformer,
   ColorScheme,
   VariableColor,
+  MappedVariant,
 } from '../api';
 import { ColorInput, TinyColor } from '@ctrl/tinycolor';
 import { TwoLevelColorObject } from './colors/colorObject';
 import { flattenColorObject } from './colors/flattenColorObject';
 import _ from 'lodash';
+import { VariantsObject, Variant, VariantInput } from './colors/variants';
+import { isMappedVariant } from './colors/isMappedVariant';
 
 export class Theme {
   private _name?: string;
@@ -223,6 +226,51 @@ export class Theme {
   */
 
   /**
+   * Adds the given variants.
+   *
+   * @param variants A variant object.
+   */
+  addVariants(variants: VariantsObject): this {
+    // Detects the type of the variant depending of its
+    // content, and adds it
+    const detectAndAddVariant = (
+      name: string,
+      value: VariantInput,
+      colors?: string | string[]
+    ) => {
+      // It's a custom one
+      if (_.isFunction(value)) {
+        return this.addCustomVariant(name, value, colors);
+      }
+
+      // It's an opacity one
+      if (_.isNumber(value)) {
+        return this.addOpacityVariant(name, value, colors);
+      }
+
+      // It's a color one
+      if (_.isString(value)) {
+        return this.addColorVariant(name, value, colors);
+      }
+
+      throw new Error(`Unrecoginized variant '${name}' of value '${value}'.`);
+    };
+
+    // Loop through the variants
+    Object.entries(variants).forEach(([name, value]) => {
+      // If it's an object, it's mapped to some colors
+      if (isMappedVariant(value)) {
+        return detectAndAddVariant(name, value.variant, value.colors);
+      }
+
+      // It's a scalar value
+      detectAndAddVariant(name, value);
+    });
+
+    return this;
+  }
+
+  /**
    * Add the given color variant to a color or a list of colors.
    *
    * @param name The variant name.
@@ -284,7 +332,7 @@ export class Theme {
         this._colors[index].setVariant(variant);
       } else {
         throw new Error(
-          `Could not find the color ${colorName} on which to add variant ${name}.`
+          `Could not find the color '${colorName}' on which to add variant '${variant.getName()}'.`
         );
       }
     });

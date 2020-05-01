@@ -9,4 +9,6 @@ export {
   Variant,
   VariantType,
   VariantTransformer,
+  VariantsObject,
+  MappedVariant,
 } from './theme/colors/variants';

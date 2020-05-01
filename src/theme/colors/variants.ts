@@ -136,3 +136,23 @@ export class OpacityVariant extends CustomVariant {
     return this._opacity;
   }
 }
+
+/**
+ * Represents all the types accepted for an object-based variant value.
+ */
+export type VariantInput = ColorInput | VariantTransformer | number;
+
+/**
+ * An object that contains multiple variants of multiple types.
+ */
+export interface VariantsObject {
+  [variantName: string]: VariantInput | MappedVariant;
+}
+
+/**
+ * Represents a variant mapped to one or multiple colors.
+ */
+export interface MappedVariant {
+  variant: VariantInput;
+  colors: string | string[];
+}
