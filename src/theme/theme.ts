@@ -1,16 +1,16 @@
 import {
-  Variant,
-  ColorVariant,
-  OpacityVariant,
-  VariableColor,
+  NColorVariant,
+  NOpacityVariant,
+  NVariant,
+  NVariantType,
+  VariantTransformer,
   ColorScheme,
-  VariantType,
+  VariableColor,
 } from '../api';
 import { ColorInput, TinyColor } from '@ctrl/tinycolor';
 import { TwoLevelColorObject } from './colors/colorObject';
 import { flattenColorObject } from './colors/flattenColorObject';
 import _ from 'lodash';
-import { CustomVariant, CustomVariantTransformer } from './colors/variants';
 
 export class Theme {
   private _name?: string;
@@ -18,7 +18,7 @@ export class Theme {
   private _colorScheme: ColorScheme;
   private _targetable: boolean;
   private _colors: VariableColor[];
-  private _globalVariants: Variant[];
+  private _globalVariants: NVariant[];
 
   /**
    * Creates a new theme.
@@ -199,8 +199,21 @@ export class Theme {
     return this;
   }
 
-  getColors(): VariableColor[] {
-    return this._colors;
+  /**
+   * Gets all colors in the theme.
+   *
+   * @param colors A string or an array of color names to filter.
+   */
+  getColors(colors?: string | string[]): VariableColor[] {
+    if (!colors) {
+      return this._colors;
+    }
+
+    if (!Array.isArray(colors)) {
+      colors = [colors];
+    }
+
+    return this._colors.filter(color => colors?.includes(color.getName()));
   }
 
   /*
@@ -217,64 +230,18 @@ export class Theme {
    * @param colorNames The color name, or list of color names.
    */
   addColorVariant(name: string, value: ColorInput, colorNames?: string | string[]): this {
-    // If no color name is used, adding to all colors.
-    if (!colorNames) {
-      colorNames = this._colors.map(color => color.getName());
-    }
-
-    if (!Array.isArray(colorNames)) {
-      colorNames = [colorNames];
-    }
-
-    // Running through each color name to add the variant to it.
-    colorNames.forEach(colorName => {
-      const predicate = (color: VariableColor) => color.getName() === colorName;
-      const index = this._colors.findIndex(predicate);
-
-      if (-1 !== index) {
-        this._colors[index].setColorVariant(name, value);
-      } else {
-        throw new Error(
-          `Could not find the color ${colorName} on which to add color variant ${name}.`
-        );
-      }
-    });
-
-    return this;
+    return this.addVariant(new NColorVariant(name, value), colorNames);
   }
 
   /**
    * Add the given opacity variant to a color or a list of colors.
    *
    * @param name The variant name.
-   * @param value The variant value.
+   * @param opacity The opacity value.
    * @param colorNames The color name, or list of color names.
    */
-  addOpacityVariant(name: string, value: number, colorNames?: string | string[]): this {
-    // If no color name is used, adding to the global variants.
-    if (!colorNames) {
-      colorNames = this._colors.map(color => color.getName());
-    }
-
-    if (!Array.isArray(colorNames)) {
-      colorNames = [colorNames];
-    }
-
-    // Running through each color name to add the variant to it.
-    colorNames.forEach(colorName => {
-      const predicate = (color: VariableColor) => color.getName() === colorName;
-      const index = this._colors.findIndex(predicate);
-
-      if (-1 !== index) {
-        this._colors[index].setOpacityVariant(name, value);
-      } else {
-        throw new Error(
-          `Could not find the color ${colorName} on which to add opacity variant ${name}.`
-        );
-      }
-    });
-
-    return this;
+  addOpacityVariant(name: string, opacity: number, colorNames?: string | string[]): this {
+    return this.addVariant(new NOpacityVariant(name, opacity), colorNames);
   }
 
   /**
@@ -286,9 +253,19 @@ export class Theme {
    */
   addCustomVariant(
     name: string,
-    transformer: CustomVariantTransformer,
+    transformer: VariantTransformer,
     colorNames?: string | string[]
   ): this {
+    return this.addVariant(new NVariant(name, transformer), colorNames);
+  }
+
+  /**
+   * Add the given variant to a color or a list of colors.
+   *
+   * @param name The variant name.
+   * @param colorNames The color name, or list of color names.
+   */
+  addVariant(variant: NVariant, colorNames?: string | string[]): this {
     // If no color name is used, adding to all colors.
     if (!colorNames) {
       colorNames = this._colors.map(color => color.getName());
@@ -304,10 +281,10 @@ export class Theme {
       const index = this._colors.findIndex(predicate);
 
       if (-1 !== index) {
-        this._colors[index].setCustomVariant(name, transformer);
+        this._colors[index].addVariant(variant);
       } else {
         throw new Error(
-          `Could not find the color ${colorName} on which to add custom variant ${name}.`
+          `Could not find the color ${colorName} on which to add variant ${name}.`
         );
       }
     });
@@ -318,31 +295,42 @@ export class Theme {
   /**
    * Get all variants.
    */
-  getVariants(): Variant[] {
+  getVariants(): NVariant[] {
     return _.flatten(this._colors.map(color => color.getVariants()));
   }
 
-  getColorVariants(): ColorVariant[] {
+  /**
+   * Get all color variants.
+   */
+  getColorVariants(): NColorVariant[] {
     return _.flatten(
       this._colors.map(color =>
-        color.getVariants().filter(variant => variant.type === VariantType.Color)
+        color.getVariants().filter(variant => variant.getType() === NVariantType.Color)
       )
-    ) as ColorVariant[];
+    ) as NColorVariant[];
   }
 
-  getOpacityVariants(): ColorVariant[] {
+  /**
+   * Get all opacity variants.
+   */
+  getOpacityVariants(): NColorVariant[] {
     return _.flatten(
       this._colors.map(color =>
-        color.getVariants().filter(variant => variant.type === VariantType.Opacity)
+        color.getVariants().filter(variant => variant.getType() === NVariantType.Opacity)
       )
-    ) as ColorVariant[];
+    ) as NColorVariant[];
   }
 
-  getCustomVariants(): CustomVariant[] {
+  /**
+   * Get all custom variants.
+   */
+  getCustomVariants(): NVariant[] {
     return _.flatten(
       this._colors.map(color =>
-        color.getVariants().filter(variant => variant.type === VariantType.Custom)
+        color
+          .getVariants()
+          .filter(variant => variant.getType() === NVariantType.Unspecified)
       )
-    ) as CustomVariant[];
+    ) as NVariant[];
   }
 }

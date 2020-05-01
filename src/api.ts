@@ -3,10 +3,10 @@ export { ColorScheme } from './theme/colors/colorScheme';
 export { ThemeManager } from './theme/themeManager';
 export { Color, VariableColor } from './theme/colors/color';
 export {
-  ColorVariant,
-  VariantType,
-  OpacityVariant,
-  CustomVariant,
-  CustomVariantTransformer,
-  Variant,
+  NColorVariant,
+  NOpacityVariant,
+  NVariant,
+  NVariantInterface,
+  NVariantType,
+  VariantTransformer,
 } from './theme/colors/variants';
