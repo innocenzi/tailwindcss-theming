@@ -5,7 +5,7 @@ export { Color, VariableColor } from './theme/colors/color';
 export {
   ColorVariant,
   OpacityVariant,
-  Variant,
+  CustomVariant,
   IVariant,
   VariantType,
   VariantTransformer,

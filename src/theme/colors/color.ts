@@ -1,6 +1,6 @@
 import { ColorInput, TinyColor } from '@ctrl/tinycolor';
 import {
-  Variant,
+  CustomVariant,
   IVariant,
   ColorVariant,
   VariantType,
@@ -66,7 +66,7 @@ export class Color {
  * A color that may be affected by multiple variants.
  */
 export class VariableColor extends Color {
-  private _variants: Variant[];
+  private _variants: CustomVariant[];
 
   constructor(name: string, value: ColorInput) {
     super(name, value);
@@ -77,7 +77,7 @@ export class VariableColor extends Color {
   /**
    * Adds a variant to that color.
    */
-  addVariant(variant: Variant): this {
+  setVariant(variant: CustomVariant): this {
     this._variants.push(variant);
 
     return this;
@@ -105,7 +105,7 @@ export class VariableColor extends Color {
    * Sets a custom variant for that color.
    */
   setCustomVariant(name: string, transformer: VariantTransformer): this {
-    this._variants.push(new Variant(name, transformer));
+    this._variants.push(new CustomVariant(name, transformer));
 
     return this;
   }
@@ -113,7 +113,7 @@ export class VariableColor extends Color {
   /**
    * Gets every variants for this color.
    */
-  getVariants(): Variant[] {
+  getVariants(): CustomVariant[] {
     return this._variants;
   }
 
@@ -121,23 +121,27 @@ export class VariableColor extends Color {
    * Gets every color variant for this color.
    */
   getColorVariants(): ColorVariant[] {
-    return this._variants.filter(
-      variant => variant.getType() === VariantType.Color
-    ) as ColorVariant[];
+    return this.getVariantsByType(VariantType.Color) as ColorVariant[];
   }
 
   /**
    * Gets every opacity variant for this color.
    */
   getOpacityVariants(): OpacityVariant[] {
-    return this._variants.filter(
-      variant => variant.getType() === VariantType.Opacity
-    ) as OpacityVariant[];
+    return this.getVariantsByType(VariantType.Opacity) as OpacityVariant[];
   }
 
-  getCustomVariants(): Variant[] {
-    return this._variants.filter(
-      variant => variant.getType() === VariantType.Unspecified
-    ) as OpacityVariant[];
+  /**
+   * Gets every custom variant for this color.
+   */
+  getCustomVariants(): CustomVariant[] {
+    return this.getVariantsByType(VariantType.Custom) as CustomVariant[];
+  }
+
+  /**
+   * Gets every variant of the specified type.
+   */
+  getVariantsByType(type: VariantType): IVariant[] {
+    return this._variants.filter(variant => variant.getType() === type) as IVariant[];
   }
 }

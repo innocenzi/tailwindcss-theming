@@ -1,4 +1,4 @@
-import { ColorVariant, OpacityVariant, Variant } from '../../src/api';
+import { ColorVariant, OpacityVariant, CustomVariant } from '../../src/api';
 import _ from 'lodash';
 
 test('color variants correctly replace colors', () => {
@@ -15,10 +15,12 @@ test('opacity variants correctly change opacity', () => {
 
 test('variants correctly replace colors', () => {
   expect(
-    new Variant('', color => color.greyscale().setAlpha(0.75)).apply('cyan').toRgbString()
+    new CustomVariant('', color => color.greyscale().setAlpha(0.75))
+      .apply('cyan')
+      .toRgbString()
   ).toBe('rgba(128, 128, 128, 0.75)');
 
-  expect(new Variant('', color => color).apply('cyan').toRgbString()).toBe(
+  expect(new CustomVariant('', color => color).apply('cyan').toRgbString()).toBe(
     'rgb(0, 255, 255)'
   );
 });

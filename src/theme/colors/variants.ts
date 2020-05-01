@@ -7,7 +7,7 @@ export enum VariantType {
   /**
    * A normal variant.
    */
-  Unspecified,
+  Custom,
   /**
    * A variant that replaces the color by another.
    */
@@ -30,7 +30,7 @@ export interface IVariant {
   apply(input: ColorInput): TinyColor;
 }
 
-export class Variant implements IVariant {
+export class CustomVariant implements IVariant {
   private _name: string;
   private _transformer: VariantTransformer;
 
@@ -49,7 +49,7 @@ export class Variant implements IVariant {
    * Gets the type of variant.
    */
   getType(): VariantType {
-    return VariantType.Unspecified;
+    return VariantType.Custom;
   }
 
   /**
@@ -67,7 +67,7 @@ export class Variant implements IVariant {
   }
 }
 
-export class ColorVariant extends Variant {
+export class ColorVariant extends CustomVariant {
   private _replacement: ColorInput;
 
   /**
@@ -97,7 +97,7 @@ export class ColorVariant extends Variant {
   }
 }
 
-export class OpacityVariant extends Variant {
+export class OpacityVariant extends CustomVariant {
   private _opacity: number;
 
   /**

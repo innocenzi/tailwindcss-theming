@@ -1,7 +1,7 @@
 import {
   ColorVariant,
   OpacityVariant,
-  Variant,
+  CustomVariant,
   VariantType,
   VariantTransformer,
   ColorScheme,
@@ -18,7 +18,7 @@ export class Theme {
   private _colorScheme: ColorScheme;
   private _targetable: boolean;
   private _colors: VariableColor[];
-  private _globalVariants: Variant[];
+  private _globalVariants: CustomVariant[];
 
   /**
    * Creates a new theme.
@@ -256,7 +256,7 @@ export class Theme {
     transformer: VariantTransformer,
     colorNames?: string | string[]
   ): this {
-    return this.addVariant(new Variant(name, transformer), colorNames);
+    return this.addVariant(new CustomVariant(name, transformer), colorNames);
   }
 
   /**
@@ -265,7 +265,7 @@ export class Theme {
    * @param name The variant name.
    * @param colorNames The color name, or list of color names.
    */
-  addVariant(variant: Variant, colorNames?: string | string[]): this {
+  addVariant(variant: CustomVariant, colorNames?: string | string[]): this {
     // If no color name is used, adding to all colors.
     if (!colorNames) {
       colorNames = this._colors.map(color => color.getName());
@@ -281,7 +281,7 @@ export class Theme {
       const index = this._colors.findIndex(predicate);
 
       if (-1 !== index) {
-        this._colors[index].addVariant(variant);
+        this._colors[index].setVariant(variant);
       } else {
         throw new Error(
           `Could not find the color ${colorName} on which to add variant ${name}.`
@@ -295,7 +295,7 @@ export class Theme {
   /**
    * Get all variants.
    */
-  getVariants(): Variant[] {
+  getVariants(): CustomVariant[] {
     return _.flatten(this._colors.map(color => color.getVariants()));
   }
 
@@ -324,13 +324,11 @@ export class Theme {
   /**
    * Get all custom variants.
    */
-  getCustomVariants(): Variant[] {
+  getCustomVariants(): CustomVariant[] {
     return _.flatten(
       this._colors.map(color =>
-        color
-          .getVariants()
-          .filter(variant => variant.getType() === VariantType.Unspecified)
+        color.getVariants().filter(variant => variant.getType() === VariantType.Custom)
       )
-    ) as Variant[];
+    ) as CustomVariant[];
   }
 }
