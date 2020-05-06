@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [12.x]
+    
+      fail-fast: true
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node ${{  matrix.node }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Perform tests
+      run: yarn jest
