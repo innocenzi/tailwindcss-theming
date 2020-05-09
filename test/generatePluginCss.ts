@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 export async function generatePluginCss(
   options: Partial<ThemingPluginOptions> = {
-    path: './test/stubs/theme.config.js',
+    themes: './test/stubs/theme.config.js',
   },
   config: any = {}
 ) {

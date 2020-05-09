@@ -1,34 +1,67 @@
-import { Configuration, ColorConfiguration } from 'tailwindcss';
-import { ThemeManager } from '../api';
+import { getThemeSelector } from './getThemeSelector';
+import { ThemeManager, Theme, Variant, VariableColor } from '../api';
 import { Errors } from '../errors';
-import { VariableColor } from '../theme/colors/color';
-import { Variant } from '../theme/colors/variants';
+import _ from 'lodash';
 
 /**
  * Generates a CSS configuration.
- *
- * @param themeManager
  */
-export function generateCssConfiguration(themeManager: ThemeManager): any {
+export function generateCssConfiguration(manager: ThemeManager): any {
   const cssConfiguration: any = {};
-  const root = getRootCss(themeManager);
 
-  // Set the root configuration
-  cssConfiguration[':root'] = root;
+  // Gets the default theme. If there is no default theme,
+  // that's an issue: we can't know the variables we have to generate.
+  const defaultTheme = manager.getDefaultTheme();
+
+  // We throw if no default theme.
+  if (!defaultTheme) {
+    throw new Error(Errors.NO_DEFAULT_THEME);
+  }
+
+  // Get all of the themes.
+  const themes = manager.getAllThemes();
+
+  // For each of them, determine how they have to be added.
+  themes.forEach(theme => {
+    // Get the selector for this theme.
+    const selector = [
+      ...(theme.isDefault() ? [':root'] : []),
+      ...(theme.isTargetable() ? [getThemeSelector(manager, theme)] : []),
+    ].join(', ');
+
+    // Themes with no schemes.
+    if (theme.hasNoScheme() && selector) {
+      cssConfiguration[selector] = getThemeCss(theme);
+    }
+
+    // A theme with a scheme will be under the media query
+    if (theme.hasScheme() && selector) {
+      const query = `@media (prefers-color-scheme: ${theme.getColorScheme()})`;
+
+      // Get the themes under the media query, or an empty object
+      // if there is none.
+      let schemedThemes = cssConfiguration[query] ?? {};
+
+      // Apply the theme on the selector.
+      schemedThemes[selector] = getThemeCss(theme);
+
+      // Apply the themes.
+      cssConfiguration[query] = schemedThemes;
+    }
+  });
 
   return cssConfiguration;
 }
 
-function getRootCss(themeManager: ThemeManager): any {
-  const root: any = {};
-  const defaultTheme = themeManager.getDefaultTheme();
+function getThemeCss(theme: Theme): any {
+  const css: any = {};
 
   // Registers a color variable
   const registerColor = (color: VariableColor) => {
     const name = color.getCssVariableName();
     const value = color.getCssVariableValue();
 
-    root[name] = value;
+    css[name] = value;
   };
 
   // Registers a variant variable, thanks to its color name
@@ -36,11 +69,11 @@ function getRootCss(themeManager: ThemeManager): any {
     const name = variant.getCssVariableName(color);
     const value = variant.getCssVariableValue(color);
 
-    root[name] = value;
+    css[name] = value;
   };
 
   // Register all default theme's variables
-  defaultTheme?.getColors().forEach(color => {
+  theme.getColors().forEach(color => {
     // Registers color variables
     registerColor(color);
 
@@ -50,5 +83,5 @@ function getRootCss(themeManager: ThemeManager): any {
     });
   });
 
-  return root;
+  return css;
 }

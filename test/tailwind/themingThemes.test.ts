@@ -3,6 +3,7 @@ import { ThemeManager, Theme, VariantsObject } from '../../src/api';
 import { generatePluginCss } from '../generatePluginCss';
 import cssMatcher from 'jest-matcher-css';
 import _ from 'lodash';
+import { Errors } from '../../src/errors';
 
 /*
 |--------------------------------------------------------------------------
@@ -40,38 +41,110 @@ function noScreenConfig() {
   };
 }
 
-function monoColorConfig(variants: VariantsObject = {}): Partial<ThemingPluginOptions> {
-  return {
-    themes: new ThemeManager().setDefaultTheme(
-      new Theme()
-        .addColors({
-          primary: 'white',
-        })
-        .addVariants(variants)
-    ),
-  };
-}
+it('generates a single default theme', async () => {
+  const css = await generatePluginCss(
+    {
+      themes: new ThemeManager().setDefaultTheme(
+        new Theme().addColors({ primary: 'white' })
+      ),
+    },
+    noScreenConfig()
+  );
 
-function nestedColorsConfig(): Partial<ThemingPluginOptions> {
-  return {
-    themes: new ThemeManager().setDefaultTheme(
-      new Theme().addColors({
-        primary: {
-          default: 'white',
-          hover: 'rgba(255, 255, 255, .5)',
-        },
-      })
-    ),
-  };
-}
+  expect(css).toMatchCss(`
+    :root { --color-primary: 255, 255, 255 }
+    .text-primary { color: rgba(var(--color-primary), 1) }
+  `);
+});
 
-it('generates correct themes for a single theme with a single color', async () => {
-  const css = await generatePluginCss(monoColorConfig(), noScreenConfig());
+it('generates a single default assignable theme', async () => {
+  const css = await generatePluginCss(
+    {
+      themes: new ThemeManager().setDefaultTheme(
+        new Theme().addColors({ primary: 'white' }).targetable()
+      ),
+    },
+    noScreenConfig()
+  );
 
-  expect(true).toBe(true);
-  // expect(css).toMatchCss(`
-  //   :root {
+  expect(css).toMatchCss(`
+    :root, [data-theme-default] { --color-primary: 255, 255, 255 }
+    .text-primary { color: rgba(var(--color-primary), 1) }
+  `);
+});
 
-  //   }
-  // `);
+it('generates a default and a dark theme', async () => {
+  const css = await generatePluginCss(
+    {
+      themes: new ThemeManager()
+        .setDefaultTheme(new Theme().addColors({ primary: 'white' }))
+        .setDefaultDarkTheme(new Theme().addColors({ primary: 'black' })),
+    },
+    noScreenConfig()
+  );
+
+  expect(css).toMatchCss(`
+    :root { 
+      --color-primary: 255, 255, 255 
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root { 
+        --color-primary: 0, 0, 0 
+      }
+    }
+
+    .text-primary { color: rgba(var(--color-primary), 1) }
+  `);
+});
+
+it('generates a default and an assignable dark theme', async () => {
+  const css = await generatePluginCss(
+    {
+      themes: new ThemeManager()
+        .setDefaultTheme(new Theme().addColors({ primary: 'white' }))
+        .setDefaultDarkTheme(new Theme().targetable().addColors({ primary: 'black' })),
+    },
+    noScreenConfig()
+  );
+
+  expect(css).toMatchCss(`
+    :root { 
+      --color-primary: 255, 255, 255 
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root, [data-theme-dark] { 
+        --color-primary: 0, 0, 0 
+      }
+    }
+
+    .text-primary { color: rgba(var(--color-primary), 1) }
+  `);
+});
+
+it('warns if no default theme is available', async () => {
+  const check = async () =>
+    await generatePluginCss(
+      {
+        themes: new ThemeManager().addTheme(new Theme().addColors({ primary: 'white' })),
+      },
+      noScreenConfig()
+    );
+
+  await expect(check()).rejects.toThrow(Errors.NO_DEFAULT_THEME);
+});
+
+it('warns if no strategy is defined when there is a targetable theme', async () => {
+  const check = async () =>
+    await generatePluginCss(
+      {
+        themes: new ThemeManager()
+          .setStrategy(null)
+          .setDefaultTheme(new Theme().targetable().addColors({ primary: 'white' })),
+      },
+      noScreenConfig()
+    );
+
+  await expect(check()).rejects.toThrow(Errors.UNKNOWN_STRATEGY);
 });

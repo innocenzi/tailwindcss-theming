@@ -21,7 +21,6 @@ export class Theme {
   private _colorScheme: ColorScheme;
   private _targetable: boolean;
   private _colors: VariableColor[];
-  private _globalVariants: CustomVariant[];
 
   /**
    * Creates a new theme.
@@ -43,7 +42,6 @@ export class Theme {
 
     // We set the colors and variants.
     this._colors = [];
-    this._globalVariants = [];
   }
 
   /*
@@ -64,8 +62,8 @@ export class Theme {
   /**
    * Gets this theme's name.
    */
-  getName(): string | undefined {
-    return this._name;
+  getName(): string {
+    return this._name ?? (this.hasScheme() ? this.getColorScheme() : 'default');
   }
 
   /*
@@ -165,7 +163,14 @@ export class Theme {
    * Determines if the theme has no color scheme.
    */
   hasNoScheme(): boolean {
-    return ColorScheme.Undefined === this._colorScheme;
+    return !this.hasScheme();
+  }
+
+  /**
+   * Determines if the theme has a color scheme.
+   */
+  hasScheme(): boolean {
+    return ColorScheme.Undefined !== this._colorScheme;
   }
 
   /**
@@ -343,7 +348,7 @@ export class Theme {
   /**
    * Get all variants.
    */
-  getVariants(): CustomVariant[] {
+  getVariants(): Variant[] {
     return _.flatten(this._colors.map(color => color.getVariants()));
   }
 

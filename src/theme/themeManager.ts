@@ -1,4 +1,4 @@
-import { Theme } from './theme';
+import { Theme, Strategy } from '../api';
 import { ColorScheme } from './colors/colorScheme';
 import { generateTailwindConfiguration } from '../util/generateTailwindConfiguration';
 import { generateCssConfiguration } from '../util/generateCssConfiguration';
@@ -10,12 +10,16 @@ import { generateCssConfiguration } from '../util/generateCssConfiguration';
  */
 export class ThemeManager {
   private _themes: Theme[];
+  private _strategy: Strategy;
+  private _prefix: string;
 
   /**
    * Creates a theme manager.
    */
   constructor() {
     this._themes = [];
+    this._prefix = 'theme';
+    this._strategy = Strategy.DataThemeAttribute;
   }
 
   /*
@@ -161,6 +165,44 @@ export class ThemeManager {
     return this._themes.filter(
       theme => !theme.isDefault() && scheme === theme.getColorScheme()
     );
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Strategy-related
+  |--------------------------------------------------------------------------
+  */
+
+  /**
+   * Defines the prefix used for the strategy.
+   */
+  setPrefix(prefix: string): this {
+    this._prefix = prefix;
+
+    return this;
+  }
+
+  /**
+   * Gets the prefix used for the strategy.
+   */
+  getPrefix(): string {
+    return this._prefix;
+  }
+
+  /**
+   * Defines the strategy used for theme selection.
+   */
+  setStrategy(strategy: Strategy): this {
+    this._strategy = strategy;
+
+    return this;
+  }
+
+  /**
+   * Gets the strategy used for theme selection.
+   */
+  getStrategy(): Strategy {
+    return this._strategy;
   }
 
   /*

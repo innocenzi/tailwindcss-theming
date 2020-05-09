@@ -20,12 +20,6 @@ function testCssConfigurationOutputForSingleTheme(
   expect(css).toStrictEqual(output);
 }
 
-// it('throws an error if no default theme exists', () => {
-//   expect(() => generateTailwindConfiguration(new ThemeManager())).toThrow(
-//     Errors.NO_DEFAULT_THEME
-//   );
-// });
-
 it("generates a default theme's CSS configuration", () => {
   testCssConfigurationOutputForSingleTheme(
     {
