@@ -1,5 +1,5 @@
 import { TwoLevelColorObject } from '../../src/theme/colors/colorObject';
-import { flattenColorObject } from '../../src/theme/colors/flattenColorObject';
+import { flattenColorObject } from '../../src/util/flattenColorObject';
 import _ from 'lodash';
 
 it('flattens color object', () => {

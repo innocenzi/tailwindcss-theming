@@ -10,7 +10,7 @@ import {
 } from '../api';
 import { ColorInput, TinyColor } from '@ctrl/tinycolor';
 import { TwoLevelColorObject } from './colors/colorObject';
-import { flattenColorObject } from './colors/flattenColorObject';
+import { flattenColorObject } from '../util/flattenColorObject';
 import _ from 'lodash';
 import { VariantsObject, Variant, VariantInput } from './colors/variants';
 import { isMappedVariant } from './colors/isMappedVariant';
