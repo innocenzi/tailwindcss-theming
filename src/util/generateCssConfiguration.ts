@@ -2,6 +2,7 @@ import { getThemeSelector } from './getThemeSelector';
 import { ThemeManager, Theme, Variant, VariableColor } from '../api';
 import { Errors } from '../errors';
 import _ from 'lodash';
+import { Variable } from '../theme/variable';
 
 /**
  * Generates a CSS configuration.
@@ -21,7 +22,7 @@ export function generateCssConfiguration(manager: ThemeManager): any {
   // Get all of the themes.
   const themes = manager.getAllThemes();
 
-  // For each of them, determine how they have to be added.
+  // For each theme, determine how they have to be added.
   themes.forEach(theme => {
     // Get the selector for this theme.
     const selector = [
@@ -56,10 +57,10 @@ export function generateCssConfiguration(manager: ThemeManager): any {
 function getThemeCss(theme: Theme): any {
   const css: any = {};
 
-  // Registers a color variable
-  const registerColor = (color: VariableColor) => {
-    const name = color.getCssVariableName();
-    const value = color.getCssVariableValue();
+  // Registers a CSS variable
+  const registerVariable = (variable: Variable | VariableColor) => {
+    const name = variable.getCssVariableName();
+    const value = variable.getCssVariableValue();
 
     css[name] = value;
   };
@@ -72,15 +73,20 @@ function getThemeCss(theme: Theme): any {
     css[name] = value;
   };
 
-  // Register all default theme's variables
+  // Register all colors
   theme.getColors().forEach(color => {
     // Registers color variables
-    registerColor(color);
+    registerVariable(color);
 
     // Register variant variables
     color.getVariants().forEach(variant => {
       registerVariant(color, variant);
     });
+  });
+
+  // Register all variables
+  theme.getVariables().forEach(variable => {
+    registerVariable(variable);
   });
 
   return css;

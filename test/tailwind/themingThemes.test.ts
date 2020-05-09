@@ -41,6 +41,22 @@ function noScreenConfig() {
   };
 }
 
+function fontFamilyEnabledConfig() {
+  return {
+    theme: {
+      screens: false,
+      fontFamily: {
+        serif: ['sans-serif'],
+      },
+    },
+    corePlugins: ['textColor', 'fontFamily'],
+    variants: {
+      textColor: false,
+      fontFamily: false,
+    },
+  };
+}
+
 it('generates a single default theme', async () => {
   const css = await generatePluginCss(
     {
@@ -147,4 +163,65 @@ it('warns if no strategy is defined when there is a targetable theme', async () 
     );
 
   await expect(check()).rejects.toThrow(Errors.UNKNOWN_STRATEGY);
+});
+
+it('extends Tailwind with variables on a default theme', async () => {
+  const css = await generatePluginCss(
+    {
+      themes: new ThemeManager().setDefaultTheme(
+        new Theme()
+          .addColors({ primary: 'white' })
+          .setVariable('sans', ['Roboto', 'Segoe UI'], 'fontFamily', 'font')
+      ),
+    },
+    fontFamilyEnabledConfig()
+  );
+
+  expect(css).toMatchCss(`
+    :root { 
+      --color-primary: 255, 255, 255;
+      --font-sans: Roboto, "Segoe UI"
+    }
+
+    .text-primary { color: rgba(var(--color-primary), 1) }
+    .font-serif { font-family: sans-serif }
+    .font-sans { font-family: var(--font-sans) }
+  `);
+});
+
+it('extends Tailwind with variables on a all themes', async () => {
+  const css = await generatePluginCss(
+    {
+      themes: new ThemeManager()
+        .setDefaultTheme(
+          new Theme()
+            .addColors({ primary: 'white' })
+            .setVariable('sans', ['Roboto', 'Segoe UI'], 'fontFamily', 'font')
+        )
+        .setDefaultDarkTheme(
+          new Theme()
+            .addColors({ primary: 'black' })
+            .setVariable('sans', ['Inter'], 'fontFamily', 'font')
+        ),
+    },
+    fontFamilyEnabledConfig()
+  );
+
+  expect(css).toMatchCss(`
+    :root { 
+      --color-primary: 255, 255, 255;
+      --font-sans: Roboto, "Segoe UI"
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root { 
+        --color-primary: 0, 0, 0;
+        --font-sans: Inter
+      }
+    }
+
+    .text-primary { color: rgba(var(--color-primary), 1) }
+    .font-serif { font-family: sans-serif }
+    .font-sans { font-family: var(--font-sans) }
+  `);
 });

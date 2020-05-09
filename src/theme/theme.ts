@@ -7,6 +7,7 @@ import {
   ColorScheme,
   VariableColor,
   MappedVariant,
+  Variable,
 } from '../api';
 import { ColorInput, TinyColor } from '@ctrl/tinycolor';
 import { TwoLevelColorObject } from './colors/colorObject';
@@ -14,6 +15,7 @@ import { flattenColorObject } from '../util/flattenColorObject';
 import _ from 'lodash';
 import { VariantsObject, Variant, VariantInput } from './colors/variants';
 import { isMappedVariant } from './colors/isMappedVariant';
+import { VariableInput } from './variable';
 
 export class Theme {
   private _name?: string;
@@ -21,6 +23,7 @@ export class Theme {
   private _colorScheme: ColorScheme;
   private _targetable: boolean;
   private _colors: VariableColor[];
+  private _variables: Variable[];
 
   /**
    * Creates a new theme.
@@ -40,8 +43,9 @@ export class Theme {
     // accessible to user-land as an advanced feature.
     this._colorScheme = ColorScheme.Undefined;
 
-    // We set the colors and variants.
+    // We set the colors and variables.
     this._colors = [];
+    this._variables = [];
   }
 
   /*
@@ -383,5 +387,37 @@ export class Theme {
         color.getVariants().filter(variant => variant.getType() === VariantType.Custom)
       )
     ) as CustomVariant[];
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Variables
+  |--------------------------------------------------------------------------
+  */
+
+  /**
+   * Adds an arbitrary variable to the theme.
+   *
+   * @param name The name of the variable.
+   * @param value The value of the variable.
+   * @param path An optional path to a Tailwind configuration key.
+   * @param prefix An optional prefix to be appended to the variable name.
+   */
+  setVariable(
+    name: string,
+    value: VariableInput | VariableInput[],
+    path?: string,
+    prefix?: string
+  ): this {
+    this._variables.push(new Variable(name, value, path, prefix));
+
+    return this;
+  }
+
+  /**
+   * Gets every variable.
+   */
+  getVariables(): Variable[] {
+    return this._variables;
   }
 }

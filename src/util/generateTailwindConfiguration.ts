@@ -1,15 +1,23 @@
 import { Configuration, ColorConfiguration } from 'tailwindcss';
 import { ThemeManager } from '../api';
 import { Errors } from '../errors';
+import _ from 'lodash';
 
 /**
  * Generates a Tailwind configuration.
- *
- * @param themeManager
  */
-export function generateTailwindConfiguration(themeManager: ThemeManager): Configuration {
+export function generateTailwindConfiguration(manager: ThemeManager): Configuration {
+  return {
+    theme: {
+      colors: getColorConfiguration(manager),
+      extend: getExtendedConfiguration(manager),
+    },
+  };
+}
+
+function getColorConfiguration(manager: ThemeManager) {
   const colorConfiguration: ColorConfiguration = {};
-  const defaultTheme = themeManager.getDefaultTheme();
+  const defaultTheme = manager.getDefaultTheme();
 
   // A default theme is needed, because only a default theme's colors
   // will be generated for subsequent themes.
@@ -36,9 +44,24 @@ export function generateTailwindConfiguration(themeManager: ThemeManager): Confi
     });
   });
 
-  return {
-    theme: {
-      colors: colorConfiguration,
-    },
-  };
+  return colorConfiguration;
+}
+
+function getExtendedConfiguration(manager: ThemeManager) {
+  const extendConfiguration: any = {};
+
+  manager
+    .getAllThemes()
+    .map(theme => theme.getVariables())
+    .reduce((final, current) => final.concat(current), [])
+    .filter(property => property.extends()) // keeps only the ones that extend tailwind
+    .forEach(property => {
+      _.set(
+        extendConfiguration,
+        property.getPath(),
+        property.getTailwindConfigurationValue()
+      );
+    });
+
+  return extendConfiguration;
 }
