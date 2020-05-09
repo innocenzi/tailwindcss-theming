@@ -12,17 +12,16 @@ interface Helpers {
 }
 
 type ConfigWrapperFunction = (helpers: any) => any;
+type ColorConfigurationType =
+  | ConfigWrapperFunction
+  | { [name: string]: string | { [nested: string]: string } };
 
 interface Configuration {
   prefix: string;
   important: boolean;
   separator: string;
   theme: Partial<{
-    colors:
-      | ConfigWrapperFunction
-      | {
-          [name: string]: string | { [nested: string]: string };
-        };
+    colors: ColorConfigurationType;
     [plugin: string]: ConfigWrapperFunction | any;
   }>;
 }
@@ -31,6 +30,8 @@ interface Configuration {
  * Tailwind CSS.
  */
 declare module 'tailwindcss' {
+  export type ColorConfiguration = ColorConfigurationType;
+
   export interface Configuration extends Partial<Configuration> {}
 
   export interface TailwindPluginHelpers extends Helpers {}

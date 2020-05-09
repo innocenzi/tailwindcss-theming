@@ -6,7 +6,7 @@ import {
   VariantPluginOptions,
 } from './plugin';
 import { TailwindPluginHelpers } from 'tailwindcss';
-import { schemeVariant } from './plugins/schemeVariants';
+import { schemeVariant, theming } from './plugins';
 
 /**
  * Exports a Tailwind plugin, which overrides the config and
@@ -17,9 +17,9 @@ export = plugin.withOptions(
    * Returns the actual Tailwind plugin, and takes as parameters
    * the plugin's options.
    */
-  (options: ThemingPluginOptions) => {
-    const { path, preset, variants } = getOptions(options);
-    const themes = preset ?? getThemeManager(path);
+  function (options: ThemingPluginOptions) {
+    const { themes, preset, variants } = getOptions(options);
+    const manager = themes ? preset ?? getThemeManager(themes) : null;
 
     // The Tailwind plugin.
     return function (helpers: TailwindPluginHelpers) {
@@ -27,7 +27,7 @@ export = plugin.withOptions(
       schemeVariant(helpers, variants as VariantPluginOptions);
 
       // Applies the theming plugin
-      // TODO
+      // theming(helpers, cssConfiguration);
     };
   },
 
@@ -35,13 +35,11 @@ export = plugin.withOptions(
    * Returns a configuration that replaces the user's Tailwind configuration.
    * Takes as parameters the plugin's options.
    */
-  (options: ThemingPluginOptions) => {
-    const { path, preset } = getOptions(options);
-    const themes = preset ?? getThemeManager(path);
+  function (options: ThemingPluginOptions) {
+    const { themes, preset } = getOptions(options);
+    const manager = themes ? preset ?? getThemeManager(themes) : null;
 
     // Overrides some of the user's configuration.
-    return {
-      theme: {},
-    };
+    return manager ? manager.getTailwindConfiguration() : {};
   }
 );

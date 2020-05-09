@@ -1,5 +1,6 @@
 import { Theme } from './theme';
 import { ColorScheme } from './colors/colorScheme';
+import { generateTailwindConfiguration } from '../util/generateTailwindConfiguration';
 
 /**
  * The plugin's theme builder. It is an object that contains the
@@ -159,5 +160,18 @@ export class ThemeManager {
     return this._themes.filter(
       theme => !theme.isDefault() && scheme === theme.getColorScheme()
     );
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Other getters
+  |--------------------------------------------------------------------------
+  */
+
+  /**
+   * Gets the Tailwind configuration for this theme manager.
+   */
+  getTailwindConfiguration(): any {
+    return generateTailwindConfiguration(this);
   }
 }

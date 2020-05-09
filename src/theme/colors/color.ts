@@ -7,6 +7,7 @@ import {
   OpacityVariant,
   VariantTransformer,
 } from '../../api';
+import _ from 'lodash';
 
 export class Color {
   private _name!: string;
@@ -143,5 +144,48 @@ export class VariableColor extends Color {
    */
   getVariantsByType(type: VariantType): Variant[] {
     return this._variants.filter(variant => variant.getType() === type) as Variant[];
+  }
+
+  /**
+   * Get the name used for the Tailwind configuration. Kebab-cased.
+   */
+  getTailwindConfigurationName(): string {
+    return _.kebabCase(this.getName());
+  }
+
+  /**
+   * Get the value used for the Tailwind configuration.
+   */
+  getTailwindConfigurationValue(): string {
+    // https://github.com/tailwindcss/tailwindcss/pull/1676
+    // If that PR passes, this method will instead return a closure
+    // which will have an opacity variable name as a parameter,
+    // so that the opacity of this color can be changed via Tailwind CSS
+    // opacity utilities instead of being hardcoded
+
+    const { a } = this.getValue();
+    const alpha = parseFloat(a.toFixed(8));
+    const colorVariable = `var(${this.getCssVariableName()})`;
+
+    return `rgba(${colorVariable}, ${alpha})`;
+  }
+
+  /**
+   * Get the CSS color variable name generated in the final CSS.
+   */
+  getCssVariableName(): string {
+    return `--color-${this.getTailwindConfigurationName()}`;
+  }
+
+  /**
+   * Get the CSS variable value used in the final CSS.
+   */
+  getCssVariableValue(): string {
+    // Opacity is hard-coded to the Tailwind configuration, because
+    // opacity variants exist, and if this PR passes, Tailwind's opacity
+    // utilities can be used instead.
+    const { r, g, b } = this.getValue();
+
+    return `${r}, ${g}, ${b}`;
   }
 }

@@ -1,4 +1,4 @@
-import { VariantPluginOptions } from '../../src/plugin';
+import { VariantPluginOptions, ThemingPluginOptions } from '../../src/plugin';
 import { ThemeManager, Theme } from '../../src/api';
 import { generatePluginCss } from '../generatePluginCss';
 import cssMatcher from 'jest-matcher-css';
@@ -43,9 +43,11 @@ function twoColorsAndVariantConfig(variants: string[]) {
   };
 }
 
-function noThemeConfig(variants: Partial<VariantPluginOptions>) {
+function noThemeConfig(
+  variants: Partial<VariantPluginOptions>
+): Partial<ThemingPluginOptions> {
   return {
-    path: './test/stubs/no-theme.config.js',
+    themes: false, //'./test/stubs/no-theme.config.js',
     variants,
   };
 }

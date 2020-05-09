@@ -4,10 +4,15 @@ import fs from 'fs';
 import _ from 'lodash';
 
 /**
+ * Possible types for the theme option.
+ */
+type ThemeOption = string | ThemeManager | false;
+
+/**
  * The default plugin options.
  */
 const defaultOptions: ThemingPluginOptions = {
-  path: 'theme.config.js',
+  themes: 'theme.config.js',
   variants: {
     light: false,
     dark: false,
@@ -22,9 +27,11 @@ const defaultOptions: ThemingPluginOptions = {
  */
 export interface ThemingPluginOptions {
   /**
-   * The path to the theme file.
+   * Either a path to a file that exports a Theme Manager,
+   * a Theme Manager,
+   * or false to explicitly disable themes.
    */
-  path: string;
+  themes: ThemeOption;
 
   /**
    * A given preset.
@@ -72,17 +79,25 @@ export interface VariantPluginOptions {
  * Get the ThemeManager from the user theme file.
  *
  * @export
- * @param {string} configPath
+ * @param {string} themes
  * @returns {ThemeManager}
  */
-function getThemeManager(configPath: string): ThemeManager {
-  const resolved = path.resolve(configPath);
+function getThemeManager(themes: ThemeOption): ThemeManager | null {
+  if (false === themes) {
+    return null;
+  }
+
+  if (themes instanceof ThemeManager) {
+    return themes;
+  }
+
+  const resolved = path.resolve(themes);
 
   if (!fs.existsSync(resolved)) {
     throw new Error(`Could not find the theme configuration file. Tried '${resolved}'.`);
   }
 
-  return require(resolved)?.default as ThemeManager;
+  return <ThemeManager>require(resolved);
 }
 
 /**
