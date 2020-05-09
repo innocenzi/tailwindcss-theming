@@ -1,6 +1,7 @@
 import { Theme } from './theme';
 import { ColorScheme } from './colors/colorScheme';
 import { generateTailwindConfiguration } from '../util/generateTailwindConfiguration';
+import { generateCssConfiguration } from '../util/generateCssConfiguration';
 
 /**
  * The plugin's theme builder. It is an object that contains the
@@ -173,5 +174,12 @@ export class ThemeManager {
    */
   getTailwindConfiguration(): any {
     return generateTailwindConfiguration(this);
+  }
+
+  /**
+   * Gets an object that generates the themes' CSS inside the addBase helper.
+   */
+  getCssConfiguration(): any {
+    return generateCssConfiguration(this);
   }
 }

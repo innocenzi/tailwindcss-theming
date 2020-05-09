@@ -27,7 +27,9 @@ export = plugin.withOptions(
       schemeVariant(helpers, variants as VariantPluginOptions);
 
       // Applies the theming plugin
-      // theming(helpers, cssConfiguration);
+      if (manager) {
+        theming(helpers, manager.getCssConfiguration());
+      }
     };
   },
 

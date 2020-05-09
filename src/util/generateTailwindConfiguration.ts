@@ -22,7 +22,18 @@ export function generateTailwindConfiguration(themeManager: ThemeManager): Confi
     const name = color.getTailwindConfigurationName();
     const value = color.getTailwindConfigurationValue();
 
-    colorConfiguration[name] = value;
+    // Creates the color under a `default` key, a functionality
+    // of Tailwind that omits the `default` key in a color's name
+    colorConfiguration[name] = { default: value };
+
+    // For each variant, add a subcolor for this color, with
+    // a computed value for the type of variant.
+    color.getVariants().forEach(variant => {
+      const subname = variant.getTailwindConfigurationName();
+      const value = variant.getTailwindConfigurationValue(color);
+
+      (<any>colorConfiguration[name])[subname] = value;
+    });
   });
 
   return {

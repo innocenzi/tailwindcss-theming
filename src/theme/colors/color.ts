@@ -114,7 +114,7 @@ export class VariableColor extends Color {
   /**
    * Gets every variants for this color.
    */
-  getVariants(): CustomVariant[] {
+  getVariants(): Variant[] {
     return this._variants;
   }
 
@@ -161,10 +161,8 @@ export class VariableColor extends Color {
     // If that PR passes, this method will instead return a closure
     // which will have an opacity variable name as a parameter,
     // so that the opacity of this color can be changed via Tailwind CSS
-    // opacity utilities instead of being hardcoded
-
-    const { a } = this.getValue();
-    const alpha = parseFloat(a.toFixed(8));
+    // opacity utilities instead of being hardcoded in its value
+    const alpha = parseFloat(this.getValue().a.toFixed(8));
     const colorVariable = `var(${this.getCssVariableName()})`;
 
     return `rgba(${colorVariable}, ${alpha})`;

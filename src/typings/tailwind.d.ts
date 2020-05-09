@@ -12,9 +12,7 @@ interface Helpers {
 }
 
 type ConfigWrapperFunction = (helpers: any) => any;
-type ColorConfigurationType =
-  | ConfigWrapperFunction
-  | { [name: string]: string | { [nested: string]: string } };
+type ColorConfigurationType = { [name: string]: string | { [nested: string]: string } };
 
 interface Configuration {
   prefix: string;
