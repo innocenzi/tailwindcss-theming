@@ -129,10 +129,54 @@ it('generates a default and an assignable dark theme', async () => {
       --color-primary: 255, 255, 255 
     }
 
+    [data-theme-dark] {
+      --color-primary: 0, 0, 0 
+    }
+
     @media (prefers-color-scheme: dark) {
       :root, [data-theme-dark] { 
         --color-primary: 0, 0, 0 
       }
+    }
+
+    .text-primary { color: rgba(var(--color-primary), 1) }
+  `);
+});
+
+it('generates a default theme, a default assignable dark theme and another one', async () => {
+  const css = await generatePluginCss(
+    {
+      themes: new ThemeManager()
+        .setDefaultTheme(new Theme().addColors({ primary: 'white' }))
+        .setDefaultDarkTheme(new Theme().targetable().addColors({ primary: 'black' }))
+        .addDarkTheme(
+          new Theme().targetable().setName('blueish').addColors({ primary: 'blue' })
+        ),
+    },
+    noScreenConfig()
+  );
+
+  expect(css).toMatchCss(`
+    :root { 
+      --color-primary: 255, 255, 255 
+    }
+
+    [data-theme-dark] {
+      --color-primary: 0, 0, 0 
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root, [data-theme-dark] { 
+        --color-primary: 0, 0, 0 
+      }
+
+      [data-theme-blueish] {
+        --color-primary: 0, 0, 255 
+      }
+    }
+
+    [data-theme-blueish] {
+      --color-primary: 0, 0, 255 
     }
 
     .text-primary { color: rgba(var(--color-primary), 1) }

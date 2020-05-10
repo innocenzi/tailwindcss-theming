@@ -35,19 +35,21 @@ export function generateCssConfiguration(manager: ThemeManager): any {
       cssConfiguration[selector] = getThemeCss(theme);
     }
 
+    // A targetable schemed-theme should not only be
+    // in a media query if it is themed
+    if (theme.hasScheme() && theme.isTargetable()) {
+      cssConfiguration[getThemeSelector(manager, theme)] = getThemeCss(theme);
+    }
+
     // A theme with a scheme will be under the media query
     if (theme.hasScheme() && selector) {
       const query = `@media (prefers-color-scheme: ${theme.getColorScheme()})`;
 
-      // Get the themes under the media query, or an empty object
-      // if there is none.
-      let schemedThemes = cssConfiguration[query] ?? {};
-
-      // Apply the theme on the selector.
-      schemedThemes[selector] = getThemeCss(theme);
-
       // Apply the themes.
-      cssConfiguration[query] = schemedThemes;
+      cssConfiguration[query] = {
+        ...(cssConfiguration[query] ?? {}),
+        [selector]: getThemeCss(theme),
+      };
     }
   });
 
