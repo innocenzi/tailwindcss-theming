@@ -1,5 +1,5 @@
 import { Configuration, ColorConfiguration } from 'tailwindcss';
-import { ThemeManager } from '../api';
+import { ThemeManager } from '../theme/theme';
 import { Errors } from '../errors';
 import _ from 'lodash';
 

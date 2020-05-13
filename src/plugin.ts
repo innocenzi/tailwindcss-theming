@@ -1,4 +1,4 @@
-import { ThemeManager } from './theme/themeManager';
+import { ThemeManager } from './theme/theme';
 import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';

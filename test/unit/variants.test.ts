@@ -1,4 +1,8 @@
-import { ColorVariant, OpacityVariant, CustomVariant } from '../../src/api';
+import {
+  OpacityVariant,
+  ColorVariant,
+  CustomVariant,
+} from '../../src/theme/colors/color';
 import _ from 'lodash';
 
 test('color variants correctly replace colors', () => {

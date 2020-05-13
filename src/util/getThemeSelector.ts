@@ -1,4 +1,5 @@
-import { ThemeManager, Theme, Strategy } from '../api';
+import { ThemeManager, Theme } from '../theme/theme';
+import { Strategy } from '../theme/strategy';
 import { Errors } from '../errors';
 import _ from 'lodash';
 

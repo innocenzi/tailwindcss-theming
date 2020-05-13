@@ -1,8 +1,9 @@
+import { Variant, VariableColor } from '../theme/colors/color';
+import { ThemeManager, Theme } from '../theme/theme';
 import { getThemeSelector } from './getThemeSelector';
-import { ThemeManager, Theme, Variant, VariableColor } from '../api';
+import { Variable } from '../theme/variable';
 import { Errors } from '../errors';
 import _ from 'lodash';
-import { Variable } from '../theme/variable';
 
 /**
  * Generates a CSS configuration.

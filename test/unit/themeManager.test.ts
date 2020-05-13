@@ -1,4 +1,4 @@
-import { ThemeManager, Theme } from '../../src/api';
+import { ThemeManager, Theme } from '../../src/theme/theme';
 
 describe('The theme manager...', () => {
   it('can have default theme', () => {

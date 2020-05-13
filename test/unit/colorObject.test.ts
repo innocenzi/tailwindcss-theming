@@ -1,4 +1,4 @@
-import { TwoLevelColorObject } from '../../src/theme/colors/colorObject';
+import { TwoLevelColorObject } from '../../src/theme/colors/color';
 import { flattenColorObject } from '../../src/util/flattenColorObject';
 import _ from 'lodash';
 

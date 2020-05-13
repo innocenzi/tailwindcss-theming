@@ -1,5 +1,4 @@
 import { VariantPluginOptions, ThemingPluginOptions } from '../../src/plugin';
-import { ThemeManager, Theme } from '../../src/api';
 import { generatePluginCss } from '../generatePluginCss';
 import cssMatcher from 'jest-matcher-css';
 import _ from 'lodash';

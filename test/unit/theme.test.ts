@@ -1,12 +1,7 @@
-import {
-  VariableColor,
-  Theme,
-  ColorVariant,
-  OpacityVariant,
-  VariantType,
-} from '../../src/api';
-import _ from 'lodash';
+import { VariableColor, ColorVariant, VariantType } from '../../src/theme/colors/color';
+import { Theme } from '../../src/theme/theme';
 import { TinyColor } from '@ctrl/tinycolor';
+import _ from 'lodash';
 
 it('flattens color object', () => {
   const theme = new Theme();

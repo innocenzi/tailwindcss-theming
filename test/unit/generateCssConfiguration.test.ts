@@ -1,5 +1,5 @@
 import { generateCssConfiguration } from '../../src/util/generateCssConfiguration';
-import { TwoLevelColorObject } from '../../src/theme/colors/colorObject';
+import { TwoLevelColorObject } from '../../src/theme/colors/color';
 import { ThemeManager, Theme, VariantsObject } from '../../src/api';
 import { Errors } from '../../src/errors';
 import _ from 'lodash';

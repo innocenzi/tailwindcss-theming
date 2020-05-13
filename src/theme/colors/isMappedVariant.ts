@@ -1,5 +1,5 @@
-import { MappedVariant } from '../../api';
 import { isColorInput } from './isColorInput';
+import { MappedVariant } from './color';
 import _ from 'lodash';
 
 /**

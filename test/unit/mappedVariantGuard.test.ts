@@ -1,7 +1,7 @@
+import { MappedVariant, VariantTransformer } from '../../src/theme/colors/color';
 import { isMappedVariant } from '../../src/theme/colors/isMappedVariant';
-import { MappedVariant, VariantTransformer } from '../../src/api';
-import _ from 'lodash';
 import { ColorInput } from '@ctrl/tinycolor';
+import _ from 'lodash';
 
 const objects: Array<[
   boolean,
