@@ -142,6 +142,31 @@ it('generates a default and an assignable dark theme', async () => {
   `);
 });
 
+it('generates a default theme and another named theme', async () => {
+  const css = await generatePluginCss(
+    {
+      themes: new ThemeManager()
+        .setDefaultTheme(new Theme().addColors({ primary: 'white' }))
+        .addTheme(
+          new Theme().targetable().setName('dark').addColors({ primary: 'black' })
+        ),
+    },
+    noScreenConfig()
+  );
+
+  expect(css).toMatchCss(`
+    :root { 
+      --color-primary: 255, 255, 255 
+    }
+
+    [data-theme-dark] {
+      --color-primary: 0, 0, 0 
+    }
+
+    .text-primary { color: rgba(var(--color-primary), 1) }
+  `);
+});
+
 it('generates a default theme, a default assignable dark theme and another one', async () => {
   const css = await generatePluginCss(
     {
