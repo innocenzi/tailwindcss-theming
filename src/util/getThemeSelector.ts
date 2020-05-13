@@ -1,6 +1,5 @@
 import { ThemeManager, Theme } from '../theme/theme';
 import { Strategy } from '../theme/strategy';
-import { defaultOptions } from '../plugin';
 import { Errors } from '../errors';
 import _ from 'lodash';
 
@@ -8,8 +7,8 @@ import _ from 'lodash';
  * Gets the selector for the gien theme.
  */
 export function getThemeSelector(manager: ThemeManager, theme: Theme): string {
-  const prefix = manager.getPrefix() ?? defaultOptions.prefix;
-  const strategy = manager.getStrategy() ?? defaultOptions.strategy;
+  const prefix = manager.getPrefix() ?? 'theme';
+  const strategy = manager.getStrategy() ?? Strategy.DataThemeAttribute;
   const name = _.kebabCase(theme.getName());
 
   const map = {
