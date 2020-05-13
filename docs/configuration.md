@@ -10,7 +10,7 @@
 
 ## Plugin configuration
 
-This file is a reference for the documentation of the plugin itself. We assume that you followed the [quick-start guide](quick-start.md), and that you know how to use a plugin with Tailwind CSS.
+This file is a reference for the documentation of the plugin itself. We assume that you followed the [quick-start guide](quick-start.md), and that you know how to add a plugin with Tailwind CSS.
 
 ## Changing the theme file
 
@@ -32,7 +32,9 @@ module.exports = {
 
 The `themes` option can also accept a `ThemeManager` object, if you prefer to declare it that way. For instance, if you don't want to rely on the plugin to find your configuration, you can import it and pass it to the `themes` option directly. 
 
-Last, you can set `themes` to `false` if you don't want to use themes. It is useful if you only want to use the [variant](#variants) plugin.
+## Disabling themes
+
+You can set `themes` to `false` if you don't want to use themes. It is useful if you only want to use the [variant](#variants) plugin.
 
 ## Changing the strategy
 
