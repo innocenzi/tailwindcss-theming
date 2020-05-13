@@ -5,6 +5,7 @@
 ## Table of contents
 
 - [Introduction](#introduction)
+- [Quick start](docs/quick-start.md)
 
 ## Introduction
 
