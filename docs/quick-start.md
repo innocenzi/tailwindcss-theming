@@ -4,6 +4,7 @@
 
 - [Installation](#installation)
 - [Setup](#setup)
+- [Usage](#usage)
 - [← Back](../readme.md)
 
 ## Installation
