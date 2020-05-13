@@ -97,7 +97,13 @@ function getThemeManager(themes: ThemeOption): ThemeManager | null {
     throw new Error(`Could not find the theme configuration file. Tried '${resolved}'.`);
   }
 
-  return <ThemeManager>require(resolved);
+  const config = require(resolved);
+
+  if (!(config instanceof ThemeManager)) {
+    throw new Error(`No theme manager found in the configuration file "${resolved}".`);
+  }
+
+  return <ThemeManager>config;
 }
 
 /**
