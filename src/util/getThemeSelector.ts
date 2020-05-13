@@ -14,7 +14,7 @@ export function getThemeSelector(manager: ThemeManager, theme: Theme): string {
   const map = {
     [Strategy.Attribute]: () => `[${name}]`,
     [Strategy.PrefixedAttribute]: (prefix: string) => `[${prefix}-${name}]`,
-    [Strategy.DataThemeAttribute]: () => `[data-theme-${name}]`,
+    [Strategy.DataThemeAttribute]: () => `[data-theme='${name}']`,
     [Strategy.DataAttribute]: () => `[data-${name}]`,
     [Strategy.Class]: () => `.${name}`,
     [Strategy.PrefixedClass]: (prefix: string) => `.${prefix}-${name}`,
