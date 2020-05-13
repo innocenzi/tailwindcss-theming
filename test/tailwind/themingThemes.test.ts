@@ -83,7 +83,7 @@ it('generates a single default assignable theme', async () => {
   );
 
   expect(css).toMatchCss(`
-    :root, [data-theme-default] { --color-primary: 255, 255, 255 }
+    :root, [data-theme='default'] { --color-primary: 255, 255, 255 }
     .text-primary { color: rgba(var(--color-primary), 1) }
   `);
 });
@@ -128,12 +128,12 @@ it('generates a default and an assignable dark theme', async () => {
       --color-primary: 255, 255, 255 
     }
 
-    [data-theme-dark] {
+    [data-theme='dark'] {
       --color-primary: 0, 0, 0 
     }
 
     @media (prefers-color-scheme: dark) {
-      :root, [data-theme-dark] { 
+      :root, [data-theme='dark'] { 
         --color-primary: 0, 0, 0 
       }
     }
@@ -159,7 +159,7 @@ it('generates a default theme and another named theme', async () => {
       --color-primary: 255, 255, 255 
     }
 
-    [data-theme-dark] {
+    [data-theme='dark'] {
       --color-primary: 0, 0, 0 
     }
 
@@ -185,21 +185,21 @@ it('generates a default theme, a default assignable dark theme and another one',
       --color-primary: 255, 255, 255 
     }
 
-    [data-theme-dark] {
+    [data-theme='dark'] {
       --color-primary: 0, 0, 0 
     }
 
     @media (prefers-color-scheme: dark) {
-      :root, [data-theme-dark] { 
+      :root, [data-theme='dark'] { 
         --color-primary: 0, 0, 0 
       }
 
-      [data-theme-blueish] {
+      [data-theme='blueish'] {
         --color-primary: 0, 0, 255 
       }
     }
 
-    [data-theme-blueish] {
+    [data-theme='blueish'] {
       --color-primary: 0, 0, 255 
     }
 
