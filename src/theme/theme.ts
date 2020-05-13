@@ -255,8 +255,7 @@ export class Theme {
    * Creates a new theme.
    */
   constructor() {
-    // We don't want a theme to be targetable by default since it does
-    // not have a default name.
+    // We don't want a theme to be targetable by default.
     this._targetable = false;
 
     // Whether or not this theme is the default is changed by the theme
