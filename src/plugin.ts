@@ -1,7 +1,9 @@
 import { ThemeManager } from './theme/theme';
+import { Preset } from './presets';
 import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
+import { getPresetThemeManager } from './util/getPresetThemeManager';
 
 /**
  * Possible types for the theme option.
@@ -36,7 +38,7 @@ export interface ThemingPluginOptions {
   /**
    * A given preset.
    */
-  preset?: ThemeManager;
+  preset?: Preset;
 
   /**
    * Configuration for the variant plugin.
@@ -82,7 +84,7 @@ export interface VariantPluginOptions {
  * @param {string} themes
  * @returns {ThemeManager}
  */
-function getThemeManager(themes: ThemeOption): ThemeManager | null {
+function getThemeManagerFromThemeOption(themes: ThemeOption): ThemeManager | null {
   if (false === themes) {
     return null;
   }
@@ -106,6 +108,14 @@ function getThemeManager(themes: ThemeOption): ThemeManager | null {
   return <ThemeManager>config;
 }
 
+function getThemeManager(themes: ThemeOption, preset?: Preset): ThemeManager | null {
+  return preset
+    ? getPresetThemeManager(preset)
+    : themes
+    ? getThemeManagerFromThemeOption(themes)
+    : null;
+}
+
 /**
  * Get a complete object of options, including defaults.
  *
@@ -118,4 +128,4 @@ function getOptions(options: Partial<ThemingPluginOptions>): ThemingPluginOption
   return _.merge(_.cloneDeep(defaultOptions), _.cloneDeep(options));
 }
 
-export { defaultOptions, getThemeManager, getOptions };
+export { defaultOptions, getThemeManagerFromThemeOption, getThemeManager, getOptions };
