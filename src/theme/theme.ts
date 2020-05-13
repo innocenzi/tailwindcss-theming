@@ -224,6 +224,67 @@ export class ThemeManager {
 
   /*
   |--------------------------------------------------------------------------
+  | Strategies
+  |--------------------------------------------------------------------------
+  */
+
+  /**
+   * Each theme will be exported as a `data-theme` attribute.
+   * You will be able to use a theme by setting the attribute `data-theme` with the value `<themeName>` on a node.
+   * The CSS rule will be `[data-theme=<themeName>]`.
+   */
+  asDataThemeAttributes(): this {
+    this.setStrategy(Strategy.DataThemeAttribute);
+
+    return this;
+  }
+
+  /**
+   * Each theme will be exported as a data attribute.
+   * You will be able to use a theme by setting the attribute `data-<themeName>` on a node. The CSS rule will be `[data-<themeName>]`.
+   */
+  asDataAttributes(): this {
+    this.setStrategy(Strategy.DataAttribute);
+
+    return this;
+  }
+
+  /**
+   * Each theme will be exported in a class.
+   * You will be able to use a theme by applying the class `.<themeName>` on a node. The CSS rule will be `.<themeName>`.
+   */
+  asClasses(): this {
+    this.setStrategy(Strategy.Class);
+
+    return this;
+  }
+
+  /**
+   * Each theme will be exported as an attribute with a prefix.
+   * You will be able to use a theme by setting the attribute `<choosenPrefix>-<themeName>` on a node.
+   * The CSS rule will be `[<choosenPrefix>-<themeName>]`.
+   */
+  asPrefixedAttributes(prefix: string = 'theme'): this {
+    this.setStrategy(Strategy.PrefixedAttribute);
+    this.setPrefix(prefix);
+
+    return this;
+  }
+
+  /**
+   * Each theme will be exported in a class with a prefix.
+   * You will be able to use a theme by applying the class `.<choosenPrefix>-<themeName>` on a node.
+   * The CSS rule will be `.<choosenPrefix>-<themeName>`.
+   */
+  asPrefixedClasses(prefix: string = 'theme'): this {
+    this.setStrategy(Strategy.PrefixedClass);
+    this.setPrefix(prefix);
+
+    return this;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
   | Plugin
   |--------------------------------------------------------------------------
   */
