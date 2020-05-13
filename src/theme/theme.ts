@@ -11,9 +11,9 @@ import {
   CustomVariant,
   Variant,
   VariantType,
-} from './colors/color';
+} from './color';
 import { flattenColorObject } from '../util/flattenColorObject';
-import { isMappedVariant } from './colors/isMappedVariant';
+import { isMappedVariant } from '../util/isMappedVariant';
 import { VariableInput, Variable } from './variable';
 import { generateTailwindConfiguration } from '../util/generateTailwindConfiguration';
 import { generateCssConfiguration } from '../util/generateCssConfiguration';

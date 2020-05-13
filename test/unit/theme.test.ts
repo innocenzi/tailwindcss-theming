@@ -1,4 +1,4 @@
-import { VariableColor, ColorVariant, VariantType } from '../../src/theme/colors/color';
+import { VariableColor, ColorVariant, VariantType } from '../../src/theme/color';
 import { Theme } from '../../src/theme/theme';
 import { TinyColor } from '@ctrl/tinycolor';
 import _ from 'lodash';

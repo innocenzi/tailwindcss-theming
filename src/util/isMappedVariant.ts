@@ -1,5 +1,5 @@
 import { isColorInput } from './isColorInput';
-import { MappedVariant } from './color';
+import { MappedVariant } from '../theme/color';
 import _ from 'lodash';
 
 /**

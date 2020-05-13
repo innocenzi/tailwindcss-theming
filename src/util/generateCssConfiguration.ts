@@ -1,4 +1,4 @@
-import { Variant, VariableColor } from '../theme/colors/color';
+import { Variant, VariableColor } from '../theme/color';
 import { ThemeManager, Theme } from '../theme/theme';
 import { getThemeSelector } from './getThemeSelector';
 import { Variable } from '../theme/variable';

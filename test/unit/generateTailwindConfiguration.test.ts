@@ -1,5 +1,5 @@
 import { generateTailwindConfiguration } from '../../src/util/generateTailwindConfiguration';
-import { TwoLevelColorObject } from '../../src/theme/colors/color';
+import { TwoLevelColorObject } from '../../src/theme/color';
 import { ThemeManager, Theme } from '../../src/theme/theme';
 import { Errors } from '../../src/errors';
 import _ from 'lodash';

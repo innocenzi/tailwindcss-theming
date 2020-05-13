@@ -1,5 +1,5 @@
-import { MappedVariant, VariantTransformer } from '../../src/theme/colors/color';
-import { isMappedVariant } from '../../src/theme/colors/isMappedVariant';
+import { MappedVariant, VariantTransformer } from '../../src/theme/color';
+import { isMappedVariant } from '../../src/util/isMappedVariant';
 import { ColorInput } from '@ctrl/tinycolor';
 import _ from 'lodash';
 

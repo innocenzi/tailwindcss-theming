@@ -1,4 +1,4 @@
-import { isColorInput } from '../../src/theme/colors/isColorInput';
+import { isColorInput } from '../../src/util/isColorInput';
 import { TinyColor } from '@ctrl/tinycolor';
 import _ from 'lodash';
 

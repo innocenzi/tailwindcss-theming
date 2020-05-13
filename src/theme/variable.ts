@@ -1,5 +1,5 @@
 import { ColorInput, TinyColor } from '@ctrl/tinycolor';
-import { isColorInput } from './colors/isColorInput';
+import { isColorInput } from '../util/isColorInput';
 import _ from 'lodash';
 
 export type VariableInput = string | number | ColorInput;

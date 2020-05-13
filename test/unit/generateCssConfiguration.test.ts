@@ -1,7 +1,6 @@
 import { generateCssConfiguration } from '../../src/util/generateCssConfiguration';
-import { TwoLevelColorObject } from '../../src/theme/colors/color';
+import { TwoLevelColorObject } from '../../src/theme/color';
 import { ThemeManager, Theme, VariantsObject } from '../../src/api';
-import { Errors } from '../../src/errors';
 import _ from 'lodash';
 
 function testCssConfigurationOutputForSingleTheme(

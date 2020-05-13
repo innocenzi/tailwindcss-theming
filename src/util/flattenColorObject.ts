@@ -1,5 +1,5 @@
-import { TwoLevelColorObject, ColorObject } from '../theme/colors/color';
-import { isColorInput } from '../theme/colors/isColorInput';
+import { TwoLevelColorObject, ColorObject } from '../theme/color';
+import { isColorInput } from './isColorInput';
 import _ from 'lodash';
 
 /**
