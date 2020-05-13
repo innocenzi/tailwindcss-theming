@@ -1,4 +1,7 @@
+import { getPresetThemeManager } from './util/getPresetThemeManager';
 import { ThemeManager } from './theme/theme';
+import { Strategy } from './theme/strategy';
+import { Preset } from './presets';
 import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
@@ -13,6 +16,8 @@ type ThemeOption = string | ThemeManager | false;
  */
 const defaultOptions: ThemingPluginOptions = {
   themes: 'theme.config.js',
+  strategy: Strategy.DataThemeAttribute,
+  prefix: 'theme',
   variants: {
     light: false,
     dark: false,
@@ -36,12 +41,24 @@ export interface ThemingPluginOptions {
   /**
    * A given preset.
    */
-  preset?: ThemeManager;
+  preset?: Preset;
 
   /**
    * Configuration for the variant plugin.
    */
   variants: Partial<VariantPluginOptions>;
+
+  /**
+   * A prefix if required by the strategy. This can be overriden by the theme manager.
+   * Defaults to "theme".
+   */
+  prefix: string;
+
+  /**
+   * The strategy used for defining theme selectors. This can be overriden by the theme manager.
+   * Defaults to "data-theme-attribute".
+   */
+  strategy: Strategy;
 }
 
 export interface VariantPluginOptions {
@@ -82,7 +99,7 @@ export interface VariantPluginOptions {
  * @param {string} themes
  * @returns {ThemeManager}
  */
-function getThemeManager(themes: ThemeOption): ThemeManager | null {
+function getThemeManagerFromThemeOption(themes: ThemeOption): ThemeManager | null {
   if (false === themes) {
     return null;
   }
@@ -106,6 +123,14 @@ function getThemeManager(themes: ThemeOption): ThemeManager | null {
   return <ThemeManager>config;
 }
 
+function getThemeManager(themes: ThemeOption, preset?: Preset): ThemeManager | null {
+  return preset
+    ? getPresetThemeManager(preset)
+    : themes
+    ? getThemeManagerFromThemeOption(themes)
+    : null;
+}
+
 /**
  * Get a complete object of options, including defaults.
  *
@@ -118,4 +143,4 @@ function getOptions(options: Partial<ThemingPluginOptions>): ThemingPluginOption
   return _.merge(_.cloneDeep(defaultOptions), _.cloneDeep(options));
 }
 
-export { defaultOptions, getThemeManager, getOptions };
+export { defaultOptions, getThemeManagerFromThemeOption, getThemeManager, getOptions };

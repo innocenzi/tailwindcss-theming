@@ -27,16 +27,14 @@ import _ from 'lodash';
  */
 export class ThemeManager {
   private _themes: Theme[];
-  private _strategy: Strategy;
-  private _prefix: string;
+  private _strategy?: Strategy;
+  private _prefix?: string;
 
   /**
    * Creates a theme manager.
    */
   constructor() {
     this._themes = [];
-    this._prefix = 'theme';
-    this._strategy = Strategy.DataThemeAttribute;
   }
 
   /*
@@ -49,6 +47,8 @@ export class ThemeManager {
    * Defines the default theme for every color scheme.
    */
   setDefaultTheme(theme: Theme): this {
+    theme = _.cloneDeep(theme);
+
     // We can't have more than one default theme.
     if (this.getDefaultTheme()) {
       throw new Error('Tried to set a default theme, but there was already one.');
@@ -61,6 +61,8 @@ export class ThemeManager {
   }
 
   setDefaultLightTheme(theme: Theme): this {
+    theme = _.cloneDeep(theme);
+
     // We can't have more than one default light theme.
     if (this.getDefaultLightTheme()) {
       throw new Error('Tried to set a default light theme, but there was already one.');
@@ -72,6 +74,8 @@ export class ThemeManager {
   }
 
   setDefaultDarkTheme(theme: Theme): this {
+    theme = _.cloneDeep(theme);
+
     // We can't have more than one default dark theme.
     if (this.getDefaultDarkTheme()) {
       throw new Error('Tried to set a default dark theme, but there was already one.');
@@ -92,6 +96,8 @@ export class ThemeManager {
    * Add a theme.
    */
   addTheme(theme: Theme): this {
+    theme = _.cloneDeep(theme);
+
     this._themes.push(theme);
 
     return this;
@@ -101,6 +107,8 @@ export class ThemeManager {
    * Add a light theme.
    */
   addLightTheme(theme: Theme): this {
+    theme = _.cloneDeep(theme);
+
     return this.addTheme(theme.setColorScheme(ColorScheme.Light));
   }
 
@@ -108,6 +116,8 @@ export class ThemeManager {
    * Add a dark theme.
    */
   addDarkTheme(theme: Theme): this {
+    theme = _.cloneDeep(theme);
+
     return this.addTheme(theme.setColorScheme(ColorScheme.Dark));
   }
 
@@ -202,7 +212,7 @@ export class ThemeManager {
   /**
    * Gets the prefix used for the strategy.
    */
-  getPrefix(): string {
+  getPrefix(): string | undefined {
     return this._prefix;
   }
 
@@ -218,7 +228,7 @@ export class ThemeManager {
   /**
    * Gets the strategy used for theme selection.
    */
-  getStrategy(): Strategy {
+  getStrategy(): Strategy | undefined {
     return this._strategy;
   }
 
