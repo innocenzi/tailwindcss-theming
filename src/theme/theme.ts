@@ -487,12 +487,29 @@ export class Theme {
   |--------------------------------------------------------------------------
   */
 
+  /**
+   * Adds the given colors to the theme.
+   *
+   * @param colorObject An object of colors, the same format as Tailwind's, but any TinyColor value can be used.
+   */
   addColors(colorObject: TwoLevelColorObject): this {
     const colors = flattenColorObject(colorObject);
 
     Object.entries(colors).forEach(color => {
-      this._colors.push(new VariableColor(...color));
+      this.color(...color);
     });
+
+    return this;
+  }
+
+  /**
+   * Adds a color to the theme.
+   *
+   * @param name The name of the color. Will be used for class names.
+   * @param color
+   */
+  color(name: string, color: ColorInput): this {
+    this._colors.push(new VariableColor(name, color));
 
     return this;
   }
