@@ -6,6 +6,16 @@
 
 - [Introduction](#introduction)
 - [Quick start](docs/quick-start.md)
+- [Plugin configuration](docs/configuration)
+    - [Changing the theme file](docs/configuration#changing-the-theme-file)
+    - [Changing the strategy](docs/configuration#changing-the-strategy)
+    - [Using a preset](docs/configuration#using-a-preset)
+    - [Using variants](docs/configuration#using-variants)
+- Theme creation (writing...)
+- Presets (writing...)
+- Extending Tailwind (writing...)
+- Example (writing...)
+- [Compatibility](#compatibility)
 
 ## Introduction
 
