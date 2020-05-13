@@ -2,7 +2,6 @@ import { Theme, Strategy } from '../api';
 import { ColorScheme } from './colors/colorScheme';
 import { generateTailwindConfiguration } from '../util/generateTailwindConfiguration';
 import { generateCssConfiguration } from '../util/generateCssConfiguration';
-import { Variable } from './variable';
 
 /**
  * The plugin's theme builder. It is an object that contains the

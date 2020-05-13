@@ -1,8 +1,8 @@
+export { ThemeManager } from './theme/themeManager';
 export { Theme } from './theme/theme';
 export { Strategy } from './theme/strategy';
 export { Variable } from './theme/variable';
 export { ColorScheme } from './theme/colors/colorScheme';
-export { ThemeManager } from './theme/themeManager';
 export { Color, VariableColor } from './theme/colors/color';
 export {
   ColorVariant,

@@ -6,16 +6,15 @@ import {
   VariantTransformer,
   ColorScheme,
   VariableColor,
-  MappedVariant,
   Variable,
 } from '../api';
-import { ColorInput, TinyColor } from '@ctrl/tinycolor';
+import { ColorInput } from '@ctrl/tinycolor';
 import { TwoLevelColorObject } from './colors/colorObject';
 import { flattenColorObject } from '../util/flattenColorObject';
-import _ from 'lodash';
 import { VariantsObject, Variant, VariantInput } from './colors/variants';
 import { isMappedVariant } from './colors/isMappedVariant';
 import { VariableInput } from './variable';
+import _ from 'lodash';
 
 export class Theme {
   private _name?: string;
