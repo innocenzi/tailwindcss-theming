@@ -27,16 +27,14 @@ import _ from 'lodash';
  */
 export class ThemeManager {
   private _themes: Theme[];
-  private _strategy: Strategy;
-  private _prefix: string;
+  private _strategy?: Strategy;
+  private _prefix?: string;
 
   /**
    * Creates a theme manager.
    */
   constructor() {
     this._themes = [];
-    this._prefix = 'theme';
-    this._strategy = Strategy.DataThemeAttribute;
   }
 
   /*
@@ -214,7 +212,7 @@ export class ThemeManager {
   /**
    * Gets the prefix used for the strategy.
    */
-  getPrefix(): string {
+  getPrefix(): string | undefined {
     return this._prefix;
   }
 
@@ -230,7 +228,7 @@ export class ThemeManager {
   /**
    * Gets the strategy used for theme selection.
    */
-  getStrategy(): Strategy {
+  getStrategy(): Strategy | undefined {
     return this._strategy;
   }
 

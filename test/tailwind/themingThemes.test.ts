@@ -224,7 +224,8 @@ it('warns if no strategy is defined when there is a targetable theme', async () 
     await generatePluginCss(
       {
         themes: new ThemeManager()
-          .setStrategy(null)
+          // @ts-ignore
+          .setStrategy('unknown-strategy')
           .setDefaultTheme(new Theme().targetable().addColors({ primary: 'white' })),
       },
       noScreenConfig()

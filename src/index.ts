@@ -18,7 +18,7 @@ export = plugin.withOptions(
    * the plugin's options.
    */
   function (options: ThemingPluginOptions) {
-    const { themes, preset, variants } = getOptions(options);
+    const { themes, preset, variants, prefix, strategy } = getOptions(options);
     const manager = getThemeManager(themes, preset);
 
     // The Tailwind plugin.
@@ -28,7 +28,13 @@ export = plugin.withOptions(
 
       // Applies the theming plugin
       if (manager) {
-        theming(helpers, manager.getCssConfiguration());
+        // prettier-ignore
+        const css = manager
+          .setStrategy(manager.getStrategy() ?? strategy)
+          .setPrefix(manager.getPrefix() ?? prefix)
+          .getCssConfiguration();
+
+        theming(helpers, css);
       }
     };
   },

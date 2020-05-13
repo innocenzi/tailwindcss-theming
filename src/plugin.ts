@@ -1,9 +1,10 @@
+import { getPresetThemeManager } from './util/getPresetThemeManager';
 import { ThemeManager } from './theme/theme';
+import { Strategy } from './theme/strategy';
 import { Preset } from './presets';
 import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
-import { getPresetThemeManager } from './util/getPresetThemeManager';
 
 /**
  * Possible types for the theme option.
@@ -15,6 +16,8 @@ type ThemeOption = string | ThemeManager | false;
  */
 const defaultOptions: ThemingPluginOptions = {
   themes: 'theme.config.js',
+  strategy: Strategy.DataThemeAttribute,
+  prefix: 'theme',
   variants: {
     light: false,
     dark: false,
@@ -44,6 +47,18 @@ export interface ThemingPluginOptions {
    * Configuration for the variant plugin.
    */
   variants: Partial<VariantPluginOptions>;
+
+  /**
+   * A prefix if required by the strategy. This can be overriden by the theme manager.
+   * Defaults to "theme".
+   */
+  prefix: string;
+
+  /**
+   * The strategy used for defining theme selectors. This can be overriden by the theme manager.
+   * Defaults to "data-theme-attribute".
+   */
+  strategy: Strategy;
 }
 
 export interface VariantPluginOptions {
