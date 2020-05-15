@@ -147,3 +147,37 @@ Use `x-data` to declare a component scope, to which you give an object with a `t
   </body>
 </html>
 ```
+
+This is assuming you have the following configuration:
+
+```js
+// theme.config.js
+
+const { ThemeManager, Theme } = require('tailwindcss-theming/api');
+
+const main = new Theme()
+  .setName('light')
+  .targetable()
+  .addColors({
+    sun: '#717171',
+    moon: '#717171',
+    sparkles: '#717171',
+    background: '#f1f1f1',
+    'on-background': 'black',
+  });
+
+const dark = new Theme()
+  .setName('dark')
+  .targetable()
+  .addColors({
+    sun: '#ffd94d',
+    moon: '#909090',
+    sparkles: '#9e9ed6',
+    background: '#212121',
+    'on-background': 'white',
+  });
+
+module.exports = new ThemeManager()
+    .setDefaultTheme(main)
+    .setDefaultDarkTheme(dark);
+```
