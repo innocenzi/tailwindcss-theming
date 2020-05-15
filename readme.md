@@ -51,7 +51,7 @@ Keep in mind that only your default theme will work with that method.
 
 ## Alternatives 
 
-This plugin is feature-complete, but some alternatives exist. If you're looking for a simplier approach, a different kind of configuration, or just want to know the alternatives, here is a list that you may find useful:
+This plugin is feature-complete, but some alternatives exist. If you're looking for a simpler approach, a different kind of configuration, or just want to know the alternatives, here is a list that you may find useful:
 
 - [`tailwindcss-dark-mode`](https://github.com/ChanceArthur/tailwindcss-dark-mode) - If you only want the variants functionality.
 - [`tailwindcss-darkmode`](https://github.com/danestves/tailwindcss-darkmode) - If you only want the variants functionality.
