@@ -25,6 +25,7 @@
 - Presets (writing...)
 - Example (writing...)
 - [Compatibility](#compatibility)
+- [Alternatives](#alternatives)
 
 ## Introduction
 
@@ -47,3 +48,12 @@ $ yarn add tailwindcss-theming --dev
 This plugin is based on [CSS Custom Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/--*), which are [not compatible with IE11](https://caniuse.com/#feat=css-variables). You can have partial support for the browsers that do not support them by using a PostCSS plugin that add a fallback for CSS variables, such as [`postcss-css-variables`](https://github.com/MadLittleMods/postcss-css-variables) or [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties). 
 
 Keep in mind that only your default theme will work with that method.
+
+## Alternatives 
+
+This plugin is feature-complete, but some alternatives exist. If you're looking for a simplier approach, a different kind of configuration, or just want to know the alternatives, here is a list that you may find useful:
+
+- [`tailwindcss-dark-mode`](https://github.com/ChanceArthur/tailwindcss-dark-mode) - If you only want the variants functionality.
+- [`tailwindcss-darkmode`](https://github.com/danestves/tailwindcss-darkmode) - If you only want the variants functionality.
+- [`tailwindcss-theme-swapper`](https://github.com/crswll/tailwindcss-theme-swapper) - Similar to `tailwindcss-theming`, but lower-level, and without the variant functionality.
+- [Manually](https://tailwindcss.com/docs/breakpoints/#dark-mode), by adding a `screens` media query in Tailwind's configuration.
