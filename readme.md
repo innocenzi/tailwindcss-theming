@@ -28,6 +28,7 @@
     - [Nord Vanilla](docs/presets.md#nord-vanilla)
     - [Tailwind CSS Vanilla](docs/presets.md#tailwind-css-vanilla)
 - Example (writing...)
+- [Upgrade guide](docs/upgrading.md)
 - [Compatibility](#compatibility)
 - [Alternatives](#alternatives)
 
