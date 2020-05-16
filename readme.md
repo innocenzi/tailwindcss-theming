@@ -45,7 +45,7 @@ Moreoever, this plugin has full support for the [`prefers-color-scheme`](https:/
 **Get started:**
 
 ```bash
-$ yarn add tailwindcss-theming --dev
+$ yarn add tailwindcss-theming@next --dev
 ```
 
 ## Compatibility 

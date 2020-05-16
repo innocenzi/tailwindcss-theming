@@ -12,8 +12,8 @@
 We assume that you already have Tailwind CSS installed and ready. You need to add `tailwindcss-theming` to your project:
 
 ```bash
-$ yarn add tailwindcss-theming --dev
-$ npm i -D tailwindcss-theming
+$ yarn add tailwindcss-theming@next --dev
+$ npm i -D tailwindcss-theming@next
 ```
 
 Once your dependencies are installed, you will need to require the plugin in your Tailwind CSS configuration:
