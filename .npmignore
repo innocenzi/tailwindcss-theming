@@ -1,8 +1,10 @@
 src
 docs
 test
+.github
+.vscode
 .gitignore
 .prettierrc
-babel.config.json
+jest.config.js
 logo.svg
 tsconfig.json
