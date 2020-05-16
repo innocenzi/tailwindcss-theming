@@ -1,6 +1,5 @@
 import { ThemeManager, Theme } from '../theme/theme';
 import { TinyColor } from '@ctrl/tinycolor';
-import _ from 'lodash';
 
 const palette = {
   // Polar night
