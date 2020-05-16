@@ -66,3 +66,5 @@ More informations about the new configuration on the [themes documentation](them
 - `asPrefixedAttribute()` is now `asPrefixedAttributes()`
 - `asClass()` is now `asClasses()`
 - `asPrefixedClass()` is now `asPrefixedClasses()`
+
+More informations about the new configuration on the [themes documentation](themes.md#creating-a-theme).
