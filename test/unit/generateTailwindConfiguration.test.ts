@@ -82,3 +82,14 @@ it('extends Tailwind', () => {
     },
   });
 });
+
+it('handles multi-word variable names', () => {
+  testExtendOutput(
+    new Theme().setVariable('sans-serif', ['Roboto', 'Arial'], 'fontFamily', 'font'),
+    {
+      fontFamily: {
+        'sans-serif': 'var(--font-sans-serif)',
+      },
+    }
+  );
+});

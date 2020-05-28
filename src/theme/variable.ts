@@ -54,7 +54,7 @@ export class Variable {
       return '';
     }
 
-    return `${this._path}.${_.camelCase(this._name)}`;
+    return `${this._path}.${_.kebabCase(this._name)}`;
   }
 
   /**
