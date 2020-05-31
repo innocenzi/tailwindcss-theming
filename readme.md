@@ -38,7 +38,7 @@
 
 `tailwindcss-theming` is a Tailwind CSS plugin made to solve the common need to have multiple themes in an application. It is also perfect for making dark themes.
 
-It uses [CSS Custom Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) in order to make your themes interchangeable on the client-side. Swapping themes is as simple as changing a class of your `body` element. 
+It uses [CSS Custom Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) in order to make your themes interchangeable on the client-side. Swapping themes is as simple as changing a class of your `body` element. [See an example in CodeSandbox](https://codesandbox.io/s/tailwind-css-theming-m2i1g).
 
 Moreoever, this plugin has full support for the [`prefers-color-scheme`](https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-color-scheme) media query, so you can define a theme that will automatically be picked based on browser preferences. 
 
