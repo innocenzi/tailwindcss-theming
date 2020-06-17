@@ -58,7 +58,7 @@ Keep in mind that only your default theme will work with that method.
 
 This plugin is feature-complete, but some alternatives exist. If you're looking for a simpler approach, a different kind of configuration, or just want to know the alternatives, here is a list that you may find useful:
 
-- [`tailwindcss-multi-theme](https://github.com/estevanmaito/tailwindcss-multi-theme) — A simple, yet good alternative if you want to stick to variants.
+- [`tailwindcss-multi-theme`](https://github.com/estevanmaito/tailwindcss-multi-theme) — A simple, yet good alternative if you want to stick to variants.
 - [`tailwindcss-dark-mode`](https://github.com/ChanceArthur/tailwindcss-dark-mode) - Another variant alternative.
 - [`tailwindcss-darkmode`](https://github.com/danestves/tailwindcss-darkmode) - Another variant alternative.
 - [`tailwindcss-theme-swapper`](https://github.com/crswll/tailwindcss-theme-swapper) - Similar to `tailwindcss-theming`, but lower-level, and without the variant functionality.
