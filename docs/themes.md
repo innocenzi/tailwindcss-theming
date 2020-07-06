@@ -319,18 +319,18 @@ const base = new Theme();
 // This is a solar theme.
 const solar = new Theme()
   .setName('solar')
-  .assignable();
+  .targetable();
   
 // This is a lunar theme.
 const lunar = new Theme()
   .setName('lunar')
-  .assignable();
+  .targetable();
 
 // This is how you export `ThemeManager`.
 module.exports = new ThemeManager()
   .setDefaultTheme(base)
-  .addtheme(solar)
-  .addtheme(lunar)
+  .addTheme(solar)
+  .addTheme(lunar)
 ;
 ``` 
 
