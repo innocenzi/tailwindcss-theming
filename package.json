@@ -9,11 +9,11 @@
     "url": "https://innocenzi.dev"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "yarn run clean && tsc",
-    "watch": "yarn run clean && tsc -w",
+    "prepare": "rimraf dist && tsc",
+    "build": "yarn prepare",
     "test": "jest test",
-    "test:watch": "jest test --watch"
+    "test:watch": "jest test --watch",
+    "release": "yarn test && yarn build && standard-version --skip.changelog"
   },
   "repository": {
     "type": "git",
@@ -41,6 +41,8 @@
     "jest-matcher-css": "^1.1.0",
     "jest-mock-console": "^1.0.1",
     "postcss": "^7.0.32",
+    "rimraf": "^3.0.2",
+    "standard-version": "^8.0.2",
     "tailwindcss": "v1.2.0",
     "ts-jest": "^24.3.0",
     "typescript": "^3.9.7"
