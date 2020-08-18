@@ -135,7 +135,7 @@ export class VariableColor extends Color {
    * Gets every variant of the specified type.
    */
   getVariantsByType(type: VariantType): Variant[] {
-    return this._variants.filter(variant => variant.getType() === type) as Variant[];
+    return this._variants.filter((variant) => variant.getType() === type) as Variant[];
   }
 
   /**
@@ -181,7 +181,7 @@ export class VariableColor extends Color {
 }
 
 export interface ColorObject {
-  [name: string]: ColorInput;
+  [name: string]: ColorInput | ColorObject;
 }
 
 export interface TwoLevelColorObject {
@@ -397,7 +397,7 @@ export class OpacityVariant extends CustomVariant {
    * @param opacity The new opacity.
    */
   constructor(name: string, opacity: number) {
-    super(name, color => new TinyColor(color).setAlpha(opacity));
+    super(name, (color) => new TinyColor(color).setAlpha(opacity));
 
     this._opacity = opacity;
   }

@@ -17,7 +17,7 @@ export function flattenColorObject(colors: TwoLevelColorObject): ColorObject {
         return [[name, color]];
       }
 
-      return _.map(color, (value, key) => {
+      return _.map(flattenColorObject(color), (value, key) => {
         const suffix = key === 'default' ? '' : `-${key}`;
 
         return [`${name}${suffix}`, value];
