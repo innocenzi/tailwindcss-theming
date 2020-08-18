@@ -43,7 +43,7 @@
     "postcss": "^7.0.32",
     "rimraf": "^3.0.2",
     "standard-version": "^8.0.2",
-    "tailwindcss": "v1.2.0",
+    "tailwindcss": "v1.7.0",
     "ts-jest": "^24.3.0",
     "typescript": "^3.9.7"
   },
