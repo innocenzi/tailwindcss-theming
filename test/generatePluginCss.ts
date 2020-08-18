@@ -10,6 +10,8 @@ export async function generatePluginCss(
   },
   config: any = {}
 ) {
+  const spy = jest.spyOn(global.console, 'log').mockImplementation();
+
   const { css } = await postcss(
     tailwindcss(
       _.merge(
@@ -21,6 +23,9 @@ export async function generatePluginCss(
           },
           corePlugins: false,
           plugins: [plugin(options)],
+          future: {
+            removeDeprecatedGapUtilities: true,
+          },
         },
         config
       )
@@ -28,6 +33,8 @@ export async function generatePluginCss(
   ).process('@tailwind base; @tailwind components; @tailwind utilities', {
     from: undefined,
   });
+
+  spy.mockRestore();
 
   return css;
 }
