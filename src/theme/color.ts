@@ -184,8 +184,8 @@ export interface ColorObject {
   [name: string]: ColorInput | ColorObject;
 }
 
-export interface TwoLevelColorObject {
-  [name: string]: ColorInput | ColorObject;
+export interface SingleLevelColorObject {
+  [name: string]: ColorInput;
 }
 
 /**

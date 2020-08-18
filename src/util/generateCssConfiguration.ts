@@ -15,16 +15,16 @@ export function generateCssConfiguration(manager: ThemeManager): any {
   // that's an issue: we can't know the variables we have to generate.
   const defaultTheme = manager.getDefaultTheme();
 
-  // We throw if no default theme.
+  // Warn if no default theme.
   if (!defaultTheme) {
-    throw new Error(Errors.NO_DEFAULT_THEME);
+    console.warn(Errors.NO_DEFAULT_THEME);
   }
 
   // Get all of the themes.
   const themes = manager.getAllThemes();
 
   // For each theme, determine how they have to be added.
-  themes.forEach(theme => {
+  themes.forEach((theme) => {
     // Get the selector for this theme.
     const selector = [
       ...(theme.isDefault() ? [':root'] : []),
@@ -77,18 +77,18 @@ function getThemeCss(theme: Theme): any {
   };
 
   // Register all colors
-  theme.getColors().forEach(color => {
+  theme.getColors().forEach((color) => {
     // Registers color variables
     registerVariable(color);
 
     // Register variant variables
-    color.getVariants().forEach(variant => {
+    color.getVariants().forEach((variant) => {
       registerVariant(color, variant);
     });
   });
 
   // Register all variables
-  theme.getVariables().forEach(variable => {
+  theme.getVariables().forEach((variable) => {
     registerVariable(variable);
   });
 

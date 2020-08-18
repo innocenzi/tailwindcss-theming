@@ -208,15 +208,17 @@ it('generates a default theme, a default assignable dark theme and another one',
 });
 
 it('warns if no default theme is available', async () => {
-  const check = async () =>
-    await generatePluginCss(
-      {
-        themes: new ThemeManager().addTheme(new Theme().addColors({ primary: 'white' })),
-      },
-      noScreenConfig()
-    );
+  const spy = jest.spyOn(console, 'warn').mockImplementation();
 
-  await expect(check()).rejects.toThrow(Errors.NO_DEFAULT_THEME);
+  await generatePluginCss(
+    {
+      themes: new ThemeManager().addTheme(new Theme().addColors({ primary: 'white' })),
+    },
+    noScreenConfig()
+  );
+
+  expect(console.warn).toHaveBeenCalledWith(Errors.NO_DEFAULT_THEME);
+  spy.mockRestore();
 });
 
 it('warns if no strategy is defined when there is a targetable theme', async () => {
@@ -256,6 +258,29 @@ it('extends Tailwind with variables on a default theme', async () => {
     .font-serif { font-family: sans-serif }
     .font-sans { font-family: var(--font-sans) }
   `);
+});
+
+it('extends Tailwind utilities on a theme if no default theme is provided', async () => {
+  const spy = jest.spyOn(console, 'warn').mockImplementation();
+  const css = await generatePluginCss(
+    {
+      themes: new ThemeManager().addTheme(
+        new Theme().addColors({ primary: 'white' }).targetable().setName('my-theme')
+      ),
+    },
+    noScreenConfig()
+  );
+
+  expect(css).toMatchCss(`
+    [data-theme='my-theme'] { 
+      --color-primary: 255, 255, 255;
+    }
+
+    .text-primary { color: rgba(var(--color-primary), 1) }
+	`);
+
+  expect(console.warn).toHaveBeenCalledWith(Errors.NO_DEFAULT_THEME);
+  spy.mockRestore();
 });
 
 it('extends Tailwind with variables on a all themes', async () => {

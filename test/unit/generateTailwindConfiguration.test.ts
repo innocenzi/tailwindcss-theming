@@ -1,10 +1,10 @@
 import { generateTailwindConfiguration } from '../../src/util/generateTailwindConfiguration';
-import { TwoLevelColorObject } from '../../src/theme/color';
+import { ColorObject } from '../../src/theme/color';
 import { ThemeManager, Theme } from '../../src/theme/theme';
 import { Errors } from '../../src/errors';
 import _ from 'lodash';
 
-function testColorOutput(input: TwoLevelColorObject, output: any): void {
+function testColorOutput(input: ColorObject, output: any): void {
   const defaultTheme = new Theme().setName('defaultTheme').addColors(input);
   const manager = new ThemeManager().setDefaultTheme(defaultTheme);
   const { theme } = generateTailwindConfiguration(manager);
@@ -20,10 +20,12 @@ function testExtendOutput(inputTheme: Theme, output: any): void {
   expect(theme.extend).toStrictEqual(output);
 }
 
-it('throws an error if no default theme exists', () => {
+it('throws an error if no theme exists', () => {
+  const spy = jest.spyOn(console, 'warn').mockImplementation();
   expect(() => generateTailwindConfiguration(new ThemeManager())).toThrow(
-    Errors.NO_DEFAULT_THEME
+    Errors.NO_THEME
   );
+  spy.mockRestore();
 });
 
 it("generates a default theme's color configuration", () => {

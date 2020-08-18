@@ -1,6 +1,6 @@
 import { ColorInput } from '@ctrl/tinycolor';
 import {
-  TwoLevelColorObject,
+  ColorObject,
   ColorScheme,
   VariableColor,
   VariantsObject,
@@ -19,6 +19,7 @@ import { generateTailwindConfiguration } from '../util/generateTailwindConfigura
 import { generateCssConfiguration } from '../util/generateCssConfiguration';
 import { Strategy } from './strategy';
 import _ from 'lodash';
+import { isColorInput } from '../util/isColorInput';
 
 /**
  * The plugin's theme builder. It is an object that contains the
@@ -181,7 +182,7 @@ export class ThemeManager {
    */
   private getDefaultThemeFor(scheme: ColorScheme): Theme | undefined {
     return this._themes.find(
-      theme => theme.isDefault() && scheme === theme.getColorScheme()
+      (theme) => theme.isDefault() && scheme === theme.getColorScheme()
     );
   }
 
@@ -190,7 +191,7 @@ export class ThemeManager {
    */
   private getThemesFor(scheme: ColorScheme): Theme[] {
     return this._themes.filter(
-      theme => !theme.isDefault() && scheme === theme.getColorScheme()
+      (theme) => !theme.isDefault() && scheme === theme.getColorScheme()
     );
   }
 
@@ -502,10 +503,10 @@ export class Theme {
    *
    * @param colorObject An object of colors, the same format as Tailwind's, but any TinyColor value can be used.
    */
-  addColors(colorObject: TwoLevelColorObject): this {
+  addColors(colorObject: ColorObject): this {
     const colors = flattenColorObject(colorObject);
 
-    Object.entries(colors).forEach(color => {
+    Object.entries(colors).forEach((color) => {
       this.color(...color);
     });
 
@@ -538,7 +539,7 @@ export class Theme {
       colors = [colors];
     }
 
-    return this._colors.filter(color => colors?.includes(color.getName()));
+    return this._colors.filter((color) => colors?.includes(color.getName()));
   }
 
   /*
@@ -638,7 +639,7 @@ export class Theme {
   addVariant(variant: CustomVariant, colorNames?: string | string[]): this {
     // If no color name is used, adding to all colors.
     if (!colorNames) {
-      colorNames = this._colors.map(color => color.getName());
+      colorNames = this._colors.map((color) => color.getName());
     }
 
     if (!Array.isArray(colorNames)) {
@@ -646,7 +647,7 @@ export class Theme {
     }
 
     // Running through each color name to add the variant to it.
-    colorNames.forEach(colorName => {
+    colorNames.forEach((colorName) => {
       const predicate = (color: VariableColor) => color.getName() === colorName;
       const index = this._colors.findIndex(predicate);
 
@@ -666,7 +667,7 @@ export class Theme {
    * Get all variants.
    */
   getVariants(): Variant[] {
-    return _.flatten(this._colors.map(color => color.getVariants()));
+    return _.flatten(this._colors.map((color) => color.getVariants()));
   }
 
   /**
@@ -674,8 +675,8 @@ export class Theme {
    */
   getColorVariants(): ColorVariant[] {
     return _.flatten(
-      this._colors.map(color =>
-        color.getVariants().filter(variant => variant.getType() === VariantType.Color)
+      this._colors.map((color) =>
+        color.getVariants().filter((variant) => variant.getType() === VariantType.Color)
       )
     ) as ColorVariant[];
   }
@@ -685,8 +686,8 @@ export class Theme {
    */
   getOpacityVariants(): ColorVariant[] {
     return _.flatten(
-      this._colors.map(color =>
-        color.getVariants().filter(variant => variant.getType() === VariantType.Opacity)
+      this._colors.map((color) =>
+        color.getVariants().filter((variant) => variant.getType() === VariantType.Opacity)
       )
     ) as ColorVariant[];
   }
@@ -696,8 +697,8 @@ export class Theme {
    */
   getCustomVariants(): CustomVariant[] {
     return _.flatten(
-      this._colors.map(color =>
-        color.getVariants().filter(variant => variant.getType() === VariantType.Custom)
+      this._colors.map((color) =>
+        color.getVariants().filter((variant) => variant.getType() === VariantType.Custom)
       )
     ) as CustomVariant[];
   }

@@ -1,4 +1,4 @@
-import { TwoLevelColorObject, ColorObject } from '../theme/color';
+import { SingleLevelColorObject, ColorObject } from '../theme/color';
 import { isColorInput } from './isColorInput';
 import _ from 'lodash';
 
@@ -7,10 +7,10 @@ import _ from 'lodash';
  * Thanks, Adam.
  *
  * @export
- * @param {TwoLevelColorObject} colors
+ * @param {ColorObject} colors
  * @returns
  */
-export function flattenColorObject(colors: TwoLevelColorObject): ColorObject {
+export function flattenColorObject(colors: ColorObject): SingleLevelColorObject {
   const result = _(colors)
     .flatMap((color, name) => {
       if (!_.isObject(color) || isColorInput(color)) {

@@ -19,14 +19,22 @@ function getColorConfiguration(manager: ThemeManager) {
   const colorConfiguration: ColorConfiguration = {};
   const defaultTheme = manager.getDefaultTheme();
 
-  // A default theme is needed, because only a default theme's colors
+  // A default theme should be defined, because only a default theme's colors
   // will be generated for subsequent themes.
   if (!defaultTheme) {
-    throw new Error(Errors.NO_DEFAULT_THEME);
+    console.warn(Errors.NO_DEFAULT_THEME);
+  }
+
+  // If no default theme can be found, we use the first one in the list.
+  const templateTheme = defaultTheme ?? manager.getThemes().shift();
+
+  // If there is no theme at all, we throw.
+  if (!templateTheme) {
+    throw new Error(Errors.NO_THEME);
   }
 
   // Add every color to the theme.
-  defaultTheme.getColors().forEach(color => {
+  templateTheme.getColors().forEach((color) => {
     const name = color.getTailwindConfigurationName();
     const value = color.getTailwindConfigurationValue();
 
@@ -36,7 +44,7 @@ function getColorConfiguration(manager: ThemeManager) {
 
     // For each variant, add a subcolor for this color, with
     // a computed value for the type of variant.
-    color.getVariants().forEach(variant => {
+    color.getVariants().forEach((variant) => {
       const subname = variant.getTailwindConfigurationName();
       const value = variant.getTailwindConfigurationValue(color);
 
@@ -52,10 +60,10 @@ function getExtendedConfiguration(manager: ThemeManager) {
 
   manager
     .getAllThemes()
-    .map(theme => theme.getVariables())
+    .map((theme) => theme.getVariables())
     .reduce((final, current) => final.concat(current), [])
-    .filter(property => property.extends()) // keeps only the ones that extend tailwind
-    .forEach(property => {
+    .filter((property) => property.extends()) // keeps only the ones that extend tailwind
+    .forEach((property) => {
       _.set(
         extendConfiguration,
         property.getPath(),
