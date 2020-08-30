@@ -64,3 +64,5 @@ This plugin is feature-complete, but some alternatives exist. If you're looking 
 - [`tailwindcss-darkmode`](https://github.com/danestves/tailwindcss-darkmode) - Another variant alternative.
 - [`tailwindcss-theme-swapper`](https://github.com/crswll/tailwindcss-theme-swapper) - Similar to `tailwindcss-theming`, but lower-level, and without the variant functionality.
 - [Manually](https://tailwindcss.com/docs/breakpoints/#dark-mode), by adding a `screens` media query in Tailwind's configuration.
+
+> A more complete comparison of the different theming plugins can be found [here](https://github.com/JakeNavith/tailwindcss-theme-variants/blob/main/README.md#alternatives).
