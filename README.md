@@ -2,6 +2,8 @@
 
 [<img src="logo.svg" align="right" width="100">]()
 
+> **Note**: I didn't test it yet with Tailwind 2. I plan on fully testing it and probably rewrite a bunch of stuff for improving quality of life and use with Tailwind Play, so the next version will probably be the *actual* v3, with breaking changes from the current beta. You should probable check out the [alternatives](#alternatives) for now. Thanks!
+
 ## Table of contents
 
 - [Introduction](#introduction)
