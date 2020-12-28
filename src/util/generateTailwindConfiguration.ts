@@ -38,9 +38,9 @@ function getColorConfiguration(manager: ThemeManager) {
     const name = color.getTailwindConfigurationName();
     const value = color.getTailwindConfigurationValue();
 
-    // Creates the color under a `default` key, a functionality
-    // of Tailwind that omits the `default` key in a color's name
-    colorConfiguration[name] = { default: value };
+    // Creates the color under a `DEFAULT` key, a functionality
+    // of Tailwind that omits the `DEFAULT` key in a color's name
+    colorConfiguration[name] = { DEFAULT: value };
 
     // For each variant, add a subcolor for this color, with
     // a computed value for the type of variant.

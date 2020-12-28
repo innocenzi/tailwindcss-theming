@@ -57,7 +57,7 @@ function nestedColorsConfig(): Partial<ThemingPluginOptions> {
     themes: new ThemeManager().setDefaultTheme(
       new Theme().addColors({
         primary: {
-          default: 'white',
+          DEFAULT: 'white',
           hover: 'rgba(255, 255, 255, .5)',
         },
       })

@@ -18,7 +18,7 @@ export function flattenColorObject(colors: ColorObject): SingleLevelColorObject 
       }
 
       return _.map(flattenColorObject(color), (value, key) => {
-        const suffix = key === 'default' ? '' : `-${key}`;
+        const suffix = key === 'DEFAULT' ? '' : `-${key}`;
 
         return [`${name}${suffix}`, value];
       });

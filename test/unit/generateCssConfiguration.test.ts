@@ -1,10 +1,9 @@
 import { generateCssConfiguration } from '../../src/util/generateCssConfiguration';
-import { TwoLevelColorObject } from '../../src/theme/color';
 import { ThemeManager, Theme, VariantsObject } from '../../src/api';
 import _ from 'lodash';
 
 function testCssConfigurationOutputForSingleTheme(
-  colors: TwoLevelColorObject,
+  colors: any,
   variants: VariantsObject,
   output: any
 ): void {
@@ -43,9 +42,9 @@ it('generates custom variants for every given color', () => {
       navigation: 'red',
     },
     {
-      hover: { variant: c => c.lighten(), colors: ['primary'] }, // for primary
-      focus: { variant: c => c.lighten(), colors: ['primary', 'onPrimary'] }, // for two
-      darken: c => c.lighten(), // for all
+      hover: { variant: (c) => c.lighten(), colors: ['primary'] }, // for primary
+      focus: { variant: (c) => c.lighten(), colors: ['primary', 'onPrimary'] }, // for two
+      darken: (c) => c.lighten(), // for all
     },
     {
       ':root': {

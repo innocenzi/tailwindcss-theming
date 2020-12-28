@@ -39,8 +39,8 @@ it("generates a default theme's color configuration", () => {
   const { colors } = theme;
 
   expect(colors).toStrictEqual({
-    primary: { default: 'rgba(var(--color-primary), 1)' },
-    'on-primary': { default: 'rgba(var(--color-on-primary), 1)' },
+    primary: { DEFAULT: 'rgba(var(--color-primary), 1)' },
+    'on-primary': { DEFAULT: 'rgba(var(--color-on-primary), 1)' },
   });
 });
 
@@ -48,17 +48,17 @@ it("generates a default theme's nested color configuration", () => {
   testColorOutput(
     {
       primary: {
-        default: 'green',
+        DEFAULT: 'green',
         hover: 'blue',
         focus: 'red',
       },
       onPrimary: 'cyan',
     },
     {
-      primary: { default: 'rgba(var(--color-primary), 1)' },
-      'on-primary': { default: 'rgba(var(--color-on-primary), 1)' },
-      'primary-focus': { default: 'rgba(var(--color-primary-focus), 1)' },
-      'primary-hover': { default: 'rgba(var(--color-primary-hover), 1)' },
+      primary: { DEFAULT: 'rgba(var(--color-primary), 1)' },
+      'on-primary': { DEFAULT: 'rgba(var(--color-on-primary), 1)' },
+      'primary-focus': { DEFAULT: 'rgba(var(--color-primary-focus), 1)' },
+      'primary-hover': { DEFAULT: 'rgba(var(--color-primary-hover), 1)' },
     }
   );
 });
@@ -72,7 +72,7 @@ it('does not generate hardcoded opacity in color configurations', () => {
       primary: 'rgba(0, 0, 0, 0.75)',
     },
     {
-      primary: { default: 'rgba(var(--color-primary), 0.75)' },
+      primary: { DEFAULT: 'rgba(var(--color-primary), 0.75)' },
     }
   );
 });

@@ -10,9 +10,9 @@ it('flattens color object', () => {
       hsla: { h: 1, s: 2, l: 3, a: 0 },
     },
     primary: {
-      default: 'red',
+      DEFAULT: 'red',
       button: {
-        default: 'blue',
+        DEFAULT: 'blue',
         hover: 'white',
       },
     },
