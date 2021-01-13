@@ -2,7 +2,7 @@
 
 [<img src="logo.svg" align="right" width="100">]()
 
-> **Note**: I didn't test it yet with Tailwind 2. I plan on fully testing it and probably rewrite a bunch of stuff for improving quality of life and use with Tailwind Play, so the next version will probably be the *actual* v3, with breaking changes from the current beta. You should probable check out the [alternatives](#alternatives) for now. Thanks!
+> **Note**: Even though it should support Tailwind 2, I didn't thoroughly tested it. I plan to do it when I have time, and probably rewrite a bunch of stuff in order to improve quality of life and enable usage with Tailwind Play. The next version will probably be the *actual* v3, with breaking changes from the current beta. Knowing that, and although the plugin is perfectly fine, you may want to check out the [alternatives](#alternatives). Thanks!
 
 ## Table of contents
 
@@ -26,10 +26,8 @@
     - [Additional themes](docs/themes.md#additional-themes)
 - [Presets](docs/presets.md#introduction)
   - [Nord](docs/presets.md#nord)
-  - [Tailwind CSS](docs/presets.md#tailwind-css) (not released yet)
   - [Nord Vanilla](docs/presets.md#nord-vanilla)
   - [Tailwind CSS Vanilla](docs/presets.md#tailwind-css-vanilla)
-- Example (writing...)
 - [Upgrade guide](docs/upgrading.md)
 - [Compatibility](#compatibility)
 - [Alternatives](#alternatives)
