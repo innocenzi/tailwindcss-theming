@@ -2,7 +2,8 @@
 
 [<img src="logo.svg" align="right" width="100">]()
 
-> **Note**: Even though it should support Tailwind 2, I didn't thoroughly tested it. I plan to do it when I have time, and probably rewrite a bunch of stuff in order to improve quality of life and enable usage with Tailwind Play. The next version will probably be the *actual* v3, with breaking changes from the current beta. Knowing that, and although the plugin is perfectly fine, you may want to check out the [alternatives](#alternatives). Thanks!
+> **Warning** <br />
+> I no longer use this package, so it is no longer maintained. If anyone want to take it over, feel free to ask.
 
 ## Table of contents
 
